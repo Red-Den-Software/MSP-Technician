@@ -37,8 +37,6 @@ jobs:
       shell: pwsh
       run: echo "$env:USERPROFILE\.dotnet\tools" | Out-File -Append -FilePath $env:GITHUB_PATH
 
-    - name: Verify vpk
-      run: vpk --version
 
     - name: Pack with Velopack
       run: >
