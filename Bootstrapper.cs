@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Shapes;
+using Velopack;
 namespace Data_Transfer_App
 {
     public class Bootstrapper : BootstrapperBase
@@ -21,8 +22,9 @@ namespace Data_Transfer_App
         public Bootstrapper()
         {
                 Initialize();
-
+            
         }
+        
 
         protected override async void OnStartup(object sender, StartupEventArgs e)
         {
