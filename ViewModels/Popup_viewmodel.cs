@@ -28,6 +28,15 @@ public class PopupViewModel
            _plogo = value;
         }
     }
+    private string _title;
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            _title = value;
+        }
+    }
     public System.Windows.Media.Brush plogoForeground
     {
         get => _plogoForeground;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Data_Transfer_App"
         mc:Ignorable="d" WindowStyle="None"
-        Title="Error" Height="200" Width="250"
+        Title="{Binding Title}" Height="200" Width="250"
        Background="Transparent"
         AllowsTransparency="True"
         >
@@ -21,7 +21,7 @@
                 <Border.CornerRadius>
                     <CornerRadius TopLeft="15" TopRight="15" BottomLeft="0" BottomRight="0"/>
                 </Border.CornerRadius>
-                <TextBlock Text="Error!"
+                <TextBlock Text="{Binding Title}"
 FontSize="14"
 FontWeight="Bold"
 Foreground="White"

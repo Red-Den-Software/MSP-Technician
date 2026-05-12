@@ -165,6 +165,7 @@ namespace Data_Transfer_App.Views
             vm.YVisibility = Visibility.Visible;
             vm.nVisibility = Visibility.Visible;
             vm.mVisibility= Visibility.Collapsed;
+            vm.Title = "Wi-Fi Transfer";
             vm.mbuttonthickness = "0";
             vm.rbuttonthickness = "2";
             vm.lbuttonthickness = "2";
