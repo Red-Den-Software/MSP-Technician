@@ -24,7 +24,7 @@ jobs:
 
     - name: Publish app
       run: >
-        dotnet publish MSP-Technician\msptool.csproj
+        dotnet publish MSP-Technician\MSP-Technician\msptool.csproj
         -c Release
         -r win-x64
         --self-contained true
