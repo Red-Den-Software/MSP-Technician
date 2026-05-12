@@ -1,4 +1,4 @@
-name: .NET Release
+name: Velopack Build & Release
 
 on:
   push:
@@ -22,36 +22,31 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
 
-    - name: Publish Portable App
+    - name: Publish app
       run: >
-        dotnet publish msptool/msptool.csproj
+        dotnet publish MSP-Technician/msptool.csproj
         -c Release
         -r win-x64
         --self-contained true
-        /p:PublishSingleFile=true
         -o publish
 
-    - name: Get version
-      id: version
-      shell: pwsh
-      run: |
-        $version = "1.0.${{ github.run_number }}"
-        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+    - name: Install Velopack CLI
+      run: dotnet tool install -g vpk
 
-    - name: Zip Release
-      run: |
-        Compress-Archive -Path publish\* -DestinationPath msptool-${{ steps.version.outputs.VERSION }}-win-x64.zip
+    - name: Add tools to PATH
+      run: echo "%USERPROFILE%\.dotnet\tools" >> $GITHUB_PATH
 
-    - name: Create Git Tag
-      run: |
-        git tag v${{ steps.version.outputs.VERSION }}
-        git push origin v${{ steps.version.outputs.VERSION }}
+    - name: Pack with Velopack
+      run: >
+        vpk pack
+        -u msptool
+        -v 1.0.${{ github.run_number }}
+        -p publish
+        -o dist
 
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: v${{ steps.version.outputs.VERSION }}
-        name: MyApp v${{ steps.version.outputs.VERSION }}
-        files: MyApp-${{ steps.version.outputs.VERSION }}-win-x64.zip
+    - name: Upload Release to GitHub
+      run: >
+        vpk upload github
+        --repo Red-Den-Software/MSP-Technician
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
