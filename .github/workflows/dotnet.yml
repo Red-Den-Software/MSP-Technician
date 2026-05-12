@@ -47,6 +47,6 @@ jobs:
     - name: Upload Release to GitHub
       run: >
         vpk upload github
-        --repo Red-Den-Software/MSP-Technician
+        vpk upload github --repoUrl https://github.com/Red-Den-Software/MSP-Technician
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
