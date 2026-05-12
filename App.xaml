@@ -1,9 +1,9 @@
 ﻿<Application x:Class="msptool.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Data_Transfer_App"
-             xmlns:viewmodels="clr-namespace:Data_Transfer_App.ViewModels"
-             xmlns:views="clr-namespace:Data_Transfer_App.Views">
+             xmlns:local="clr-namespace:msptool"
+             xmlns:viewmodels="clr-namespace:msptool.ViewModels"
+             xmlns:views="clr-namespace:msptool.Views">
     <Application.Resources>
         
         <ResourceDictionary>

@@ -1,34 +1,28 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using msptool.Views;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using Velopack;
+
 namespace msptool
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    /// using Velopack;
-    internal static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            // ✔ THIS is what Velopack needs to detect
-            VelopackApp.Build().Run();
-
-            var app = new App();
-            app.InitializeComponent();
-            app.Run();
-        }
-    }
-
-
     public partial class App : System.Windows.Application
     {
-      public async Task CheckForUpdatesAsync()
+        protected override void OnStartup(StartupEventArgs e)
         {
-            var mgr = new UpdateManager("https://github.com/Red-Den-Software/MSP-Technician");
+            VelopackApp.Build().Run();
+
+            base.OnStartup(e);
+           
+
+            var window = new ShellView();
+            window.Show();
+        }
+
+        public async Task CheckForUpdatesAsync()
+        {
+            var mgr = new UpdateManager(
+                "https://github.com/Red-Den-Software/MSP-Technician"
+            );
 
             var updates = await mgr.CheckForUpdatesAsync();
 
@@ -39,5 +33,4 @@ namespace msptool
             }
         }
     }
-
 }

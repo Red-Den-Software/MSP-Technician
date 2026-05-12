@@ -1,10 +1,9 @@
 ﻿using Caliburn.Micro;
-using Data_Transfer_App.Commands;
-using Data_Transfer_App.Commands.UpdateViewCommand;
-using Data_Transfer_App.Commands.UpdateViewCommand;
-using Data_Transfer_App.MVVM;
-using Data_Transfer_App.ViewModels;
-using Data_Transfer_App.Views;
+using msptool.Commands;
+using msptool.Commands.UpdateViewCommand;
+using msptool.MVVM;
+using msptool.ViewModels;
+using msptool.Views;
 using System;
 using System;
 using System.Collections.Generic;
@@ -24,8 +23,9 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
-namespace Data_Transfer_App.ViewModels
+namespace msptool.ViewModels
 {
 
     public class ShellViewModel : INotifyPropertyChanged

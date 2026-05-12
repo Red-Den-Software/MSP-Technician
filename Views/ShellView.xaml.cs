@@ -1,4 +1,4 @@
-﻿using Data_Transfer_App.MVVM;
+﻿using msptool.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +12,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Data_Transfer_App.ViewModels;
-using Data_Transfer_App.Commands;
+using msptool.ViewModels;
+using msptool.Commands;
 using MessageBox = System.Windows.Forms.MessageBox;
 using System.ComponentModel;
-using Data_Transfer_App.Commands.UpdateViewCommand;
+using msptool.Commands.UpdateViewCommand;
 using Microsoft.VisualBasic;
 
 
-namespace Data_Transfer_App.Views
+namespace msptool.Views
 {
     /// <summary>
     /// Interaction logic for ShellView.xaml

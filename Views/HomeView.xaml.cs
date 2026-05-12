@@ -1,7 +1,7 @@
-﻿using Data_Transfer_App.Commands;
-using Data_Transfer_App.MVVM;
-using Data_Transfer_App.ViewModels;
-using Data_Transfer_App.Views;
+﻿using msptool.Commands;
+using msptool.MVVM;
+using msptool.ViewModels;
+using msptool.Views;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-namespace Data_Transfer_App.Views
+namespace msptool.Views
 {
     /// <summary>
     /// Interaction logic for HomeView.xaml

@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 
-namespace Data_Transfer_App.ViewModels
+namespace msptool.ViewModels
 {
     internal class HomeViewModel
     {

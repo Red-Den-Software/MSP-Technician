@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Transfer_App.MVVM
+namespace msptool.MVVM
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

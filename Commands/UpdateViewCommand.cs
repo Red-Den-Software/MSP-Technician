@@ -1,6 +1,6 @@
-﻿using Data_Transfer_App.MVVM;
-using Data_Transfer_App.ViewModels;
-using Data_Transfer_App.Views;
+﻿using msptool.MVVM;
+using msptool.ViewModels;
+using msptool.Views;
 using Microsoft.Xaml.Behaviors.Core;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ using Octokit;
 
 
 
-namespace Data_Transfer_App.Commands.UpdateViewCommand
+namespace msptool.Commands.UpdateViewCommand
 {
     public class MenuBtn
     {
