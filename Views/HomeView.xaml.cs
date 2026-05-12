@@ -163,14 +163,33 @@ namespace Data_Transfer_App.Views
             vm.EllipseVisibility = Visibility.Visible;
             vm.EllipseStroke = System.Windows.Media.Brushes.DarkOrange;
             vm.YVisibility = Visibility.Visible;
-            vm.nVisibility = Visibility.Visible;
-            vm.mVisibility= Visibility.Collapsed;
             vm.Title = "Wi-Fi Transfer";
-            vm.mbuttonthickness = "0";
-            vm.rbuttonthickness = "2";
-            vm.lbuttonthickness = "2";
-            vm.rbutText = "Transfer";
-            vm.lbutText = "Backup";
+            if (string.IsNullOrWhiteSpace(customerNameTextBox.Text) || customerNameTextBox.Text == "Name...")
+            {
+                Trace.WriteLine("TextBox is empty, please enter a name.");
+                vm.TitleBG = System.Windows.Media.Brushes.Red;
+                popup.DataContext = vm;
+                vm.plogo = "X";
+                vm.plogoForeground = System.Windows.Media.Brushes.Red;
+                vm.EllipseVisibility = Visibility.Visible;
+                vm.EllipseStroke = System.Windows.Media.Brushes.Red;
+                popup.Owner = System.Windows.Application.Current.MainWindow;
+                popup.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                vm.errorText = "Customer Name Box is empty, please enter a name.";
+                popup.Show();
+                return;
+            }
+            if (vm.YVisibility == Visibility.Visible)
+            {
+                vm.nVisibility = Visibility.Visible;
+                vm.mVisibility = Visibility.Collapsed;
+                vm.mbuttonthickness = "0";
+                vm.rbuttonthickness = "2";
+                vm.rbutText = "Transfer";
+                vm.lbutText = "Backup";
+                vm.lbuttonthickness = "2";
+            }
+
             popup.Owner = System.Windows.Application.Current.MainWindow;
             popup.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             vm.errorText = "Would you like to transfer data via Wi-Fi?";
