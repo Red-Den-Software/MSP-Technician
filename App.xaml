@@ -8,9 +8,7 @@
         
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <local:Bootstrapper x:Key="Bootstrapper"/>
-                </ResourceDictionary>
+                
                 <ResourceDictionary>
                     <DataTemplate DataType="{x:Type viewmodels:ShellViewModel}">
                         <views:ShellView/>

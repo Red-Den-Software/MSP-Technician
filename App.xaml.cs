@@ -10,18 +10,7 @@ namespace Data_Transfer_App
     /// </summary>
     /// using Velopack;
 
-    internal static class Program
-    {
-        [STAThread]
-        static void Main()
-        {
-            VelopackApp.Build().Run();
-
-            var app = new App();
-            app.InitializeComponent();
-            app.Run();
-        }
-    }
+   
     public partial class App : System.Windows.Application
     {
       public async Task CheckForUpdatesAsync()
