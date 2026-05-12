@@ -44,7 +44,7 @@ jobs:
         -u msptool
         -v 1.0.${{ github.run_number }}
         -p publish
-        -o dist
+        -o Releases
         --channel win
 
     - name: Upload Release to GitHub
