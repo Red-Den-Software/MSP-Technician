@@ -45,9 +45,12 @@ jobs:
         -v 1.0.${{ github.run_number }}
         -p publish
         -o dist
+        --channel win
 
     - name: Upload Release to GitHub
       shell: pwsh
-      run: vpk upload github --repoUrl https://github.com/Red-Den-Software/MSP-Technician
+      run: >
+        vpk upload github --repoUrl https://github.com/Red-Den-Software/MSP-Technician
+        --channel win
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
