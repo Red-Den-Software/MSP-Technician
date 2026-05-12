@@ -37,7 +37,6 @@ jobs:
       shell: pwsh
       run: echo "$env:USERPROFILE\.dotnet\tools" | Out-File -Append -FilePath $env:GITHUB_PATH
 
-
     - name: Pack with Velopack
       run: >
         vpk pack
@@ -46,12 +45,11 @@ jobs:
         -p publish
         -o Releases
         --channel win
-        --token ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Release to GitHub
       shell: pwsh
       run: >
-        vpk upload github --repoUrl https://github.com/Red-Den-Software/MSP-Technician
+        vpk upload github
+        --repoUrl https://github.com/Red-Den-Software/MSP-Technician
         --channel win
-         --token ${{ secrets.GITHUB_TOKEN }}
-     
+        --token ${{ secrets.GITHUB_TOKEN }}
