@@ -24,7 +24,7 @@ jobs:
 
     - name: Publish Portable App
       run: >
-        dotnet publish YourProject/YourProject.csproj
+        dotnet publish msptool/msptool.csproj
         -c Release
         -r win-x64
         --self-contained true
