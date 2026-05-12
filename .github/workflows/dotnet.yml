@@ -1,14 +1,11 @@
-name: .NET
+name: .NET Release
 
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
@@ -19,26 +16,42 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
+    - name: Restore
       run: dotnet restore
 
     - name: Build
-      run: dotnet build --no-restore -c Release
+      run: dotnet build -c Release --no-restore
 
     - name: Publish Portable App
       run: >
-        dotnet publish
+        dotnet publish YourProject/YourProject.csproj
         -c Release
         -r win-x64
         --self-contained true
         /p:PublishSingleFile=true
         -o publish
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Get version
+      id: version
+      shell: pwsh
+      run: |
+        $version = "1.0.${{ github.run_number }}"
+        echo "VERSION=$version" >> $env:GITHUB_OUTPUT
 
-    - name: Upload Portable Build
-      uses: actions/upload-artifact@v4
+    - name: Zip Release
+      run: |
+        Compress-Archive -Path publish\* -DestinationPath MyApp-${{ steps.version.outputs.VERSION }}-win-x64.zip
+
+    - name: Create Git Tag
+      run: |
+        git tag v${{ steps.version.outputs.VERSION }}
+        git push origin v${{ steps.version.outputs.VERSION }}
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
       with:
-        name: portable-win-x64
-        path: publish
+        tag_name: v${{ steps.version.outputs.VERSION }}
+        name: MyApp v${{ steps.version.outputs.VERSION }}
+        files: MyApp-${{ steps.version.outputs.VERSION }}-win-x64.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
