@@ -1,0 +1,52 @@
+name: Velopack Build & Release
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Restore
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build -c Release --no-restore
+
+    - name: Publish app
+      run: >
+        dotnet publish MSP-Technician/msptool.csproj
+        -c Release
+        -r win-x64
+        --self-contained true
+        -o publish
+
+    - name: Install Velopack CLI
+      run: dotnet tool install -g vpk
+
+    - name: Add tools to PATH
+      run: echo "%USERPROFILE%\.dotnet\tools" >> $GITHUB_PATH
+
+    - name: Pack with Velopack
+      run: >
+        vpk pack
+        -u msptool
+        -v 1.0.${{ github.run_number }}
+        -p publish
+        -o dist
+
+    - name: Upload Release to GitHub
+      run: >
+        vpk upload github
+        --repo Red-Den-Software/MSP-Technician
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
