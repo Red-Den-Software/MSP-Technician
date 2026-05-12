@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Data_Transfer_App.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewmodels="clr-namespace:Data_Transfer_App.ViewModels"
+             xmlns:views="clr-namespace:Data_Transfer_App.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent">
+
+
+    <Border CornerRadius="25" Background="#121212" >
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="80*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0" Grid.Row="1">
+
+                <TextBlock Text="Customer Name:" FontSize="24" FontWeight="Bold" HorizontalAlignment="right" Margin="0,10,0,0" Foreground="GhostWhite" VerticalAlignment="Center"/>
+
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1">
+
+                <TextBox x:Name="customerNameTextBox" Style="{StaticResource customerNameTextBox}" Foreground="Gray" Text="Name..." Width="230" Height="40" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"  KeyDown="customerNameTextBox_KeyDown"/>
+                <TextBlock
+        x:Name="searchIcon"
+        Text="✔"
+        FontSize="18"
+        Foreground="LimeGreen"
+        
+        Margin="210,-35,0,0"
+        Visibility="Collapsed"/>
+        
+        </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+                <TextBlock Text="Quick Action Menu:" FontSize="16" FontWeight="bold" Background="Transparent" Height="20" Width="150" Margin="10,0,0,0" Foreground="GhostWhite"/>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="30,10,0,0">
+                <Button x:Name="tad" Style="{StaticResource homeviewBtn}" Content="Transfer All Data" Width="170" Height="60" Click="tad_Click"/>
+                <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" >
+                <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="Transfer Wi-Fi" Width="170" Height="60" Margin="0,10,0,0" Command="{Binding ClickMode, ElementName=button4}" Click="wifi_transfer"/>
+                <Button x:Name="button5" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button6" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button7" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>
