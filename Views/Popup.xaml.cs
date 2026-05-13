@@ -28,7 +28,7 @@ namespace msptool
             DataContext = new PopupViewModel();
 
         }
-
+        
         private void okBtn(object sender, RoutedEventArgs e)
         {
             this.Close();

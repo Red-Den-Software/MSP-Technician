@@ -144,5 +144,53 @@
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
+        <ResourceDictionary>
+            <Storyboard x:Key="OpenHelpAnimation">
+
+                <!-- Rectangle expands -->
+                <DoubleAnimation Storyboard.TargetName="HelpRect"
+                     Storyboard.TargetProperty="Width"
+                     From="0" To="166"
+                     Duration="0:0:0.4"
+                     DecelerationRatio="0.8"/>
+
+                <!-- Rectangle fades in -->
+                <DoubleAnimation Storyboard.TargetName="HelpRect"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1"
+                     Duration="0:0:0.2"/>
+
+                <!-- Text fades in -->
+                <DoubleAnimation Storyboard.TargetName="HelpText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1"
+                     BeginTime="0:0:0.2"
+                     Duration="0:0:0.3"/>
+
+            </Storyboard>
+            <Storyboard x:Key="CloseHelpAnimation">
+
+                <!-- Text fades out -->
+                <DoubleAnimation Storyboard.TargetName="HelpText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="1" To="0"
+                     Duration="0:0:0.15"/>
+
+                <!-- Rectangle fades out -->
+                <DoubleAnimation Storyboard.TargetName="HelpRect"
+                     Storyboard.TargetProperty="Opacity"
+                     From="1" To="0"
+                     Duration="0:0:0.2"/>
+
+                <!-- Rectangle shrinks -->
+                <DoubleAnimation Storyboard.TargetName="HelpRect"
+                     Storyboard.TargetProperty="Width"
+                     From="166" To="0"
+                     Duration="0:0:0.4"
+                     BeginTime="0:0:0.05"
+                     DecelerationRatio="0.8"/>
+
+            </Storyboard>
+        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

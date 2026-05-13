@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using msptool;
+using System.ComponentModel;
 using System.Media;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -6,6 +7,7 @@ using System.Windows.Media;
 
 public class PopupViewModel
 {
+    
     private System.Windows.Media.Brush _ellipseStroke = System.Windows.Media.Brushes.Red;
     public System.Windows.Media.Brush EllipseStroke
     {

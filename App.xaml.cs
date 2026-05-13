@@ -13,7 +13,6 @@ namespace msptool
 
             base.OnStartup(e);
            
-
             var window = new ShellView();
             window.Show();
         }
