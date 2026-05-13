@@ -66,7 +66,7 @@ namespace msptool.ViewModels
         {
             UpdateViewCommand = new UpdateViewCommand(UpdateView);
 
-            CurrentView = new DataViewModel();
+            CurrentView = new HomeViewModel();
         }
 
         private void UpdateView(object parameter)
