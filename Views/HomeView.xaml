@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent">
 
 
-    <Border CornerRadius="25" Background="#121212" >
+    <Border CornerRadius="25" Background="#1D1D1D" >
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />

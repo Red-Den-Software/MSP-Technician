@@ -14,7 +14,7 @@
         Background="Transparent"
       
    >
-    <Border CornerRadius="25" BorderThickness="1" Padding="2,0,0,0" Background="{Binding GlassBackgroundBrush}">
+    <Border CornerRadius="25" BorderThickness="1" Padding="2,0,0,0" Background="#121212">
 
 
 
@@ -34,93 +34,27 @@
 
             </Grid.RowDefinitions>
 
-
-            <StackPanel Panel.ZIndex="0" Margin="0,1,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Height="320" Width="218">
-                <Border BorderThickness="1" CornerRadius="10" Height="74">
-
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Button  x:Name="hoBtn" Command="{Binding UpdateViewCommand}" Style="{StaticResource MenuBtnstyle}" CommandParameter="Home" Content="Home" FontFamily="Calibri Light"  FontSize="26" VerticalAlignment="Center" Height="74" Width="217">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Border>
-
-
-                <Border BorderThickness="1" CornerRadius="10" Height="74" Margin="0,4,0,0">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Button x:Name="toBtn" Command="{Binding UpdateViewCommand}" Style="{StaticResource MenuBtnstyle}" CommandParameter="Tools" Content="Tools" FontSize="26" FontFamily="Calibri Light" Height="74" Margin="0,0,0,-2" Width="217">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Border>
-                <Border BorderThickness="1" CornerRadius="10" Height="74" Margin="0,4,0,0">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Button x:Name="loBtn" Command="{Binding LogsCommand}" Style="{StaticResource MenuBtnstyle}" Content="Logs" FontSize="26" FontFamily="Calibri Light" Margin="0,-1,0,-2" Width="217"
+            <Border Grid.Column="0" Grid.RowSpan="2" BorderBrush="#1D1D1D" 
+        BorderThickness="2" 
+        CornerRadius="25" 
+        Background="#1D1D1D"
+                    Height="420"
+                    Width="210"
+                    Margin="10,0,0,0"
                     >
 
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Border>
-                <Border BorderThickness="1" CornerRadius="10" Height="74" Margin="0,4,0,0">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                    <Button x:Name="abtBtn" Command="{Binding AboutCommand}" Style="{StaticResource MenuBtnstyle}" Content="About" FontSize="26" FontFamily="Calibri Light" Margin="0,-1,0,-2" Width="217">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Border>
-
-
-            </StackPanel>
-
+                <StackPanel Panel.ZIndex="0" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Height="410" Width="218" Background="Transparent" >
+                    <Button  x:Name="hoBtn" Command="{Binding UpdateViewCommand}" Style="{StaticResource MenuBtnstyle}" CommandParameter="Home" Content="Home" FontFamily="Calibri Light"  FontSize="26" VerticalAlignment="Center" Width="217" Margin="0,0,0,0"/>
+                    <Button x:Name="toBtn" Command="{Binding UpdateViewCommand}" Style="{StaticResource MenuBtnstyle}" CommandParameter="Tools" Content="Tools" FontSize="26" FontFamily="Calibri Light"  Margin="0,10,0,0" Width="217"/>
+                    <Button x:Name="loBtn" Command="{Binding LogsCommand}" Style="{StaticResource MenuBtnstyle}" Content="Logs" FontFamily="Calibri Light" Margin="0,10,0,0" Width="217" FontSize="26"/>
+                    <Button x:Name="abtBtn" Command="{Binding AboutCommand}" Style="{StaticResource MenuBtnstyle}" Content="About" FontSize="26" FontFamily="Calibri Light" Margin="0,10,0,0" Width="217"/>
+                </StackPanel>
+            </Border>
             <StackPanel Panel.ZIndex="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="725,0,0,0" Height="35" Width="0"/>
 
 
-            <Grid Grid.Column="1" Margin="59,16,110,17" Grid.Row="1">
-                <Border CornerRadius="25" BorderThickness="2" Background="{Binding GlassBackgroundBrush}" >
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
+            <Grid Grid.Column="1" Margin="59,16,110,22" Grid.Row="1">
+                <Border CornerRadius="25" BorderThickness="2" Background="{Binding GlassBackgroundBrush}" BorderBrush="#1D1D1D" >
                     <ContentControl x:Name="UpdateContentControl" Content="{Binding CurrentView}" />
                 </Border>
             </Grid>
@@ -143,7 +77,7 @@
             <Ellipse x:Name="HelpEllipse"
          HorizontalAlignment="Left"
          Height="38"
-         Margin="6,355,0,0"
+         Margin="18,356,0,0"
          Grid.Row="1"
          Stroke="Transparent"
          VerticalAlignment="Top"
@@ -151,7 +85,7 @@
          Fill="CornflowerBlue"
          Cursor="Hand"
          MouseLeftButtonDown="HelpEllipse_MouseLeftButtonDown"/>
-            <TextBlock HorizontalAlignment="Left" Margin="18,356,0,0" Grid.Row="1" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" FontFamily="Calibri Light" Foreground="GhostWhite" FontSize="30" FontWeight="Bold"/>
+            <TextBlock HorizontalAlignment="Left" Margin="30,356,0,0" Grid.Row="1" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" FontFamily="Calibri Light" Foreground="GhostWhite" FontSize="30" FontWeight="Bold"/>
 
             <Rectangle x:Name="HelpRect"
            HorizontalAlignment="Left"
@@ -167,12 +101,12 @@
 
             <TextBlock x:Name="HelpText"
            HorizontalAlignment="Left"
-           Margin="61,354,0,0"
+           Margin="61,341,0,0"
            Grid.Row="1"
            Text="Need Assistance? Checkout the About Tab"
            VerticalAlignment="Top"
-           Height="55"
-           Width="142"
+           Height="77"
+           Width="120"
            FontFamily="Calibri Light"
            Foreground="GhostWhite"
            FontSize="14"
@@ -186,7 +120,7 @@
 
 
         </Grid>
-        
+
     </Border>
 </Window>
 

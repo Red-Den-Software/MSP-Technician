@@ -12,33 +12,39 @@
         </Style>
         </ResourceDictionary>
         <ResourceDictionary>
+            
+        </ResourceDictionary>
+        <ResourceDictionary>
             <Style x:Key="MenuBtnstyle" TargetType="{x:Type Button}">
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Background" Value="#31394A"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="Foreground" Value="GhostWhite"/>
-                <Setter Property="Background" Value="#31394A"/>
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                            <GradientStop Color="#FF0057FF" Offset="0.5" />
-                            <GradientStop Color="#FF00008B" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="BorderBrush" Value="#161A22"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <Border>
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="FontSize" Value="16"/>
-        <Setter Property="FontFamily" Value="Calibri Light"/>
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#2E3440"/>
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                            </Setter.Value>
+                        </Setter>
                     </Trigger>
                     <Trigger Property="IsPressed" Value="True">
                         <Setter Property="Background" Value="#3B4252"/>
@@ -90,16 +96,13 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#2E3440"/>
-                        <Setter Property="BorderBrush">
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="Effect">
                             <Setter.Value>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                                    <GradientStop Color="#FF0057FF" Offset="0.5" />
-                                    <GradientStop Color="#FF00008B" Offset="1.0" />
-                                </LinearGradientBrush>
+                                <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
                             </Setter.Value>
                         </Setter>
                     </Trigger>
@@ -124,22 +127,15 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="#2E3440"/>
-                        <Setter Property="BorderBrush">
+                        <Setter Property="BorderBrush" Value="White"/>
+                        <Setter Property="Effect">
                             <Setter.Value>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Color="#FF80D8FF" Offset="0.0" />
-                                    <GradientStop Color="#FF0057FF" Offset="0.5" />
-                                    <GradientStop Color="#FF00008B" Offset="1.0" />
-                                </LinearGradientBrush>
+                                <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
                             </Setter.Value>
                         </Setter>
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter Property="Background" Value="#3B4252"/>
-                        <Setter Property="BorderBrush" Value="#3B4252"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>

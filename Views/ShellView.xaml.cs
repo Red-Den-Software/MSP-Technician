@@ -41,12 +41,12 @@ namespace msptool.Views
             var storyboard = (Storyboard)FindResource("OpenHelpAnimation");
             if (!isOpen)
             {
-                storyboard.Begin(this); // 🔥 THIS FIXES NAME SCOPE ERROR
+                storyboard.Begin(this); 
             }
             else
             {
                 var closeStoryboard = (Storyboard)FindResource("CloseHelpAnimation");
-                closeStoryboard.Begin(this); // 🔥 THIS FIXES NAME SCOPE ERROR
+                closeStoryboard.Begin(this);
             }
             isOpen = !isOpen;
         }
