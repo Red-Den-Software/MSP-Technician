@@ -24,6 +24,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace msptool.ViewModels
 {
 
@@ -77,6 +78,9 @@ namespace msptool.ViewModels
                     break;
                 case "Tools":
                     CurrentView = new ToolViewModel();
+                    break;
+                case "Home":
+                    CurrentView = new HomeViewModel();
                     break;
 
             }

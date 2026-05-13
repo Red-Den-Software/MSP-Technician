@@ -24,11 +24,16 @@
                         <views:ToolView/>
                     </DataTemplate>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
+                        <views:HomeView/>
+                    </DataTemplate>
+                </ResourceDictionary>
                 <ResourceDictionary Source="/Resources/Style.xaml" />
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
                                     
             </ResourceDictionary.MergedDictionaries>
-                </ResourceDictionary>
+        </ResourceDictionary>
                
     </Application.Resources>
     
