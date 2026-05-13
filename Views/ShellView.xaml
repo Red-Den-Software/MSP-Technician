@@ -74,49 +74,7 @@
                 </Button.Resources>
 
             </Button>
-            <Ellipse x:Name="HelpEllipse"
-         HorizontalAlignment="Left"
-         Height="38"
-         Margin="18,356,0,0"
-         Grid.Row="1"
-         Stroke="Transparent"
-         VerticalAlignment="Top"
-         Width="38"
-         Fill="CornflowerBlue"
-         Cursor="Hand"
-         MouseLeftButtonDown="HelpEllipse_MouseLeftButtonDown"/>
-            <TextBlock HorizontalAlignment="Left" Margin="30,356,0,0" Grid.Row="1" TextWrapping="Wrap" Text="?" VerticalAlignment="Top" FontFamily="Calibri Light" Foreground="GhostWhite" FontSize="30" FontWeight="Bold"/>
-
-            <Rectangle x:Name="HelpRect"
-           HorizontalAlignment="Left"
-           Height="70"
-           Margin="49,339,0,0"
-           Grid.Row="1"
-           Fill="#31394A"
-           VerticalAlignment="Top"
-           Width="0"
-           Opacity="0"
-           RadiusX="20"
-           RadiusY="20"/>
-
-            <TextBlock x:Name="HelpText"
-           HorizontalAlignment="Left"
-           Margin="61,341,0,0"
-           Grid.Row="1"
-           Text="Need Assistance? Checkout the About Tab"
-           VerticalAlignment="Top"
-           Height="77"
-           Width="120"
-           FontFamily="Calibri Light"
-           Foreground="GhostWhite"
-           FontSize="14"
-           FontWeight="Bold"
-           Opacity="0"
-           Cursor="Hand"
-            IsHitTestVisible="False"
-                       TextWrapping="Wrap"
-                       />
-
+           
 
 
         </Grid>
