@@ -19,7 +19,11 @@
                         <views:DataView/>
                     </DataTemplate>
                     </ResourceDictionary>
-               
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type viewmodels:ToolViewModel}">
+                        <views:ToolView/>
+                    </DataTemplate>
+                </ResourceDictionary>
                 <ResourceDictionary Source="/Resources/Style.xaml" />
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
                                     

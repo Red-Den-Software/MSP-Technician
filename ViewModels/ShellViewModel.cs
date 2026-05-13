@@ -76,8 +76,11 @@ namespace msptool.ViewModels
                 case "Data":
                     CurrentView = new DataViewModel();
                     break;
+                case "Tools":
+                    CurrentView = new ToolViewModel();
+                    break;
 
-                           }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

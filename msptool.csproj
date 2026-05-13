@@ -13,9 +13,13 @@
 
   <ItemGroup>
     <Compile Remove="Models\**" />
+    <Compile Remove="Views\Usercontrols\**" />
     <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Views\Usercontrols\**" />
     <None Remove="Models\**" />
+    <None Remove="Views\Usercontrols\**" />
     <Page Remove="Models\**" />
+    <Page Remove="Views\Usercontrols\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +29,6 @@
     <PackageReference Include="System.IO" Version="4.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="Velopack" Version="0.0.1298" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Usercontrols\" />
   </ItemGroup>
 
 </Project>
