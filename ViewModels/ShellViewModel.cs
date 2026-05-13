@@ -66,15 +66,15 @@ namespace msptool.ViewModels
         {
             UpdateViewCommand = new UpdateViewCommand(UpdateView);
 
-            CurrentView = new HomeViewModel();
+            CurrentView = new DataViewModel();
         }
 
         private void UpdateView(object parameter)
         {
             switch (parameter?.ToString())
             {
-                case "Home":
-                    CurrentView = new HomeViewModel();
+                case "Data":
+                    CurrentView = new DataViewModel();
                     break;
 
                            }

@@ -15,8 +15,8 @@
                     </DataTemplate>
                 </ResourceDictionary>
                 <ResourceDictionary>
-                    <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
-                        <views:HomeView/>
+                    <DataTemplate DataType="{x:Type viewmodels:DataViewModel}">
+                        <views:DataView/>
                     </DataTemplate>
                     </ResourceDictionary>
                

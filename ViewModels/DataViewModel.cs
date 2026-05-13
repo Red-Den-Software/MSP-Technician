@@ -12,9 +12,9 @@ using System.Windows.Navigation;
 
 namespace msptool.ViewModels
 {
-    internal class HomeViewModel
+    internal class DataViewModel
     {
-        public HomeViewModel()
+        public DataViewModel()
         { 
             
         }

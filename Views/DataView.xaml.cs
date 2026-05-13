@@ -28,14 +28,14 @@ namespace msptool.Views
     /// <summary>
     /// Interaction logic for HomeView.xaml
     /// </summary>
-    public partial class HomeView : System.Windows.Controls.UserControl
+    public partial class DataView : System.Windows.Controls.UserControl
     {
 
 
-        public HomeView()
+        public DataView()
         {
             InitializeComponent();
-            this.DataContext = new HomeViewModel();
+            this.DataContext = new DataViewModel();
 
         }
         public static void ShowError(string message)

@@ -102,7 +102,7 @@
                         <Setter Property="BorderBrush" Value="White"/>
                         <Setter Property="Effect">
                             <Setter.Value>
-                                <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                                <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0" Opacity="0.5"/>
                             </Setter.Value>
                         </Setter>
                     </Trigger>
@@ -130,10 +130,11 @@
                 
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
+                        
                         <Setter Property="BorderBrush" Value="White"/>
                         <Setter Property="Effect">
                             <Setter.Value>
-                                <DropShadowEffect Color="White" BlurRadius="15" ShadowDepth="0" Opacity="0.5"/>
+                                <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0" Opacity="0.5"/>
                             </Setter.Value>
                         </Setter>
                     </Trigger>
