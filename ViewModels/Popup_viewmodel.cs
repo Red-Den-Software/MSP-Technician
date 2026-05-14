@@ -4,134 +4,284 @@ using System.Media;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Media;
+using Brush = System.Windows.Media.Brush;
+using Brushes = System.Windows.Media.Brushes;
 
-public class PopupViewModel
+public class PopupViewModel : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    #region Popup Methods
+
+    public void PopupViewModel_Error(object sender, string message)
+    {
+        SystemSounds.Exclamation.Play();
+
+        var vm = new PopupViewModel
+        {
+            TitleBG = Brushes.Red,
+            plogo = "X",
+            plogoForeground = Brushes.Red,
+            EllipseVisibility = Visibility.Visible,
+            EllipseStroke = Brushes.Red,
+
+            errorText = message,
+
+            mVisibility = Visibility.Visible,
+            mbutText = "OK",
+
+            mbuttonthickness = "2",
+            rbuttonthickness = "0",
+            lbuttonthickness = "0"
+        };
+
+        ShowPopup(vm);
+    }
+
+    public void PopupViewModel_Options(object sender, string message)
+    {
+        SystemSounds.Exclamation.Play();
+
+        var vm = new PopupViewModel
+        {
+            
+
+            EllipseVisibility = Visibility.Hidden,
+
+         
+
+            mVisibility = Visibility.Hidden,
+            nVisibility = Visibility.Visible,
+            YVisibility = Visibility.Visible,
+
+            mbuttonthickness = "0",
+            rbuttonthickness = "2",
+            lbuttonthickness = "2",
+
+           
+        };
+
+        ShowPopup(vm);
+    }
+
+    private void ShowPopup(PopupViewModel vm)
+    {
+        var popup = new Popup
+        {
+            WindowStartupLocation = WindowStartupLocation.CenterOwner,
+            DataContext = vm
+        };
+
+        popup.Show();
+    }
+
+    #endregion
+
+    #region Fields
+
+    private Brush _ellipseStroke = Brushes.Red;
+    private Visibility _yVisibility = Visibility.Visible;
+    private Visibility _ellipseVisibility = Visibility.Hidden;
+    private Visibility _nVisibility = Visibility.Visible;
+    private Visibility _mVisibility = Visibility.Hidden;
+    private string _plogo_font = "30";
+    private string _errorText = string.Empty;
+    private Brush _titlebg = Brushes.Red;
+    private string _plogo = string.Empty;
+    private Brush _plogoForeground = Brushes.Red;
+    private string _title = string.Empty;
+
+    private string _rbutText = string.Empty;
+    private string _lbutText = string.Empty;
+    private string _mbutText = string.Empty;
+
+    private string _mbuttonthickness = "0";
+    private string _rbuttonthickness = "0";
+    private string _lbuttonthickness = "0";
+
+    #endregion
+
+    #region Properties
     
-    private System.Windows.Media.Brush _ellipseStroke = System.Windows.Media.Brushes.Red;
-    public System.Windows.Media.Brush EllipseStroke
+    public Brush EllipseStroke
     {
         get => _ellipseStroke;
         set
         {
             _ellipseStroke = value;
-            
+           
         }
     }
-    private System.Windows.Visibility _yVisibility = System.Windows.Visibility.Visible;
-    private System.Windows.Visibility _ellipseVisibility = System.Windows.Visibility.Visible;
-    private string _errorText;
-    private System.Windows.Media.Brush _titlebg = System.Windows.Media.Brushes.Red;
-    private string _plogo = string.Empty;
-    private System.Windows.Media.Brush _plogoForeground = System.Windows.Media.Brushes.Red;
+
     public string plogo
     {
-        get => _plogo; set{
-           _plogo = value;
+        get => _plogo;
+        set
+        {
+            _plogo = value;
+           
         }
     }
-    private string _title;
+    public string plogo_font
+    {
+        get => _plogo_font;
+        set
+        {
+            _plogo_font = value;
+
+        }
+    }
     public string Title
     {
         get => _title;
         set
         {
             _title = value;
+         
         }
     }
-    public System.Windows.Media.Brush plogoForeground
+
+    public Brush plogoForeground
     {
         get => _plogoForeground;
         set
         {
             _plogoForeground = value;
-
+            
         }
-    }   
-    public System.Windows.Visibility EllipseVisibility
+    }
+
+    public Visibility EllipseVisibility
     {
         get => _ellipseVisibility;
         set
         {
-            _ellipseVisibility = System.Windows.Visibility.Visible;
+            _ellipseVisibility = value;
             
         }
     }
-    public System.Windows.Media.Brush TitleBG
+
+    public Brush TitleBG
     {
         get => _titlebg;
         set
         {
             _titlebg = value;
+           
         }
     }
+
     public string errorText
     {
         get => _errorText;
         set
         {
             _errorText = value;
+          
         }
     }
-    public System.Windows.Visibility YVisibility
+
+    public Visibility YVisibility
     {
         get => _yVisibility;
         set
         {
-            _yVisibility = System.Windows.Visibility.Visible;
-
+            _yVisibility = value;
+           
         }
     }
-    private System.Windows.Visibility _nVisibility = System.Windows.Visibility.Visible;
-    public System.Windows.Visibility nVisibility
+
+    public Visibility nVisibility
     {
         get => _nVisibility;
-        set { _nVisibility = System.Windows.Visibility.Visible; }
+        set
+        {
+            _nVisibility = value;
+
+            if (value == Visibility.Visible)
+            {
+                rbuttonthickness = "2";
+                lbuttonthickness = "2";
+            }
+
+           
+        }
     }
-    private string _rbutText;
+
     public string rbutText
     {
         get => _rbutText;
-        set { _rbutText = value; }
+        set
+        {
+            _rbutText = value;
+            
+        }
     }
-    private string _lbutText;
+
     public string lbutText
     {
         get => _lbutText;
-        set { _lbutText = value; }
+        set
+        {
+            _lbutText = value;
+         
+        }
     }
-    private string _mbutText;
+
     public string mbutText
     {
         get => _mbutText;
-        set { _mbutText = value; }
+        set
+        {
+            _mbutText = value;
+            
+        }
     }
-    private System.Windows.Visibility _mVisibility = System.Windows.Visibility.Visible;
-    public System.Windows.Visibility mVisibility
+
+    public Visibility mVisibility
     {
         get => _mVisibility;
-        set { _mVisibility = System.Windows.Visibility.Visible; }
+        set
+        {
+            _mVisibility = value;
+           
+        }
     }
-    private string _mbuttonthickness;
-    public string mbuttonthickness
 
+    public string mbuttonthickness
     {
         get => _mbuttonthickness;
         set
         {
             _mbuttonthickness = value;
+            
         }
     }
-    private string _rbuttonthickness;
+
     public string rbuttonthickness
     {
         get => _rbuttonthickness;
-        set { _rbuttonthickness = value; }
+        set
+        {
+            _rbuttonthickness = value;
+            
+        }
     }
-    private string _lbuttonthickness;
+
     public string lbuttonthickness
     {
         get => _lbuttonthickness;
-        set { _lbuttonthickness = value; }
+        set
+        {
+            _lbuttonthickness = value;
+           
+        }
     }
+
+    #endregion
 }

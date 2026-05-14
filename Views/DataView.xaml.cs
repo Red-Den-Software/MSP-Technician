@@ -1,8 +1,8 @@
-﻿using msptool.Commands;
+﻿using Microsoft.Win32;
+using msptool.Commands;
 using msptool.MVVM;
 using msptool.ViewModels;
 using msptool.Views;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -38,34 +39,6 @@ namespace msptool.Views
             this.DataContext = new DataViewModel();
 
         }
-        public static void ShowError(string message)
-        {
-
-            var vm = new PopupViewModel
-            {
-                TitleBG = System.Windows.Media.Brushes.Red,
-
-                plogo = "X",
-                plogoForeground = System.Windows.Media.Brushes.Red,
-                EllipseVisibility = Visibility.Visible,
-                EllipseStroke = System.Windows.Media.Brushes.Red,
-                errorText = message,
-                mVisibility = Visibility.Visible,
-                mbutText = "OK",
-                mbuttonthickness = "2",
-                rbuttonthickness = "0",
-                lbuttonthickness = "0",
-            };
-
-            var popup = new Popup
-            {
-                DataContext = vm,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner
-            };
-            popup.Owner = System.Windows.Application.Current.MainWindow;
-            popup.Show();
-        }
-
         public string Todaysdate
         {
             get
@@ -80,13 +53,13 @@ namespace msptool.Views
                 Trace.WriteLine("TextBox is empty, please enter a name.");
                 if (string.IsNullOrWhiteSpace(customerNameTextBox.Text) || customerNameTextBox.Text == "Name...")
                 {
-               
 
+                PopupViewModel popup = new PopupViewModel();
                 Trace.WriteLine("TextBox is empty, please enter a name.");
                     customerNameTextBox.BorderBrush = System.Windows.Media.Brushes.Red;
                     customerNameTextBox.BorderThickness = new Thickness(2);
                  IsTextBoxEmpty = true;
-                ShowError("Customer Name Box is empty, please enter a name.");
+                popup.PopupViewModel_Error(this, "Customer Name Box is empty, please enter a name.");
                 return;
             }
         }
@@ -145,11 +118,12 @@ namespace msptool.Views
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 string text = customerNameTextBox.Text;
+                PopupViewModel popup = new PopupViewModel();
 
                 if (string.IsNullOrWhiteSpace(text) || text == "Name...")
                 {
-                    ShowError("Customer Name Box is empty, please enter a name.");
-                    
+                    popup.PopupViewModel_Error(this, "Customer Name Box is empty, please enter a name.");
+
                 }
                 else
                 {

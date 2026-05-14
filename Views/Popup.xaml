@@ -52,7 +52,7 @@ Margin="12,0,0,0"/>
             <Grid Grid.Row="1" Width="Auto">
                 <TextBlock Text="{Binding plogo}"
    Foreground="{Binding plogoForeground}"
-   FontSize="30"
+   FontSize="{Binding plogo_font}"
    FontWeight="Bold"
   HorizontalAlignment="Center"
 VerticalAlignment="Center"
@@ -62,17 +62,17 @@ VerticalAlignment="Center"
          Content="{Binding mbutText}"
          Width="80"
          HorizontalAlignment="Center"
-         VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="okBtn" Visibility="{Binding mbutVisibility}" BorderThickness="{Binding mbuttonthickness}"/>
+         VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="okBtn" Visibility="{Binding mVisibility}" BorderThickness="{Binding mbuttonthickness}"/>
             <Button Grid.Row="2"
 Content="{Binding lbutText}"
 Width="80"
 HorizontalAlignment="Center"
-VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="rbutton" Margin="-120,0,0,0" Visibility="{Binding yVisibility}" BorderThickness="{Binding rbuttonthickness}"/>
+VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="rbutton" Margin="-120,0,0,0" Visibility="{Binding YVisibility}" BorderThickness="{Binding rbuttonthickness}"/>
             <Button Grid.Row="2"
 Content="{Binding rbutText}"
 Width="80"
 HorizontalAlignment="Center"
-VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="lbutton" Margin="120,0,0,0" Visibility="{Binding lVisibility}" BorderThickness="{Binding lbuttonthickness}"/>
+VerticalAlignment="Center" Style="{StaticResource okBtn}" Click="lbutton" Margin="120,0,0,0" Visibility="{Binding nVisibility}" BorderThickness="{Binding lbuttonthickness}"/>
             <Ellipse Stroke="{Binding EllipseStroke}" Margin="102,21,102,68" Grid.Row="1" StrokeThickness="2.5" Visibility="{Binding EllipseVisibility}" />
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
