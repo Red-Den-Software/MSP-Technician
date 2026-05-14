@@ -41,21 +41,20 @@
         
         </StackPanel>
             <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
-                <TextBlock Text="Quick Action Menu:" FontSize="16" FontWeight="bold" Background="Transparent" Height="20" Width="150" Margin="10,0,0,0" Foreground="GhostWhite"/>
+                <TextBlock FontSize="16" FontWeight="bold" Background="Transparent" Height="20" Width="170" Margin="10,0,0,0" Foreground="GhostWhite" Text="Data Transfer Options:"/>
             </StackPanel>
             <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="30,10,0,0">
                 <Button x:Name="tad" Style="{StaticResource homeviewBtn}" Content="Transfer All Data" Width="170" Height="60" Click="tad_Click"/>
-                <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="Transfer QuickBooks" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Transfer Quicken" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content="Transfer Outlook Data" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="QuickBooks" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Quicken" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content=" Outlook Data" Width="170" Height="60" Margin="0,10,0,0"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" >
-                <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="Transfer Wi-Fi" Width="170" Height="60" Margin="0,10,0,0" Command="{Binding ClickMode, ElementName=button4}" Click="wifi_transfer"/>
-                <Button x:Name="button5" Style="{StaticResource homeviewBtn}" Content="Transfer Browser Data" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button6" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button7" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="Wi-Fi" Width="170" Height="60" Margin="0,10,0,0" Command="{Binding ClickMode, ElementName=button4}" Click="wifi_transfer"/>
+                <Button x:Name="button5" Style="{StaticResource homeviewBtn}" Content="Browser Data" Width="170" Height="60" Margin="0,10,0,0"/>
+                <Button x:Name="button6" Style="{StaticResource homeviewBtn}" Content="Regular Files" Width="170" Height="60" Margin="0,10,0,0"/>
+                
             </StackPanel>
-
         </Grid>
     </Border>
 </UserControl>

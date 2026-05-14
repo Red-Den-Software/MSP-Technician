@@ -32,20 +32,22 @@ d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent">
                         
 
                     </StackPanel>
-                    
-                    <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="10,-10,0,0">
-                        <Button x:Name="tad" Style="{StaticResource homeviewBtn}" Content="Tools" Width="170" Height="60" />
-                        <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="Transfer QuickBooks" Width="170" Height="60" Margin="0,10,0,0"/>
-                        <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Transfer Quicken" Width="170" Height="60" Margin="0,10,0,0"/>
-                        <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content="Transfer Outlook Data" Width="170" Height="60" Margin="0,10,0,0"/>
+                
+
+                    <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="10,-10,0,60">
+                        <Button x:Name="tad" Style="{StaticResource homeviewBtn}" Content="Transfer Wi-Fi" Width="170" Height="60" />
+                        <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="Time Sync" Width="170" Height="60" Margin="0,10,0,0"/>
+                        <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Network Sharing" Width="170" Height="60" Margin="0,10,0,0"/>
+                        <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content="" Width="170" Height="60" Margin="0,10,0,0" Visibility="Hidden"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" >
-                    <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="Transfer Wi-Fi" Width="170" Height="60" Margin="10,-10,0,0" Command="{Binding ClickMode, ElementName=button4}"/>
+                
+                <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Visibility="Hidden" >
+                    <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="" Width="170" Height="60" Margin="10,-10,0,0" Command="{Binding ClickMode, ElementName=button4}"/>
                         <Button x:Name="button5" Style="{StaticResource homeviewBtn}" Content="Transfer Browser Data" Width="170" Height="60" Margin="0,10,0,0"/>
                         <Button x:Name="button6" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
                         <Button x:Name="button7" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
                     </StackPanel>
-                <StackPanel Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,10,0">
+                <StackPanel Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Margin="0,0,10,0" Visibility="Hidden">
                     <Button x:Name="button8" Style="{StaticResource homeviewBtn}" Content="Transfer Wi-Fi" Width="170" Height="60" Margin="0,-10,0,0"/>
                     <Button x:Name="button9" Style="{StaticResource homeviewBtn}" Content="Transfer Browser Data" Width="170" Height="60" Margin="0,10,0,0"/>
                     <Button x:Name="button10" Style="{StaticResource homeviewBtn}" Content="Button" Width="170" Height="60" Margin="0,10,0,0"/>
