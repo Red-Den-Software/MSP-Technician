@@ -37,27 +37,7 @@ Margin="12,0,0,0"/>
          BorderBrush="#252c3B"
                     BorderThickness="2"
          CornerRadius="20">
-
-                <TextBlock
-    TextWrapping="Wrap"
-    FontSize="12"
-    Foreground="GhostWhite"
-    Padding="10"
-    Margin="0,50,0,0"
-    VerticalAlignment="Center"
-    HorizontalAlignment="Center">
-
-    <Run Text="{Binding errorText}" />
-
-    <Run
-        Text="{Binding centerInlineText}"
-        Foreground="White"
-        Background="#3B4252"
-       
-        FontSize="14"/>
-
-                </TextBlock>
-
+                <ComboBox Margin="54,77,54,8" Visibility="{Binding pathBox}" x:Name="pathComboBox"/>
             </Border>
             <!-- Error message text block at function customerNameTextBox_empty HomeViewXaml.cs-->
             <Grid Grid.Row="1" Width="Auto">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,48 +60,47 @@ namespace msptool.Button_Commands
             PopupManager.CurrentPopup?.Close();
             PopupManager.CurrentPopup = null;
         }
+
         public void Backup()
         {
-            
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            dialog.InitialDirectory = "C:\\Users"; // Set initial directory if needed
-            dialog.ShowDialog();
-            BackupPath = dialog.SelectedPath;
-            PopupManager.CurrentPopup?.Close();
-            PopupManager.CurrentPopup = null;
-            System.Diagnostics.Debug.WriteLine($"Selected backup path: {BackupPath}");
-            if (dialog.SelectedPath == string.Empty)
+            closePopup();
+            var vm = new PopupViewModel
             {
+                plogo = "↔",
+                plogoForeground = Brushes.Orange,
+                plogo_font = "60",
+                Title = "Data Transfer",
+
+                EllipseVisibility = System.Windows.Visibility.Collapsed,
+                TitleBG = Brushes.Orange,
+                errorText = $"Is this path correct?",
+               // centerInlineText = $"{BackupPath}",
+                nVisibility = System.Windows.Visibility.Visible,
+                YVisibility = System.Windows.Visibility.Visible,
+                mVisibility = System.Windows.Visibility.Hidden,
+                mbuttonthickness = "0",
+                rbutText = "No",
+                lbutText = "Yes",
+
+            };
+            var popup = new PopupWindow
+            {
+
+                DataContext = vm
+            };
+            popup.Show();
+
+            string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string[] profileFolders = Directory.GetDirectories(rootPath);
+            foreach (string folder in profileFolders)
+            {
+                vm.pathText = folder;
+                vm.pathComboBox.Items.Add(folder);
+            }
+           
+                
                
-            }
-            else
-            {
-                var vm = new PopupViewModel
-                {
-                    plogo = "↔",
-                    plogoForeground = Brushes.Orange,
-                    plogo_font = "60",
-                    Title = "Data Transfer",
-
-                    EllipseVisibility = System.Windows.Visibility.Collapsed,
-                    TitleBG = Brushes.Orange,
-                    errorText = $"Is this path correct?",
-                    centerInlineText = $"{BackupPath}",
-                    nVisibility = System.Windows.Visibility.Visible,
-                    YVisibility = System.Windows.Visibility.Visible,
-                    mVisibility = System.Windows.Visibility.Hidden,
-                    mbuttonthickness = "0",
-                    rbutText = "No",
-                    lbutText = "Yes",
-
-                };
-                var popup = new PopupWindow
-                {
-
-                    DataContext = vm
-                };
-                popup.Show();
-            }
+            
         }
     }
 }

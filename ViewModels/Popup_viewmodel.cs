@@ -100,7 +100,7 @@ public class PopupViewModel : INotifyPropertyChanged
     private string _rbutText = string.Empty;
     private string _lbutText = string.Empty;
     private string _mbutText = string.Empty;
-
+    private Visibility _pathBox = Visibility.Visible;
     private string _mbuttonthickness = "0";
     private string _rbuttonthickness = "0";
     private string _lbuttonthickness = "0";
@@ -118,7 +118,7 @@ public class PopupViewModel : INotifyPropertyChanged
            
         }
     }
-
+    public string pathText { get; set; } = string.Empty;
     public string centerInlineText
     {
         get => _centerInlineText;
@@ -127,6 +127,7 @@ public class PopupViewModel : INotifyPropertyChanged
             _centerInlineText = value;
         }
     }
+    public ComboBox pathComboBox { get; set; } = new ComboBox();
     public string plogo
     {
         get => _plogo;
@@ -231,7 +232,14 @@ public class PopupViewModel : INotifyPropertyChanged
             
         }
     }
-
+    public Visibility pathBox
+            {
+        get => _pathBox;
+        set
+        {
+            _pathBox = value;
+        }
+    }
     public string lbutText
     {
         get => _lbutText;
@@ -251,7 +259,7 @@ public class PopupViewModel : INotifyPropertyChanged
             
         }
     }
-
+   
     public Visibility mVisibility
     {
         get => _mVisibility;
