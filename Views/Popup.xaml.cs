@@ -1,4 +1,5 @@
-﻿using System;
+﻿using msptool.Button_Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,11 +19,11 @@ namespace msptool
     /// <summary>
     /// Interaction logic for Popup.xaml
     /// </summary>
-    public partial class Popup : Window
+    public partial class PopupWindow : Window
     {
 
 
-        public Popup()
+        public PopupWindow()
         {
             InitializeComponent();
             DataContext = new PopupViewModel();
@@ -36,11 +37,14 @@ namespace msptool
         }
         private void lbutton(object sender, RoutedEventArgs e)
         {
-
+            TransferData transferData = new TransferData();
+            transferData.Backup();
+            System.Diagnostics.Debug.WriteLine("Backup button clicked");
         }
+        
         private void rbutton(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }

@@ -15,7 +15,8 @@ public class PopupViewModel : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
+    
+    
     #region Popup Methods
 
     public void PopupViewModel_Error(object sender, string message)
@@ -71,7 +72,7 @@ public class PopupViewModel : INotifyPropertyChanged
 
     private void ShowPopup(PopupViewModel vm)
     {
-        var popup = new Popup
+        var popup = new PopupWindow
         {
             WindowStartupLocation = WindowStartupLocation.CenterOwner,
             DataContext = vm
@@ -95,7 +96,7 @@ public class PopupViewModel : INotifyPropertyChanged
     private string _plogo = string.Empty;
     private Brush _plogoForeground = Brushes.Red;
     private string _title = string.Empty;
-
+    private string _centerInlineText = string.Empty;
     private string _rbutText = string.Empty;
     private string _lbutText = string.Empty;
     private string _mbutText = string.Empty;
@@ -118,6 +119,14 @@ public class PopupViewModel : INotifyPropertyChanged
         }
     }
 
+    public string centerInlineText
+    {
+        get => _centerInlineText;
+        set
+            {
+            _centerInlineText = value;
+        }
+    }
     public string plogo
     {
         get => _plogo;

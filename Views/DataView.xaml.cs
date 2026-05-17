@@ -148,7 +148,7 @@ namespace msptool.Views
        
         private void wifi_transfer(object sender, RoutedEventArgs e)
         {
-            Popup popup = new Popup();
+            PopupWindow popup = new PopupWindow();
             PopupViewModel vm = new PopupViewModel();
             vm.TitleBG = System.Windows.Media.Brushes.DarkOrange;
             popup.DataContext = vm;
