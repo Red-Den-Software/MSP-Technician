@@ -90,6 +90,7 @@ public class PopupViewModel : INotifyPropertyChanged
     private Visibility _ellipseVisibility = Visibility.Hidden;
     private Visibility _nVisibility = Visibility.Visible;
     private Visibility _mVisibility = Visibility.Hidden;
+    private Visibility _plogo_visibility = Visibility.Visible;
     private string _plogo_font = "30";
     private string _errorText = string.Empty;
     private Brush _titlebg = Brushes.Red;
@@ -108,7 +109,15 @@ public class PopupViewModel : INotifyPropertyChanged
     #endregion
 
     #region Properties
-    
+    public Visibility plogo_visibility
+    {
+        get => _plogo_visibility;
+        set
+        {
+            _plogo_visibility = value;
+
+        }
+    }
     public Brush EllipseStroke
     {
         get => _ellipseStroke;
