@@ -48,24 +48,10 @@ namespace msptool.Views
             }
         }
         public bool IsTextBoxEmpty { get; set;  }
-        public void customerNameTextBox_empty()
-        {
-                Trace.WriteLine("TextBox is empty, please enter a name.");
-                if (string.IsNullOrWhiteSpace(customerNameTextBox.Text) || customerNameTextBox.Text == "Name...")
-                {
-
-                PopupViewModel popup = new PopupViewModel();
-                Trace.WriteLine("TextBox is empty, please enter a name.");
-                    customerNameTextBox.BorderBrush = System.Windows.Media.Brushes.Red;
-                    customerNameTextBox.BorderThickness = new Thickness(2);
-                 IsTextBoxEmpty = true;
-                popup.PopupViewModel_Error(this, "Customer Name Box is empty, please enter a name.");
-                return;
-            }
-        }
+        
         public void tad_Click(object sender, RoutedEventArgs e)
         {
-            customerNameTextBox_empty();
+           
             if (!IsTextBoxEmpty)
             {
                 var folderDialog = new OpenFolderDialog()
@@ -96,56 +82,8 @@ namespace msptool.Views
 
 
         }
-        public void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (customerNameTextBox.Text == "Name...")
-            {
-                customerNameTextBox.Text = "";
-                customerNameTextBox.Foreground = System.Windows.Media.Brushes.GhostWhite;
-            }
-        }
-
-        public void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(customerNameTextBox.Text))
-            {
-                customerNameTextBox.Text = "Name...";
-                customerNameTextBox.Foreground = System.Windows.Media.Brushes.Gray;
-            }
-        }
-        private void customerNameTextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                string text = customerNameTextBox.Text;
-                PopupViewModel popup = new PopupViewModel();
-
-                if (string.IsNullOrWhiteSpace(text) || text == "Name...")
-                {
-                    popup.PopupViewModel_Error(this, "Customer Name Box is empty, please enter a name.");
-
-                }
-                else
-                {
-                    return;
-                }
-                searchIcon.Visibility = Visibility.Visible;
-
-                DoubleAnimation fadeAnimation = new DoubleAnimation();
-
-                fadeAnimation.From = 0;
-                fadeAnimation.To = 1;
-                fadeAnimation.Duration = TimeSpan.FromSeconds(0.3);
-                fadeAnimation.Completed += FadeAnimation_Completed;
-                searchIcon.BeginAnimation(OpacityProperty, fadeAnimation);
-                customerNameTextBox.CaretBrush = System.Windows.Media.Brushes.Transparent;
-            }
-        }
-        private void FadeAnimation_Completed(object? sender, EventArgs e)
-        {
-            customerNameTextBox.Foreground = System.Windows.Media.Brushes.Gray;
-        }
-       
+        
+        
         private void wifi_transfer(object sender, RoutedEventArgs e)
         {
             PopupWindow popup = new PopupWindow();
@@ -159,8 +97,7 @@ namespace msptool.Views
             vm.EllipseStroke = System.Windows.Media.Brushes.DarkOrange;
             vm.YVisibility = Visibility.Visible;
             vm.Title = "Wi-Fi Transfer";
-            if (string.IsNullOrWhiteSpace(customerNameTextBox.Text) || customerNameTextBox.Text == "Name...")
-            {
+           
                 Trace.WriteLine("TextBox is empty, please enter a name.");
                 vm.TitleBG = System.Windows.Media.Brushes.Red;
                 popup.DataContext = vm;
@@ -173,7 +110,7 @@ namespace msptool.Views
                 vm.errorText = "Customer Name Box is empty, please enter a name.";
                 popup.Show();
                 return;
-            }
+            
             if (vm.YVisibility == Visibility.Visible)
             {
                 vm.nVisibility = Visibility.Visible;

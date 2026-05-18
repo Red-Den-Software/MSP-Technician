@@ -14,47 +14,31 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
-
+                
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="20*"/>
-                <RowDefinition Height="80*"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Column="0" Grid.Row="1">
-
-                <TextBlock Text="Customer Name:" FontSize="24" FontWeight="Bold" HorizontalAlignment="right" Margin="0,10,0,0" Foreground="GhostWhite" VerticalAlignment="Center"/>
-
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="1">
-
-                <TextBox x:Name="customerNameTextBox" Style="{StaticResource customerNameTextBox}" Foreground="Gray" Text="Name..." Width="230" Height="40" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"  KeyDown="customerNameTextBox_KeyDown"/>
-                <TextBlock
-        x:Name="searchIcon"
-        Text="✔"
-        FontSize="18"
-        Foreground="LimeGreen"
-        
-        Margin="210,-35,0,0"
-        Visibility="Collapsed"/>
-        
-        </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
-                <TextBlock FontSize="16" FontWeight="bold" Background="Transparent" Height="20" Width="170" Margin="10,0,0,0" Foreground="GhostWhite" Text="Data Transfer Options:"/>
-            </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Margin="30,10,0,0">
-                <Button x:Name="tad" Style="{StaticResource homeviewBtn}" Content="Transfer All Data" Width="170" Height="60" Click="tad_Click"/>
-                <Button x:Name="button1" Style="{StaticResource homeviewBtn}" Content="QuickBooks" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button2" Style="{StaticResource homeviewBtn}" Content="Quicken" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button3" Style="{StaticResource homeviewBtn}" Content=" Outlook Data" Width="170" Height="60" Margin="0,10,0,0"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" >
-                <Button x:Name="button4" Style="{StaticResource homeviewBtn}" Content="Wi-Fi" Width="170" Height="60" Margin="0,10,0,0" Command="{Binding ClickMode, ElementName=button4}" Click="wifi_transfer"/>
-                <Button x:Name="button5" Style="{StaticResource homeviewBtn}" Content="Browser Data" Width="170" Height="60" Margin="0,10,0,0"/>
-                <Button x:Name="button6" Style="{StaticResource homeviewBtn}" Content="Regular Files" Width="170" Height="60" Margin="0,10,0,0"/>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="30*"/>
                 
-            </StackPanel>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
+                <StackPanel>
+                    <Image Source="/Assets/HardDrive_4x.png"/>
+                    <TextBlock Text="Clone Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
+                    <Image Source="/Assets/HardDrive_4x.png" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="1" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
+                <StackPanel>
+                    <Image Source="/Assets/Folder_4x.png"/>
+                    <TextBlock Text="User Data" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" />
+                </StackPanel>
+                
+            </Button>
+
+
+
         </Grid>
     </Border>
 </UserControl>

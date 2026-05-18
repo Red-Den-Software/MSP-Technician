@@ -112,31 +112,35 @@
         </ResourceDictionary>
         <ResourceDictionary>
             <Style x:Key="homeviewBtn" TargetType="{x:Type Button}">
-                <Setter Property="FontWeight" Value="Medium"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Background" Value="#31394A"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="Foreground" Value="GhostWhite"/>
-                <Setter Property="BorderBrush" Value="#161A22"/>
+                <Setter Property="Background" Value="#1D1D1D"/>
+               
+
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10">
+                            <Border Background="#252c3B" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        
-                        <Setter Property="BorderBrush" Value="White"/>
-                        <Setter Property="Effect">
+                        <Setter Property="Background" Value="#3B4252"/>
+                        <Setter Property="BorderBrush" Value="#3B4252"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Setter Property="RenderTransform">
                             <Setter.Value>
-                                <DropShadowEffect Color="White" BlurRadius="5" ShadowDepth="0" Opacity="0.5"/>
+                                <TranslateTransform Y="2"/>
                             </Setter.Value>
                         </Setter>
+                        <Setter Property="Background" Value="#3B4252"/>
+                        <Setter Property="BorderBrush" Value="#3B4252"/>
+                        <Setter Property="BorderThickness" Value="4"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
