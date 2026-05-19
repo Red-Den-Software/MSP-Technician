@@ -37,9 +37,8 @@ namespace msptool
         }
         private void lbutton(object sender, RoutedEventArgs e)
         {
-            TransferData transferData = new TransferData();
-            transferData.Backup();
-            System.Diagnostics.Debug.WriteLine("Backup button clicked");
+           
+    
         }
         
         private void rbutton(object sender, RoutedEventArgs e)

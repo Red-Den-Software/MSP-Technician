@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualBasic;
 using msptool.Commands;
-using msptool.Commands.UpdateViewCommand;
 using msptool.MVVM;
 using msptool.ViewModels;
 using System;

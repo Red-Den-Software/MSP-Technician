@@ -28,8 +28,7 @@ namespace msptool.Views
 
         private void tad_Click(object sender, RoutedEventArgs e)
         {
-            TransferData transferData = new TransferData();
-            transferData.Transfer();
+           
         }
     }
 }

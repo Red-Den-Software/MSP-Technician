@@ -22,7 +22,8 @@
                 <RowDefinition Height="30*"/>
                 
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
+            <ContentControl Content="{Binding CurrentView}" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDisk">
                 <StackPanel>
                     <Image Source="/Assets/HardDrive_4x.png"/>
                     <TextBlock Text="Clone Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center"/>

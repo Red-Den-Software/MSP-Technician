@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data_Transfer_App.ViewModels.Usercontrols
+namespace msptool.ViewModels.Usercontrols
 {
     class TextBoxViewModel
     {

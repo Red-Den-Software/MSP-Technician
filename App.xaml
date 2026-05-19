@@ -29,6 +29,12 @@
                         <views:HomeView/>
                     </DataTemplate>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type viewmodels:CloneDiskViewModel}">
+                        <views:CloneDiskView/>
+                    </DataTemplate>
+                </ResourceDictionary>
+                
                 <ResourceDictionary Source="/Resources/Style.xaml" />
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
                 <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>

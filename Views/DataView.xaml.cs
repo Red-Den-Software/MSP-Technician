@@ -127,5 +127,11 @@ namespace msptool.Views
             vm.errorText = "Would you like to transfer data via Wi-Fi?";
             popup.Show();
         }
+
+        private void clonedisk_button(object sender, RoutedEventArgs e)
+        {
+            
+           
+        }
     }
 }

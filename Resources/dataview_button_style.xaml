@@ -37,5 +37,16 @@
                 </Style.Triggers>
             </Style>
         </ResourceDictionary>
+        <ResourceDictionary>
+            <Style x:Key="diskselect" TargetType="{x:Type Border}">
+                <Setter Property="BorderThickness" Value="2"/>
+                
+                <Setter Property="Background" Value="#1D1D1D"/>
+                <Setter Property="BorderBrush" Value="#252c3B"/>
+
+            
+                
+            </Style>
+        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

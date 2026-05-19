@@ -12,15 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Forms;
 namespace msptool.Views
 {
-    /// <summary>
-    /// Interaction logic for Clone_Disk.xaml
-    /// </summary>
-    public partial class Clone_Disk : UserControl
+    public partial class CloneDiskView : System.Windows.Controls.UserControl
     {
-        public Clone_Disk()
+        public CloneDiskView()
         {
             InitializeComponent();
         }
