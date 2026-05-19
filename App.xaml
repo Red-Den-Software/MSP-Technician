@@ -34,11 +34,14 @@
                         <views:CloneDiskView/>
                     </DataTemplate>
                 </ResourceDictionary>
-                
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type viewmodels:DataViewModelPage1}">
+                        <views:DataViewPage1/>
+                    </DataTemplate>
+                </ResourceDictionary>
                 <ResourceDictionary Source="/Resources/Style.xaml" />
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
-                <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>
-                                    
+                    <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
                

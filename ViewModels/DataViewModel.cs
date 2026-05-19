@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xaml.Behaviors.Core;
 using msptool.Commands.UpdateViewCommand;
+using msptool.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace msptool.ViewModels
         public DataViewModel()
         {
             UpdateViewCommand = new UpdateViewCommand(UpdateView);
-           
+            CurrentView = new DataViewModelPage1();
         }
 
         public object CurrentView
@@ -59,7 +60,10 @@ namespace msptool.ViewModels
                 case "CloneDisk":
                     CurrentView = new CloneDiskViewModel();
                     break;
-               
+                case "DataViewPage1":
+                    CurrentView = new DataViewModelPage1();
+                    break;
+              
             }
         }
 

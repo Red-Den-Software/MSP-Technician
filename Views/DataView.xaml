@@ -22,23 +22,9 @@
                 <RowDefinition Height="30*"/>
                 
             </Grid.RowDefinitions>
-            <ContentControl Content="{Binding CurrentView}" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDisk">
-                <StackPanel>
-                    <Image Source="/Assets/HardDrive_4x.png"/>
-                    <TextBlock Text="Clone Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
-                    <Image Source="/Assets/HardDrive_4x.png" />
-                </StackPanel>
-            </Button>
-            <Button Grid.Column="1" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
-                <StackPanel>
-                    <Image Source="/Assets/Folder_4x.png"/>
-                    <TextBlock Text="User Data" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" />
-                </StackPanel>
-                
-            </Button>
-
-
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <ContentControl Content="{Binding CurrentView}" />
+            </Grid>
 
         </Grid>
     </Border>
