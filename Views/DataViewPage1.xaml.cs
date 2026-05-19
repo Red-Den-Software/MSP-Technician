@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
-namespace msptool
+namespace msptool.Views
 {
     /// <summary>
     /// Interaction logic for DataViewPage1.xaml
@@ -22,7 +22,7 @@ namespace msptool
     {
         public DataViewPage1()
         {
-            
+           InitializeComponent();
         }
     }
 }

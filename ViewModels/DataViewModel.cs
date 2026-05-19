@@ -15,13 +15,18 @@ using System.Windows.Navigation;
 
 namespace msptool.ViewModels
 {
-    internal class DataViewModel : INotifyPropertyChanged
+    public class DataViewModel : INotifyPropertyChanged
     {
+
         private object _currentView;
         public DataViewModel()
         {
-            UpdateViewCommand = new UpdateViewCommand(UpdateView);
+            UpdateViewCommand = new UpdateViewCommand(execute: UpdateView);
             CurrentView = new DataViewModelPage1();
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                CurrentView = new DataViewModelPage1();
+            }));
         }
 
         public object CurrentView
@@ -60,7 +65,7 @@ namespace msptool.ViewModels
                 case "CloneDisk":
                     CurrentView = new CloneDiskViewModel();
                     break;
-                case "DataViewPage1":
+                case "DataViewModelPage1":
                     CurrentView = new DataViewModelPage1();
                     break;
               
@@ -70,6 +75,11 @@ namespace msptool.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        public void HandleFromPage1(string value)
+        {
+            // react in DataViewModel (change CurrentView, etc.)
+            CurrentView = new CloneDiskViewModel();
+        }
     }
 }
         
