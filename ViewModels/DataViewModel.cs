@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xaml.Behaviors.Core;
 using msptool.Commands.UpdateViewCommand;
+using msptool.MVVM;
 using msptool.Views;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,12 @@ namespace msptool.ViewModels
     {
 
         private object _currentView;
-        public DataViewModel()
-        {
-            UpdateViewCommand = new UpdateViewCommand(execute: UpdateView);
-            CurrentView = new DataViewModelPage1();
-            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                CurrentView = new DataViewModelPage1();
-            }));
+        public DataViewModel(){
+            UpdateViewCommand = new RelayCommand(UpdateView);
+
+            // Default page
+           
+
         }
 
         public object CurrentView

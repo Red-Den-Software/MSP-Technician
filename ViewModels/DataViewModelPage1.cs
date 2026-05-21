@@ -9,13 +9,9 @@ namespace msptool.ViewModels
     public class DataViewModelPage1
     {
         private readonly DataViewModel _parent;
-        public DataViewModelPage1(Views.CloneDiskView cloneDiskView)
+        public DataViewModelPage1()
         {
-        }
-
-        public DataViewModelPage1(DataViewModel parent)
-        {
-            _parent = parent;
+            _parent = new DataViewModel();
         }
 
         public void SendResult(string value)

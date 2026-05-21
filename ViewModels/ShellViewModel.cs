@@ -73,8 +73,8 @@ namespace msptool.ViewModels
         {
             switch (parameter?.ToString())
             {
-                case "Data":
-                    CurrentView = new DataViewModel();
+                case "DataViewModelPage1":
+                    CurrentView = new DataViewModelPage1();
                     break;
                 case "Tools":
                     CurrentView = new ToolViewModel();
