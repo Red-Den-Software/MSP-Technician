@@ -21,22 +21,15 @@ namespace msptool.ViewModels
 
         private object _currentView;
         public DataViewModel(){
-            UpdateViewCommand = new RelayCommand(UpdateView);
-
-            // Default page
            
 
+            // Default page
+            _currentView = new DataViewModelPage1();
+
+
         }
 
-        public object CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
-            }
-        }
+       
         public LinearGradientBrush GlassBackgroundBrush { get; } = new LinearGradientBrush
         {
             StartPoint = new System.Windows.Point(0, 0),
@@ -57,28 +50,12 @@ namespace msptool.ViewModels
         };
 
         public ICommand UpdateViewCommand { get; }
-        private void UpdateView(object parameter)
-        {
-            switch (parameter?.ToString())
-            {
-                case "CloneDisk":
-                    CurrentView = new CloneDiskViewModel();
-                    break;
-                case "DataViewModelPage1":
-                    CurrentView = new DataViewModelPage1();
-                    break;
-              
-            }
-        }
+       
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        public void HandleFromPage1(string value)
-        {
-            // react in DataViewModel (change CurrentView, etc.)
-            CurrentView = new CloneDiskViewModel();
-        }
+       
     }
 }
         

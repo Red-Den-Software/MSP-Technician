@@ -69,18 +69,21 @@ namespace msptool.ViewModels
             CurrentView = new HomeViewModel();
         }
 
-        private void UpdateView(object parameter)
+        public void UpdateView(object parameter)
         {
             switch (parameter?.ToString())
             {
-                case "DataViewModelPage1":
-                    CurrentView = new DataViewModelPage1();
+                case "DataView":
+                    CurrentView = new DataView();
                     break;
                 case "Tools":
                     CurrentView = new ToolViewModel();
                     break;
                 case "Home":
                     CurrentView = new HomeViewModel();
+                    break;
+                case "CloneDisk":
+                    CurrentView = new CloneDiskView();
                     break;
             }
         }

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
+using msptool.ViewModels;
 namespace msptool.Views
 {
     /// <summary>
@@ -23,6 +24,7 @@ namespace msptool.Views
         public DataViewPage1()
         {
            InitializeComponent();
+            DataContext = new DataViewModelPage1();
         }
     }
 }
