@@ -20,16 +20,26 @@ namespace msptool.ViewModels
     {
 
         private object _currentView;
-        public DataViewModel(){
-           
-
-            // Default page
-            _currentView = new DataViewModelPage1();
-
+        public object CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
+        public DataViewModel() { 
 
         }
 
-       
+        private void UpdateView(object view)
+        {
+            
+          
+
+        }
+
         public LinearGradientBrush GlassBackgroundBrush { get; } = new LinearGradientBrush
         {
             StartPoint = new System.Windows.Point(0, 0),

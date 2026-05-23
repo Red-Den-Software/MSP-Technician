@@ -17,7 +17,7 @@ namespace msptool.ViewModels
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
-        private readonly DataViewModel _parent;
+        
         private object _currentView;
         public object dataCurrentView
         {
@@ -28,25 +28,17 @@ namespace msptool.ViewModels
                 OnPropertyChanged(nameof(dataCurrentView));
             }
         }
-        
+        private readonly ShellViewModel _parent;
         public ICommand UpdateViewCommand { get; }
-        public DataViewModelPage1()
+       
+        public DataViewModelPage1(ShellViewModel parent)
         {
-           
-            UpdateViewCommand = new UpdateViewCommand(UpdateView);
-           
+            _parent = parent;
 
+            UpdateViewCommand = new UpdateViewCommand(_parent.UpdateView);
         }
-        private void UpdateView(object parameter)
-        {
-            switch (parameter?.ToString())
-            {
-                case "CloneDisk":
-                    dataCurrentView = new CloneDiskView();
-                    
-                    break;
-            }
-        }
+
+
 
 
 

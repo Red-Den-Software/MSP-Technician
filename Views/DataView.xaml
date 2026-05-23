@@ -23,7 +23,7 @@
                 
             </Grid.RowDefinitions>
             <Grid Grid.ColumnSpan="2" Grid.RowSpan="2">
-                <ContentControl Content="{Binding CurrentView}" HorizontalContentAlignment="Stretch"
+                <ContentControl Content="{Binding UpdateViewCommand}" HorizontalContentAlignment="Stretch"
 VerticalContentAlignment="Stretch"/>
                 
             </Grid>

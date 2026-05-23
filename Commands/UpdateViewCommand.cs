@@ -28,6 +28,12 @@ namespace msptool.Commands.UpdateViewCommand
     {
         private readonly Action<object?> _execute;
         private readonly Func<object?, bool>? _canExecute;
+        private DataViewModelPage1 dataViewModelPage1;
+
+        public UpdateViewCommand(DataViewModelPage1 dataViewModelPage1)
+        {
+            this.dataViewModelPage1 = dataViewModelPage1;
+        }
 
         public UpdateViewCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
         {

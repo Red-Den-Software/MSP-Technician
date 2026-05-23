@@ -6,7 +6,7 @@
              xmlns:viewmodels="clr-namespace:msptool.ViewModels"
              xmlns:views="clr-namespace:msptool.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent">
+             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskViewModel}">
 
 
     <Border CornerRadius="25" Background="#1D1D1D" >
@@ -22,7 +22,7 @@
                 <RowDefinition Height="30*"/>
 
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
+            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDisk">
                 <StackPanel>
                     <Image Source="/Assets/HardDrive_4x.png"/>
                     <TextBlock Text="Source Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center"/>

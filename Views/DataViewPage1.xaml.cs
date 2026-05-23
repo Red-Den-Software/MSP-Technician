@@ -24,7 +24,7 @@ namespace msptool.Views
         public DataViewPage1()
         {
            InitializeComponent();
-            DataContext = new DataViewModelPage1();
+          
         }
     }
 }
