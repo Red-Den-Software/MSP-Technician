@@ -20,22 +20,23 @@ namespace msptool.Views
 {
     public partial class CloneDiskView : System.Windows.Controls.UserControl
     {
+       
+
         public CloneDiskView()
         {
+           
             InitializeComponent();
+            
         }
-        private string _srcdisk;
+       
       
-        public string source_disk { get => source_disk; set { _srcdisk = value; } }
+       
         private void setsource_click(object sender, RoutedEventArgs e)
         {
             
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            dialog.ShowDialog();
-            dialog.SelectedPath = _srcdisk;
+            
         }
-        private string Srcdisk { get => _srcdisk; set { _srcdisk = value; } }
+       }
 
-    }
-   
 }
+   

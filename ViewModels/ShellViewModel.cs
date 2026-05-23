@@ -84,7 +84,7 @@ namespace msptool.ViewModels
                     CurrentView = new HomeViewModel();
                     break;
                 case "CloneDisk":
-                    CurrentView = new CloneDiskView();
+                    CurrentView = new CloneDiskViewModel(this);
                     break;
                 
             }

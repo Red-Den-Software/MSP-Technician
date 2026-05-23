@@ -26,14 +26,48 @@ namespace msptool.ViewModels
             }
         }
         private readonly ShellViewModel _parent;
-
+        private string _srcdisk;
+        private CloneDiskViewModel cloneDiskViewModel;
+        private string _destdisk;
+        public string source_disk
+        {
+            get => _srcdisk;
+            set
+            {
+                _srcdisk = value;
+                OnPropertyChanged(nameof(source_disk));
+            }
+        }
+        public string dest_disk
+        {
+            get => _destdisk;
+            set
+            {
+                _destdisk = value;
+                OnPropertyChanged(nameof(dest_disk));
+            }
+        }
         public CloneDiskViewModel(ShellViewModel parent)
         {
 
             _parent = parent;
-
             UpdateViewCommand = new UpdateViewCommand(_parent.UpdateView);
+
+            if (string.IsNullOrEmpty(_srcdisk) || string.IsNullOrEmpty(_destdisk))
+            {
+                _srcdisk = "Source Disk";
+                _destdisk = "Destination Disk";
+            }
             
+        }
+
+       
+
+        public void folderDialog()
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            dialog.ShowDialog();
+            dialog.SelectedPath = _srcdisk;
         }
     }
 }
