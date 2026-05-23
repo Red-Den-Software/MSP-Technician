@@ -16,11 +16,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 namespace msptool.Views
 {
-    public partial class CloneDiskViewModel : System.Windows.Controls.UserControl
+    public partial class CloneDiskView : System.Windows.Controls.UserControl
     {
-        public CloneDiskViewModel()
+        public CloneDiskView()
         {
-           
+            InitializeComponent();
         }
 
        

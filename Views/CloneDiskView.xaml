@@ -6,7 +6,7 @@
              xmlns:viewmodels="clr-namespace:msptool.ViewModels"
              xmlns:views="clr-namespace:msptool.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskViewModel}">
+             d:DesignHeight="390" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskViewModel}">
 
 
     <Border CornerRadius="25" Background="#1D1D1D" >
@@ -20,34 +20,41 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30*"/>
                 <RowDefinition Height="30*"/>
-
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDisk">
+            <TextBlock Text="Warning: Cloning a disk will overwrite all data on the destination disk." FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,10,0,0" Foreground="GhostWhite" Grid.ColumnSpan="2" Grid.Row="0"/>
+            <Button Grid.Column="0" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDisk" Margin="0,-40,0,0">
                 <StackPanel>
                     <Image Source="/Assets/HardDrive_4x.png"/>
                     <TextBlock Text="Source Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="1" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}">
+            <Button Grid.Column="1" Grid.RowSpan="2" Width="180" Height="210" Style="{StaticResource dataviewbut}" Margin="0,-40,0,0">
                 <StackPanel>
                     <Image Source="/Assets/HardDrive_4x.png"/>
                     <TextBlock Text="Destination Disk" FontSize="20" FontFamily="Calibri" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" />
                 </StackPanel>
 
             </Button>
-            <TextBlock HorizontalAlignment="Left" Margin="74,67,0,0" TextWrapping="Wrap" Text="Warning: This will overwrite the destination disk!" VerticalAlignment="Top" Foreground="GhostWhite" FontSize="20" FontFamily="Calibri"  FontWeight="Bold" Grid.ColumnSpan="2" Width="455"/>
-            <Border Background="#252c3B" CornerRadius="4" VerticalAlignment="Top" Grid.Row="1" Width="100" Height="30" Margin="90,131,90,0" Style="{StaticResource diskselect}">
-                <TextBlock HorizontalAlignment="Left" Margin="32,2,0,-7" Grid.Row="1" Text="Test" Height="31" Width="124" Foreground="GhostWhite" FontSize="20" FontFamily="Calibri"  FontWeight="Bold"/>
+            <Border Grid.Column="0" Grid.Row="1">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <Border Background="#252c3B" CornerRadius="4" Padding="5" Margin="0,0,0,30">
+                        <TextBlock Text="Test" FontSize="20" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" Background="#252c3B" FontFamily="Calibri" />
+                    </Border>
+                </StackPanel>
             </Border>
-            <Border Background="#252c3B" CornerRadius="4" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Width="100" Height="30" Margin="90,131,90,0" Style="{StaticResource diskselect}">
-                <TextBlock HorizontalAlignment="Left" Margin="32,2,0,-7" Grid.Row="1" Text="Test" Height="31" Width="124" Foreground="GhostWhite" FontSize="20" FontFamily="Calibri"  FontWeight="Bold"/>
+            <Border Grid.Column="1" Grid.Row="1">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <Border Background="#252c3B" CornerRadius="4" Padding="5" Margin="0,0,0,30">
+                        <TextBlock Text="Test" FontSize="20" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" Background="#252c3B" FontFamily="Calibri" />
+                    </Border>
+                </StackPanel>
             </Border>
-            <Border Background="#252c3B" CornerRadius="4" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" Width="100" Height="30" Margin="170,185,10,0" Style="{StaticResource diskselect}">
-                <TextBlock HorizontalAlignment="Left" Margin="16,4,0,-9" Grid.Row="1" Text="Proceed →" Height="31" Width="124" Foreground="GhostWhite" FontSize="15" FontFamily="Calibri"  FontWeight="Bold"/>
+            <Border Grid.Column="1" Grid.Row="2">
+                <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <Button Content="Start Clone" Style="{StaticResource homeviewBtn}" Width="100" Height="30" Margin="0,0,20,15"/>
+                </StackPanel>
             </Border>
-
-
-
         </Grid>
     </Border>
 </UserControl>
