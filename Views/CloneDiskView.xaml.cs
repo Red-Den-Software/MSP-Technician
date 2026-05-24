@@ -33,8 +33,8 @@ namespace msptool.Views
        
         private void setsource_click(object sender, RoutedEventArgs e)
         {
-            
-            
+            ((CloneDiskViewModel)DataContext).src_disk();
+
         }
        }
 

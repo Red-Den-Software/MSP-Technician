@@ -38,8 +38,8 @@
             </Button>
             <Border Grid.Column="0" Grid.Row="1">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                    <Border Background="#252c3B" CornerRadius="4" Padding="5" Margin="0,0,0,30">
-                        <TextBlock Text="{Binding source_disk}" FontSize="20" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" Background="#252c3B" FontFamily="Calibri" />
+                    <Border Background="#252c3B" CornerRadius="4" Padding="5" Margin="0,0,0,30" BorderBrush="{Binding borderBrush}" BorderThickness="{Binding borderThick}">
+                        <TextBlock Text="{Binding source_disk}" FontSize="20" FontWeight="Bold" Foreground="GhostWhite" HorizontalAlignment="Center" Background="Transparent" FontFamily="Calibri" />
                     </Border>
                 </StackPanel>
             </Border>
