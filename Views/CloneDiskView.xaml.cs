@@ -41,6 +41,11 @@ namespace msptool.Views
         {
 
         }
+
+        private void setdest_click(object sender, RoutedEventArgs e)
+        {
+            ((CloneDiskViewModel)DataContext).dst_disk();
+        }
     }
 
 }

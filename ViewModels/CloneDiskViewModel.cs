@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Brushes = System.Windows.Media.Brushes;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace msptool.ViewModels
 {
@@ -117,23 +119,49 @@ namespace msptool.ViewModels
             
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-               
+                DialogResult result = dialog.ShowDialog();
+
                 dialog.SelectedPath = source_disk;
                 dialog.RootFolder = Environment.SpecialFolder.MyComputer;
+               
                 dialog.Description = "Please select a drive or a root folder.";
                 dialog.ShowNewFolderButton = false;
 
+
+              
                 
+                    if (result == DialogResult.OK)
+                    {
+
+                    if (dialog.SelectedPath.Length == 3 || dialog.SelectedPath.Length == 0 && Directory.Exists(dialog.SelectedPath))
+                        {
+                            srcBrush = Brushes.LimeGreen;
+                            srcThick = new Thickness(2);
+                            source_disk = dialog.SelectedPath;
+                       
+                            return source_disk;
+                        }
+                        else
+                        {
+
+                            srcBrush = Brushes.Red;
+                            srcThick = new Thickness(2);
+                            MessageBox.Show("You must select a Drive Letter!", "Error!", MessageBoxButtons.OK);
+                            
+
+
+                        }
+                    }
+                    if ( result == DialogResult.Cancel)
+                    {
+                        source_disk = null; /// Do nothing if they close DialogResult or click cancel, just return to the main window
+                        srcBrush = Brushes.Red;
+                        srcThick = new Thickness(2);
+                    }
                 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    source_disk = dialog.SelectedPath;
-                    srcBrush = Brushes.LimeGreen;
-                    srcThick = new Thickness(2);
-                    
-                    return source_disk;
-                }
-                return null;
+               
+                
+               return source_disk;
             }
         }
         public string dst_disk()
@@ -149,6 +177,8 @@ namespace msptool.ViewModels
                 {
                     
                     dest_disk = dialog.SelectedPath;
+                    dstBrush = Brushes.LimeGreen;
+                    dstThick = new Thickness(2);
                     return dest_disk;
                 }
                 return null;
