@@ -36,7 +36,12 @@ namespace msptool.Views
             ((CloneDiskViewModel)DataContext).src_disk();
 
         }
-       }
+
+        private void Start_Clone_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
 
 }
    

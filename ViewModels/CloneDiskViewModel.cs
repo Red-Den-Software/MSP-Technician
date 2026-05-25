@@ -36,24 +36,26 @@ namespace msptool.ViewModels
         private CloneDiskViewModel cloneDiskViewModel;
         private string _destdisk;
         private System.Windows.Media.Brush _bbrush;
+        private Thickness _dstThick;
+        private System.Windows.Media.Brush _dstbrush;
         private Thickness _bthi;
-        public System.Windows.Media.Brush borderBrush
+        public System.Windows.Media.Brush srcBrush
         {
             get => _bbrush;
             set
             {
                 _bbrush = value;
-                OnPropertyChanged(nameof(borderBrush));
+                OnPropertyChanged(nameof(srcBrush));
 
             }
         }
-        public Thickness borderThick
+        public Thickness srcThick
         {
             get => _bthi;
             set
             {
                 _bthi = value;
-                OnPropertyChanged(nameof(borderThick));
+                OnPropertyChanged(nameof(srcThick));
 
             }
         }
@@ -75,6 +77,24 @@ namespace msptool.ViewModels
             {
                 _destdisk = value;
                 OnPropertyChanged(nameof(dest_disk));
+            }
+        }
+        public Thickness dstThick
+        {
+            get => _dstThick;
+            set
+            {
+                _dstThick = value;
+                OnPropertyChanged(nameof(dstThick));
+            }
+        }
+        public System.Windows.Media.Brush dstBrush
+        {
+            get => _dstbrush;
+            set
+            {
+                _dstbrush = value;
+                OnPropertyChanged(nameof(dstBrush));
             }
         }
         public CloneDiskViewModel(ShellViewModel parent)
@@ -108,8 +128,8 @@ namespace msptool.ViewModels
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     source_disk = dialog.SelectedPath;
-                    borderBrush = Brushes.LimeGreen;
-                    borderThick = new Thickness(2);
+                    srcBrush = Brushes.LimeGreen;
+                    srcThick = new Thickness(2);
                     
                     return source_disk;
                 }
@@ -133,6 +153,52 @@ namespace msptool.ViewModels
                 }
                 return null;
             }
+        }
+        public void checkIfselection()
+        {
+            if (source_disk==string.Empty || dest_disk == string.Empty)
+            {
+                if (string.IsNullOrEmpty(dest_disk))
+                {
+                    dstBrush = Brushes.Red;
+                    dstThick = new Thickness(2);
+                }
+                if (string.IsNullOrEmpty(source_disk))
+                {
+                    srcBrush = Brushes.Red;
+                    srcThick = new Thickness(2);
+                }
+            }
+        }
+        private void ShowPopup(PopupViewModel vm)
+        {
+            var popup = new PopupWindow
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                DataContext = vm
+            };
+
+            popup.Show();
+        }
+        public void showCloneWarning()
+        {
+            var vm = new PopupViewModel
+            {
+
+                EllipseVisibility = Visibility.Hidden,
+                mVisibility = Visibility.Hidden,
+                nVisibility = Visibility.Visible,
+                YVisibility = Visibility.Visible,
+                rbutText = "Yes",
+                lbutText = "No",
+                mbuttonthickness = "0",
+                rbuttonthickness = "2",
+                lbuttonthickness = "2",
+
+
+            };
+
+            ShowPopup(vm);
         }
         
 
