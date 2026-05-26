@@ -22,7 +22,7 @@
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="30*"/>
                 <RowDefinition Height="30*"/>
-                
+
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Source Disk" FontSize="20" Foreground="GhostWhite" FontFamily="Calibri" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
             <TextBlock Grid.Row="1" Grid.ColumnSpan="3" FontSize="15" Foreground="GhostWhite" FontFamily="Calibri" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -30,10 +30,25 @@
                 <LineBreak/>
                 Improper use can result in data loss.
             </TextBlock>
-            <Border Grid.ColumnSpan="3" Grid.RowSpan="3" BorderThickness="2" BorderBrush="#31394A" Height="200" Width="300" Margin="200,50,10,0" CornerRadius="4">
-                <TextBlock  FontSize="20" FontWeight="Bold" FontFamily="Calibri" Width="300" Foreground="GhostWhite" Margin="10">
-                    Test
-                </TextBlock>
+            <Border Grid.ColumnSpan="3"
+        Grid.RowSpan="3"
+        BorderThickness="3"
+        BorderBrush="#31394A"
+        Height="200"
+        Width="300"
+        Margin="200,50,10,0">
+                <StackPanel>
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                </StackPanel>
+                
+                
             </Border>
         </Grid>
     </Border>

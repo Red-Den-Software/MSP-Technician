@@ -8,7 +8,9 @@
         
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                
+                <ResourceDictionary>
+                    
+                </ResourceDictionary>
                 <ResourceDictionary>
                     <DataTemplate DataType="{x:Type viewmodels:ShellViewModel}">
                         <views:ShellView/>
@@ -42,6 +44,7 @@
                 <ResourceDictionary Source="/Resources/Style.xaml" />
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
                     <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>
+                <ResourceDictionary Source="/Resources/clonedisk_button.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
                
