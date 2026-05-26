@@ -30,22 +30,7 @@ namespace msptool.Views
         }
        
       
-       
-        private void setsource_click(object sender, RoutedEventArgs e)
-        {
-            ((CloneDiskViewModel)DataContext).src_disk();
-
-        }
-
-        private void Start_Clone_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void setdest_click(object sender, RoutedEventArgs e)
-        {
-            ((CloneDiskViewModel)DataContext).dst_disk();
-        }
+      
     }
 
 }
