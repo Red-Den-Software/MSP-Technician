@@ -3,9 +3,12 @@ using msptool.Commands.UpdateViewCommand;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace msptool.ViewModels
@@ -17,11 +20,16 @@ namespace msptool.ViewModels
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         private readonly ShellViewModel _parent;
         public ICommand UpdateViewCommand { get; }
+      
+
         public CloneDiskViewModel(ShellViewModel parent)
         {
             _parent = parent;
 
             UpdateViewCommand = new UpdateViewCommand(_parent.UpdateView);
+            
         }
+        
+
     }
 }

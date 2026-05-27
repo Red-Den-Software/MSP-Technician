@@ -37,15 +37,9 @@
         Height="200"
         Width="300"
         Margin="200,50,10,0">
-                <StackPanel>
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
-                    <Button Style="{StaticResource cloneDiskBut}" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="296" Content="Test" />
+                <StackPanel x:Name="ButtonPanelClone">
+                    
+                    
                 </StackPanel>
                 
                 

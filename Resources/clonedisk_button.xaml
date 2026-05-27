@@ -19,7 +19,7 @@
                        
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-
+                    
                     </Border>
 
                     <ControlTemplate.Triggers>
