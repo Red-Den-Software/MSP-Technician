@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Source Disk" FontSize="20" Foreground="GhostWhite" FontFamily="Calibri" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
             <TextBlock Grid.Row="1" Grid.ColumnSpan="3" FontSize="15" Foreground="GhostWhite" FontFamily="Calibri" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top">
-                Warning: If you don't know what you're doing please consult to the manual.
+                Warning: If you don't know what you're doing please consult the manual.
                 <LineBreak/>
                 Improper use can result in data loss.
             </TextBlock>
@@ -35,15 +35,16 @@
         BorderThickness="3"
         BorderBrush="#31394A"
         Height="200"
-        Width="300"
-        Margin="200,50,10,0">
+        Width="400"
+        Margin="10,50,10,0">
                 <StackPanel x:Name="ButtonPanelClone">
                     
                     
                 </StackPanel>
-                
-                
+               
+
             </Border>
+            <Button Grid.Row="3" Grid.Column="3" Content="Next" Style="{StaticResource dataviewbut}" Height="25" Width="60" Margin="50,90,0,0" FontFamily="Calibri" FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center"/>
         </Grid>
     </Border>
 </UserControl>
