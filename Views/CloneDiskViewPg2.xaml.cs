@@ -25,21 +25,41 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
 namespace msptool.Views
 {
-    public partial class CloneDiskView : System.Windows.Controls.UserControl
+    public partial class CloneDiskViewPg2 : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        public CloneDiskView()
+        private string _sourceDisk;
+
+        public string SourceDisk
         {
-           
+            get => _sourceDisk;
+            set
+            {
+                _sourceDisk = value;
+                OnPropertyChanged(nameof(SourceDisk));
+            }
+        }
+        private int _buttonCount;
+       
+        public CloneDiskViewPg2(string source_value)
+        {
+            
             InitializeComponent();
+            SourceDisk = source_value;
             CreateButtons();
 
         }
-        private string _src_disk;
-        
+        public CloneDiskViewPg2()
+        {
+
+            InitializeComponent();
+
+        }
+
+
         public List<string> GetDiskInfo()
         {
             List<string> drives = new List<string>();
@@ -60,38 +80,43 @@ namespace msptool.Views
 
             return drives;
         }
-        
         public void CreateButtons()
         {
             List<string> driveLetters = GetDiskInfo();
 
+            string srcdisk = SourceDisk;
+
+            if (!string.IsNullOrEmpty(srcdisk))
+            {
+                driveLetters.Remove(srcdisk);
+               
+            }
+            string message = string.Join(Environment.NewLine, driveLetters);
+            MessageBox.Show(message);
+            MessageBox.Show(srcdisk);
             foreach (string drive in driveLetters)
             {
-                System.Windows.Controls.RadioButton driveButton = new System.Windows.Controls.RadioButton();
-               driveButton.GroupName = "Drives";
+                System.Windows.Controls.RadioButton driveButton =
+                    new System.Windows.Controls.RadioButton();
+                
+                driveButton.GroupName = "dest_Drives";
                 driveButton.Content = drive;
                 driveButton.Style = (Style)TryFindResource("cloneDiskBut");
                 driveButton.Tag = drive;
                 driveButton.Click += DriveButton_Click;
-                ButtonPanelClone.Children.Add(driveButton);
+                ButtonPanelCloneDest.Children.Add(driveButton);
             }
         }
         private void DriveButton_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.RadioButton button = sender as RadioButton;
+            if (button == null)
+                return;
 
             string drive = button.Tag.ToString();
-            
-            _src_disk = drive;
-           var cloneDiskViewPg2 = new CloneDiskViewPg2(drive);
-            cloneDiskViewPg2.SourceDisk = drive;
-            
+           
             
           
-        }
-        public string SelectedDriveName
-        {
-            get { return _src_disk; }
         }
         private string GetDriveModel(string driveLetter)
         {

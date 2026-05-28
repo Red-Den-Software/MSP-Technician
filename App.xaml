@@ -37,6 +37,11 @@
                     </DataTemplate>
                 </ResourceDictionary>
                 <ResourceDictionary>
+                <DataTemplate DataType="{x:Type viewmodels:CloneDiskViewModelPg2}">
+                    <views:CloneDiskViewPg2/>
+                </DataTemplate>
+                </ResourceDictionary>
+        <ResourceDictionary>
                     <DataTemplate DataType="{x:Type viewmodels:DataViewModelPage1}">
                         <views:DataViewPage1/>
                     </DataTemplate>

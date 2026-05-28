@@ -86,6 +86,9 @@ namespace msptool.ViewModels
                 case "CloneDisk":
                     CurrentView = new CloneDiskViewModel(this);
                     break;
+                case "CloneDiskPg2":
+                    CurrentView = new CloneDiskViewModelPg2(this);
+                    break;
                 
             }
         }
