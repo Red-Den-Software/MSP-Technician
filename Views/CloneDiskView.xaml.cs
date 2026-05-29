@@ -39,7 +39,8 @@ namespace msptool.Views
 
         }
         private string _src_disk;
-        
+        private CloneDiskView _parentView;
+
         public List<string> GetDiskInfo()
         {
             List<string> drives = new List<string>();
@@ -60,7 +61,15 @@ namespace msptool.Views
 
             return drives;
         }
-        
+        public string SelectedSourceDisk
+        {
+            get => _src_disk;
+            set
+            {
+                _src_disk = value;
+                OnPropertyChanged(nameof(SelectedSourceDisk));
+            }
+        }
         public void CreateButtons()
         {
             List<string> driveLetters = GetDiskInfo();
@@ -81,18 +90,17 @@ namespace msptool.Views
             System.Windows.Controls.RadioButton button = sender as RadioButton;
 
             string drive = button.Tag.ToString();
+
+            var vm = DataContext as CloneDiskViewModelPg2;
+            if (vm == null)
+            {
+                MessageBox.Show("ViewModel is null");
+                return;
+            }
+            vm.SourceDisk = drive;
             
-            _src_disk = drive;
-           var cloneDiskViewPg2 = new CloneDiskViewPg2(drive);
-            cloneDiskViewPg2.SourceDisk = drive;
-            
-            
-          
         }
-        public string SelectedDriveName
-        {
-            get { return _src_disk; }
-        }
+       
         private string GetDriveModel(string driveLetter)
         {
             try

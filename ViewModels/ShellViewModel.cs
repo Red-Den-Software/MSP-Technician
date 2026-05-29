@@ -23,6 +23,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 
 namespace msptool.ViewModels
@@ -59,7 +60,8 @@ namespace msptool.ViewModels
             (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF16181C"), 1.0)
     }
         };
-
+        private CloneDiskViewModel _cloneDiskViewModel;
+        private CloneDiskViewModelPg2 _cloneDiskViewModelPg2;
         public ICommand UpdateViewCommand { get; }
 
         public ShellViewModel()
@@ -84,12 +86,33 @@ namespace msptool.ViewModels
                     CurrentView = new HomeViewModel();
                     break;
                 case "CloneDisk":
-                    CurrentView = new CloneDiskViewModel(this);
+
+                    if (_cloneDiskViewModel == null)
+                    {
+                        _cloneDiskViewModel = new CloneDiskViewModel(this);
+                    }
+
+                    CurrentView = _cloneDiskViewModel;
                     break;
+
                 case "CloneDiskPg2":
-                    CurrentView = new CloneDiskViewModelPg2(this);
+
+                    string sourceDisk = _cloneDiskViewModelPg2.SourceDisk;
+
+                    if (_cloneDiskViewModelPg2 == null)
+                    {
+                        _cloneDiskViewModelPg2 =
+                            new CloneDiskViewModelPg2(this, sourceDisk);
+                    }
+                    else
+                    {
+                        _cloneDiskViewModelPg2.SourceDisk = sourceDisk;
+                    }
+
+                    CurrentView = _cloneDiskViewModelPg2;
+
                     break;
-                
+
             }
         }
 

@@ -31,34 +31,19 @@ namespace msptool.Views
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        private string _sourceDisk;
+     
 
-        public string SourceDisk
-        {
-            get => _sourceDisk;
-            set
-            {
-                _sourceDisk = value;
-                OnPropertyChanged(nameof(SourceDisk));
-            }
-        }
-        private int _buttonCount;
-       
-        public CloneDiskViewPg2(string source_value)
+        public CloneDiskViewPg2()
         {
             
             InitializeComponent();
-            SourceDisk = source_value;
-            CreateButtons();
-
+            Loaded += CloneDiskViewPg2_Loaded;
+          
         }
-        public CloneDiskViewPg2()
+        private void CloneDiskViewPg2_Loaded(object sender, RoutedEventArgs e)
         {
-
-            InitializeComponent();
-
+            CreateButtons();
         }
-
 
         public List<string> GetDiskInfo()
         {
@@ -82,9 +67,17 @@ namespace msptool.Views
         }
         public void CreateButtons()
         {
-            List<string> driveLetters = GetDiskInfo();
+            var vm = DataContext as CloneDiskViewModelPg2;
 
-            string srcdisk = SourceDisk;
+            if (vm == null)
+            {
+                MessageBox.Show("VM still null");
+                return;
+            }
+            List<string> driveLetters = GetDiskInfo();
+            
+
+            string srcdisk = vm?.SourceDisk;
 
             if (!string.IsNullOrEmpty(srcdisk))
             {

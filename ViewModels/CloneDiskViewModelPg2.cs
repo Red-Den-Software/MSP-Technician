@@ -22,14 +22,26 @@ namespace msptool.ViewModels
         public ICommand UpdateViewCommand { get; }
       
 
-        public CloneDiskViewModelPg2(ShellViewModel parent)
+        public CloneDiskViewModelPg2(ShellViewModel parent, string SourceDisk_ValueVM)
         {
             _parent = parent;
 
             UpdateViewCommand = new UpdateViewCommand(_parent.UpdateView);
-            
+            SourceDisk = SourceDisk_ValueVM;
+
         }
         
+        private string _sourceDisk;
+        public string SourceDisk
+        {
+            get => _sourceDisk;
+            set
+            {
+                _sourceDisk = value;
+                OnPropertyChanged(nameof(SourceDisk));
+            }
+        }
+
 
     }
 }
