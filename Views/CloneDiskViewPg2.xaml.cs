@@ -37,14 +37,90 @@ namespace msptool.Views
         {
             
             InitializeComponent();
-            Loaded += CloneDiskViewPg2_Loaded;
-          
+            this.Loaded += CloneDiskViewPg2_Loaded;
+
         }
         private void CloneDiskViewPg2_Loaded(object sender, RoutedEventArgs e)
         {
+            // Unhook the event so it only runs once
+            this.Loaded -= CloneDiskViewPg2_Loaded;
+
+            // Now it is safe to build your UI elements
             CreateButtons();
         }
+        private CloneDiskView _cloneDiskView;
+        private ShellViewModel ShellViewModel;
+        private CloneDiskViewModelPg2 _cloneDiskViewModelPg2;
+        public void CreateButtons()
+        {
+            // 1. Safe check: Ensure the WPF panel exists in memory
+            if (ButtonPanelCloneDest == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: ButtonPanelClone XAML element is null.");
+                return;
+            }
 
+            // Clear any old buttons if the page reloads
+            ButtonPanelCloneDest.Children.Clear();
+
+            // 2. Fetch disk info
+            List<string> driveLetters = GetDiskInfo();
+
+            // 3. Safe check: Ensure GetDiskInfo didn't return a null object
+            if (driveLetters == null)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: GetDiskInfo() returned null.");
+                return;
+            }
+
+            // 4. GET THE SELECTED SOURCE DISK VALUE
+            string sourceDisk = null;
+            var mainWindow = System.Windows.Application.Current.MainWindow;
+            if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
+            {
+                sourceDisk = shellVM.SelectedSourceDisk;
+            }
+
+            // 5. Build the buttons safely
+            foreach (string drive in driveLetters)
+            {
+                if (string.IsNullOrEmpty(drive)) continue;
+
+                // EXCLUDE CHECK: Skip this drive if it matches the selected source disk
+                // StringComparison removes issues with casing (e.g., "C:\" vs "c:\")
+                if (!string.IsNullOrEmpty(sourceDisk) &&
+                    drive.Equals(sourceDisk, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue; // Skip creating a button for this drive
+                }
+
+                System.Windows.Controls.RadioButton driveButton = new System.Windows.Controls.RadioButton();
+                driveButton.GroupName = "Drives";
+                driveButton.Content = drive;
+
+                if (TryFindResource("cloneDiskBut") is Style buttonStyle)
+                {
+                    driveButton.Style = buttonStyle;
+                }
+
+                driveButton.Tag = drive;
+                driveButton.Click += DriveButton_Click;
+
+                ButtonPanelCloneDest.Children.Add(driveButton);
+            }
+        }
+
+        private void DriveButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.RadioButton button = sender as RadioButton;
+            if (button == null)
+                return;
+
+            string drive = button.Tag.ToString();
+
+
+
+        }
         public List<string> GetDiskInfo()
         {
             List<string> drives = new List<string>();
@@ -65,52 +141,7 @@ namespace msptool.Views
 
             return drives;
         }
-        public void CreateButtons()
-        {
-            var vm = DataContext as CloneDiskViewModelPg2;
 
-            if (vm == null)
-            {
-                MessageBox.Show("VM still null");
-                return;
-            }
-            List<string> driveLetters = GetDiskInfo();
-            
-
-            string srcdisk = vm?.SourceDisk;
-
-            if (!string.IsNullOrEmpty(srcdisk))
-            {
-                driveLetters.Remove(srcdisk);
-               
-            }
-            string message = string.Join(Environment.NewLine, driveLetters);
-            MessageBox.Show(message);
-            MessageBox.Show(srcdisk);
-            foreach (string drive in driveLetters)
-            {
-                System.Windows.Controls.RadioButton driveButton =
-                    new System.Windows.Controls.RadioButton();
-                
-                driveButton.GroupName = "dest_Drives";
-                driveButton.Content = drive;
-                driveButton.Style = (Style)TryFindResource("cloneDiskBut");
-                driveButton.Tag = drive;
-                driveButton.Click += DriveButton_Click;
-                ButtonPanelCloneDest.Children.Add(driveButton);
-            }
-        }
-        private void DriveButton_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Controls.RadioButton button = sender as RadioButton;
-            if (button == null)
-                return;
-
-            string drive = button.Tag.ToString();
-           
-            
-          
-        }
         private string GetDriveModel(string driveLetter)
         {
             try

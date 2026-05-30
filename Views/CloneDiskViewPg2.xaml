@@ -6,7 +6,7 @@
              xmlns:viewmodels="clr-namespace:msptool.ViewModels"
              xmlns:views="clr-namespace:msptool.Views"
              mc:Ignorable="d"
-            Loaded="CloneDiskViewPg2_Loaded"
+           Loaded="CloneDiskViewPg2_Loaded"
              d:DesignHeight="390" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskViewModel}">
 
 

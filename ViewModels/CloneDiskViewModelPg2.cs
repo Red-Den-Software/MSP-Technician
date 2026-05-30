@@ -2,14 +2,17 @@
 using msptool.Commands.UpdateViewCommand;
 using System;
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace msptool.ViewModels
 {
@@ -24,10 +27,12 @@ namespace msptool.ViewModels
 
         public CloneDiskViewModelPg2(ShellViewModel parent, string SourceDisk_ValueVM)
         {
-            _parent = parent;
-
-            UpdateViewCommand = new UpdateViewCommand(_parent.UpdateView);
+           
             SourceDisk = SourceDisk_ValueVM;
+
+        }
+        public CloneDiskViewModelPg2()
+        {
 
         }
         
@@ -42,6 +47,7 @@ namespace msptool.ViewModels
             }
         }
 
+       
 
     }
 }

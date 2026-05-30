@@ -25,22 +25,28 @@ using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
 namespace msptool.Views
 {
-    public partial class CloneDiskView : System.Windows.Controls.UserControl
+    public partial class CloneDiskView : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private readonly ShellViewModel _shellVM;
         public CloneDiskView()
         {
            
             InitializeComponent();
             CreateButtons();
+            
 
         }
-        private string _src_disk;
-        private CloneDiskView _parentView;
+        public CloneDiskView(ShellViewModel shellVM) : this() // ': this()' calls the constructor above first
+        {
+            _shellVM = shellVM;
+        }
 
+        private CloneDiskView _parentView;
+        private ShellViewModel ShellViewModel;
         public List<string> GetDiskInfo()
         {
             List<string> drives = new List<string>();
@@ -61,15 +67,7 @@ namespace msptool.Views
 
             return drives;
         }
-        public string SelectedSourceDisk
-        {
-            get => _src_disk;
-            set
-            {
-                _src_disk = value;
-                OnPropertyChanged(nameof(SelectedSourceDisk));
-            }
-        }
+        
         public void CreateButtons()
         {
             List<string> driveLetters = GetDiskInfo();
@@ -87,20 +85,43 @@ namespace msptool.Views
         }
         private void DriveButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Controls.RadioButton button = sender as RadioButton;
-
-            string drive = button.Tag.ToString();
-
-            var vm = DataContext as CloneDiskViewModelPg2;
-            if (vm == null)
+            // 1. Ensure the sender is actually a RadioButton
+            if (sender is RadioButton button)
             {
-                MessageBox.Show("ViewModel is null");
-                return;
+                // 2. Ensure Tag is not null before converting to string
+                string driveLetter = button.Tag?.ToString();
+                if (string.IsNullOrEmpty(driveLetter))
+                {
+                    return; // Exit early if there is no drive letter data
+                }
+
+                // 3. Defensive Check for Solution 1 (Constructor passing)
+                if (_shellVM != null)
+                {
+                    _shellVM.SelectedSourceDisk = driveLetter;
+                    return; // Success!
+                }
+
+                // 4. Defensive Check for Solution 2 (Window DataContext lookup)
+                var mainWindow = System.Windows.Application.Current.MainWindow;
+                if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
+                {
+                    shellVM.SelectedSourceDisk = driveLetter;
+                    return; // Success!
+                }
+
+                // 5. Fallback: Check if the current View's own DataContext can find it
+                if (this.DataContext is ShellViewModel alternativeShellVM)
+                {
+                    alternativeShellVM.SelectedSourceDisk = driveLetter;
+                    return; // Success!
+                }
+
+                // If it reaches here, the application cannot locate the active ShellViewModel instance
+                System.Diagnostics.Debug.WriteLine("Error: ShellViewModel instance could not be found anywhere.");
             }
-            vm.SourceDisk = drive;
-            
         }
-       
+
         private string GetDriveModel(string driveLetter)
         {
             try

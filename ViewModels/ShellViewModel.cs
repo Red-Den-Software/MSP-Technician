@@ -62,14 +62,17 @@ namespace msptool.ViewModels
         };
         private CloneDiskViewModel _cloneDiskViewModel;
         private CloneDiskViewModelPg2 _cloneDiskViewModelPg2;
-        public ICommand UpdateViewCommand { get; }
 
+        public ICommand UpdateViewCommand { get; }
+       
         public ShellViewModel()
         {
             UpdateViewCommand = new UpdateViewCommand(UpdateView);
 
             CurrentView = new HomeViewModel();
-            
+
+           
+
         }
 
         public void UpdateView(object parameter)
@@ -96,26 +99,22 @@ namespace msptool.ViewModels
                     break;
 
                 case "CloneDiskPg2":
-
-                    string sourceDisk = _cloneDiskViewModelPg2.SourceDisk;
-
-                    if (_cloneDiskViewModelPg2 == null)
-                    {
-                        _cloneDiskViewModelPg2 =
-                            new CloneDiskViewModelPg2(this, sourceDisk);
-                    }
-                    else
-                    {
-                        _cloneDiskViewModelPg2.SourceDisk = sourceDisk;
-                    }
-
-                    CurrentView = _cloneDiskViewModelPg2;
-
+                    // FIX: You must retrieve 'sourceDisk' from the existing wizard state
+                    CurrentView = new CloneDiskViewPg2();
                     break;
 
             }
         }
-
+        private string _src_disk;
+        public string SelectedSourceDisk
+        {
+            get => _src_disk;
+            set
+            {
+                _src_disk = value;
+                OnPropertyChanged(nameof(SelectedSourceDisk));
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
