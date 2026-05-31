@@ -5,54 +5,46 @@
              xmlns:viewmodels="clr-namespace:msptool.ViewModels"
              xmlns:views="clr-namespace:msptool.Views">
     <Application.Resources>
-        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    
-                </ResourceDictionary>
+
                 <ResourceDictionary>
                     <DataTemplate DataType="{x:Type viewmodels:ShellViewModel}">
                         <views:ShellView/>
                     </DataTemplate>
-                </ResourceDictionary>
-                <ResourceDictionary>
+
                     <DataTemplate DataType="{x:Type viewmodels:DataViewModel}">
                         <views:DataView/>
                     </DataTemplate>
-                    </ResourceDictionary>
-                <ResourceDictionary>
+
                     <DataTemplate DataType="{x:Type viewmodels:ToolViewModel}">
                         <views:ToolView/>
                     </DataTemplate>
-                </ResourceDictionary>
-                <ResourceDictionary>
+
                     <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
                         <views:HomeView/>
                     </DataTemplate>
-                </ResourceDictionary>
-                <ResourceDictionary>
+
                     <DataTemplate DataType="{x:Type viewmodels:CloneDiskViewModel}">
                         <views:CloneDiskView/>
                     </DataTemplate>
-                </ResourceDictionary>
-                <ResourceDictionary>
-                <DataTemplate DataType="{x:Type viewmodels:CloneDiskViewModelPg2}">
-                    <views:CloneDiskViewPg2/>
-                </DataTemplate>
-                </ResourceDictionary>
-        <ResourceDictionary>
+
+                    <DataTemplate DataType="{x:Type viewmodels:CloneDiskViewModelPg2}">
+                        <views:CloneDiskViewPg2/>
+                    </DataTemplate>
+
                     <DataTemplate DataType="{x:Type viewmodels:DataViewModelPage1}">
                         <views:DataViewPage1/>
                     </DataTemplate>
                 </ResourceDictionary>
-                <ResourceDictionary Source="/Resources/Style.xaml" />
+
+                <ResourceDictionary Source="/Resources/Style.xaml"/>
                 <ResourceDictionary Source="/Resources/Popup_style.xaml"/>
-                    <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>
+                <ResourceDictionary Source="/Resources/dataview_button_style.xaml"/>
                 <ResourceDictionary Source="/Resources/clonedisk_button.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-               
     </Application.Resources>
-    
+
 </Application>
