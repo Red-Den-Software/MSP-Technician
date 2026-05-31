@@ -8,5 +8,7 @@
              mc:Ignorable="d"
            
              d:DesignHeight="390" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskFinal}">
+    <Border CornerRadius="25" Background="#1D1D1D">
         
+    </Border>
 </UserControl>
