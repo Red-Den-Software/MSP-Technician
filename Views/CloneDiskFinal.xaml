@@ -27,7 +27,10 @@
                 <TextBlock HorizontalAlignment="Left" Margin="20,0,0,0" TextWrapping="Wrap" Text="Disk Clone In Progress" VerticalAlignment="Center" FontSize="20" Foreground="White" FontWeight="Bold" FontFamily="Calibri"/>
             </Grid>
             <Grid Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                <Rectangle HorizontalAlignment="Center" Height="220" VerticalAlignment="Top" Width="406" Fill="AntiqueWhite" Margin="0,31,0,0"/>
+                <Border CornerRadius="4" BorderBrush="Transparent" BorderThickness="0" Background="#31394A" Width="406" Height="220" Margin="77,10,77,104" >
+
+                
+                </Border>
             </Grid>
 
         </Grid>
