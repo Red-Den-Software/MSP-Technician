@@ -102,6 +102,9 @@ namespace msptool.ViewModels
                     // FIX: You must retrieve 'sourceDisk' from the existing wizard state
                     CurrentView = new CloneDiskViewPg2();
                     break;
+                case "CloneDiskFinal":
+                    CurrentView = new CloneDiskFinal();
+                    break;
 
             }
         }
@@ -113,6 +116,16 @@ namespace msptool.ViewModels
             {
                 _src_disk = value;
                 OnPropertyChanged(nameof(SelectedSourceDisk));
+            }
+        }
+        private string _dest_disk;
+        public string SelectedDestinationDisk
+        {
+            get => _dest_disk;
+            set
+            {
+                _dest_disk = value;
+                OnPropertyChanged(nameof(SelectedDestinationDisk));
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

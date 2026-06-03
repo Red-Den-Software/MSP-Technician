@@ -41,7 +41,7 @@
                 <StackPanel x:Name="ButtonPanelCloneDest">
                 </StackPanel>
             </Border>
-            <Button Grid.Row="3" Grid.Column="3" Content="Next" Style="{StaticResource dataviewbut}" Height="25" Width="60" Margin="50,90,0,0" FontFamily="Calibri" FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center"/>
+            <Button Grid.Row="3" Grid.Column="3" Content="Next" Style="{StaticResource dataviewbut}" Height="25" Width="60" Margin="50,90,0,0" FontFamily="Calibri" FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center" Command="{Binding UpdateViewCommand}" CommandParameter="CloneDiskFinal"/>
         </Grid>
     </Border>
 </UserControl>

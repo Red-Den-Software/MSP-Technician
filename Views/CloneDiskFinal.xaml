@@ -28,7 +28,9 @@
             </Grid>
             <Grid Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Border CornerRadius="4" BorderBrush="Transparent" BorderThickness="0" Background="#31394A" Width="406" Height="220" Margin="77,10,77,104" >
-
+                    <StackPanel x:Name="stackPanel">
+                        
+                    </StackPanel>
                 
                 </Border>
             </Grid>

@@ -36,6 +36,10 @@
                     <DataTemplate DataType="{x:Type viewmodels:DataViewModelPage1}">
                         <views:DataViewPage1/>
                     </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:CloneDiskFinal}">
+                        <views:CloneDiskFinal/>
+                    </DataTemplate>
                 </ResourceDictionary>
 
                 <ResourceDictionary Source="/Resources/Style.xaml"/>

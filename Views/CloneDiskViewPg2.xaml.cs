@@ -117,7 +117,8 @@ namespace msptool.Views
                 return;
 
             string drive = button.Tag.ToString();
-
+            ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+            shellVM.SelectedDestinationDisk = drive;
 
 
         }
