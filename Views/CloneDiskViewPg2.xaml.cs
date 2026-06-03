@@ -203,7 +203,6 @@ namespace msptool.Views
 
             if (model.StartsWith("SanDisk"))
                 return "SanDisk";
-
             return "Unknown";
         }
     }
