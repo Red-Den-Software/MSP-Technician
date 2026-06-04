@@ -34,7 +34,7 @@
                 
                 </Border>
                 <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="80,250,0,0" VerticalAlignment="Top" Width="400"/>
-
+                
             </Grid>
 
         </Grid>
