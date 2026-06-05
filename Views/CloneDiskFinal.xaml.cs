@@ -1,4 +1,5 @@
-﻿using msptool.ViewModels;
+﻿using msptool.Button_Commands;
+using msptool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,7 +70,8 @@ namespace msptool.Views
             foreach (var file in files)
             {
                 // Process file here
-
+                CloneDisk cloneDisk = new CloneDisk();
+               
                 // Advances the progress bar by the Step value (1)
                 progressBar.Value += 1;
             }

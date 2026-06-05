@@ -2,6 +2,7 @@
 using Alphaleonis.Win32.Filesystem;
 using Alphaleonis.Win32.Vss;
 using Alphaleonis.Win32.Vss.Resources;
+using msptool.ViewModels;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,11 @@ namespace msptool.Button_Commands
 {
     public class CloneDisk
     {
+        private ShellViewModel _shellViewModel;
+        
         public static string source_disk;
+        
+        
         public static string target_disk;
         public string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(target_disk, Alphaleonis.Win32.Filesystem.Path.GetDirectoryName(source_disk));
         IVssBackupComponents _backup;
@@ -32,6 +37,15 @@ namespace msptool.Button_Commands
         }
         void InitializeBackup()
         {
+            ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+            shellVM.SelectedSourceDisk = source_disk;
+            shellVM.SelectedDestinationDisk = target_disk;
+            if(string.IsNullOrEmpty(source_disk) || string.IsNullOrEmpty(target_disk))
+            {
+                throw new ArgumentException("Source and target disks must be specified.");
+                return;
+            }
+            
             // Here we are retrieving an OS-dependent object that encapsulates
             // all of the VSS functionality.  The OS indepdence that this single
             // factory method provides is one of AlphaVSS's major strengths!
