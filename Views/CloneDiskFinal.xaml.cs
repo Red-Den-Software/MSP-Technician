@@ -55,27 +55,38 @@ namespace msptool.Views
             textBlock.Inlines.Add(new Run(destinationDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             stackPanel.Children.Add(textBlock);
         }
-        
+
         private void progressBar_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeAndRunTask(progressBar.Tag as List<string>);
+            InitializeAndRunTask();
+
         }
-        private void InitializeAndRunTask(List<string> files)
+        private static System.Timers.Timer ptimer;
+        private void InitializeAndRunTask()
         {
             progressBar.Minimum = 0;
-            progressBar.Maximum = files.Count;
+            progressBar.Maximum = 255;
             progressBar.Value = 0;
-            
+            OnTimedEvent(null, null);
+            ptimer = new System.Timers.Timer(1000); // Update every 1000ms
 
-            foreach (var file in files)
-            {
-                // Process file here
-                CloneDisk cloneDisk = new CloneDisk();
-               
-                // Advances the progress bar by the Step value (1)
-                progressBar.Value += 1;
-            }
+
         }
-
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (progressBar.Value < progressBar.Maximum)
+                {
+                    progressBar.Value += 1;
+                }
+                else
+                {
+                    ptimer.Stop();
+                    ptimer.Dispose();
+                    System.Windows.MessageBox.Show("Disk cloning completed successfully!", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+            });
+        }
     }
 }
