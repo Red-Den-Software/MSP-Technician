@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Timer = System.Windows.Forms.Timer;
 
 namespace msptool.Views
 {
@@ -51,6 +53,26 @@ namespace msptool.Views
             textBlock.Inlines.Add(new Run("Destination Disk: ") { FontWeight = FontWeights.Bold, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             textBlock.Inlines.Add(new Run(destinationDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             stackPanel.Children.Add(textBlock);
+        }
+        
+        private void progressBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitializeAndRunTask(progressBar.Tag as List<string>);
+        }
+        private void InitializeAndRunTask(List<string> files)
+        {
+            progressBar.Minimum = 0;
+            progressBar.Maximum = files.Count;
+            progressBar.Value = 0;
+            
+
+            foreach (var file in files)
+            {
+                // Process file here
+
+                // Advances the progress bar by the Step value (1)
+                progressBar.Value += 1;
+            }
         }
 
     }
