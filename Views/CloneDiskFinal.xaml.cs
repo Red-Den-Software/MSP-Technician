@@ -16,7 +16,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using Timer = System.Windows.Forms.Timer;
+using System.Timers;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using VSS;
 
 namespace msptool.Views
 {
@@ -32,6 +35,7 @@ namespace msptool.Views
         {
             InitializeComponent();
             Createtextbox();
+
         }
         public void Createtextbox()
         {
@@ -55,38 +59,33 @@ namespace msptool.Views
             textBlock.Inlines.Add(new Run(destinationDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             stackPanel.Children.Add(textBlock);
         }
-
+        public int ProgressValue
+        {
+            get => (int)progressBar.Value;
+            set
+            {
+                if (progressBar.Value != value)
+                {
+                    progressBar.Value = value;
+                    OnPropertyChanged(nameof(ProgressValue));
+                }
+            }
+        }
+       private async Task StartCloningAsync()
+        {
+            var progress = new Progress<int>(value => ProgressValue = value);
+            var heavyOperation = new HeavyOperation();
+            await heavyOperation.RunProcessAsync(progress);
+        }
         private void progressBar_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeAndRunTask();
+            StartCloningAsync();
 
         }
-        private static System.Timers.Timer ptimer;
-        private void InitializeAndRunTask()
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            progressBar.Minimum = 0;
-            progressBar.Maximum = 255;
-            progressBar.Value = 0;
-            OnTimedEvent(null, null);
-            ptimer = new System.Timers.Timer(1000); // Update every 1000ms
+            
 
-
-        }
-        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            System.Windows.Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (progressBar.Value < progressBar.Maximum)
-                {
-                    progressBar.Value += 1;
-                }
-                else
-                {
-                    ptimer.Stop();
-                    ptimer.Dispose();
-                    System.Windows.MessageBox.Show("Disk cloning completed successfully!", "Success", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
-                }
-            });
         }
     }
 }

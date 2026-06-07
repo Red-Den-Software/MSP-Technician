@@ -14,13 +14,33 @@ using System;
 using Alphaleonis.Win32.Vss;
 namespace VSS
 {
-   /// <summary>
-   /// Utility class to manage the snapshot's contents and ID.
-   /// </summary>
-   class Snapshot : IDisposable
+    /// <summary>
+    /// Utility class to manage the snapshot's contents and ID.
+    /// </summary>
+    /// public class HeavyOperation
+
+
+    public class HeavyOperation
+    {
+        public async Task RunProcessAsync(IProgress<int> progress)
+        {
+            for (int i = 0; i <= 100; i += 10)
+            {
+                // Simulate heavy operation
+                await Task.Delay(500);
+
+                // Report current percentage (0 to 100) back to the UI
+                progress?.Report(i);
+            }
+        }
+    }
+
+    class Snapshot : IDisposable
    {
-      /// <summary>A reference to the VSS context.</summary>
-      IVssBackupComponents _backup;
+
+       
+        /// <summary>A reference to the VSS context.</summary>
+        IVssBackupComponents _backup;
       
       /// <summary>Metadata about this object's snapshot.</summary>
       VssSnapshotProperties _props;
