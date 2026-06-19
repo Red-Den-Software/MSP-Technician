@@ -69,11 +69,15 @@ namespace msptool.Button_Commands
             // enable or disable specific writers via the BackupComponents'
             // Enable* and Disable* methods.
             _backup.GatherWriterMetadata();
+
+            Setup(DiskSelection.Instance.SelectedSourceDisk);
+
         }
-        public void Setup(string source_disk)
+        public void Setup(string sourceDisk)
         {
-            System.Diagnostics.Debug.WriteLine("Setup: Starting backup setup for " + source_disk);
-            Discovery(source_disk);
+            
+            System.Diagnostics.Debug.WriteLine("Setup: Starting backup setup for " + sourceDisk);
+            Discovery(sourceDisk);
             PreBackup();
         }
         public void Dispose()
@@ -94,7 +98,7 @@ namespace msptool.Button_Commands
         }
         void Discovery(string fullPath)
         {
-            System.Diagnostics.Debug.WriteLine("Discovery: Examining writers and components.");
+            System.Diagnostics.Debug.WriteLine($"Discovery: Examining writers and components. {fullPath}");
             if (ComponentMode)
                 // In component mode, we would need to enumerate through each
                 // component and decide whether it should be added to our
@@ -343,6 +347,7 @@ namespace msptool.Button_Commands
             {
                 // The BackupComplete event must be sent to all of the writers.
                 _backup.BackupComplete();
+                MessageBox.Show("Backup completed successfully.", "Backup Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             // Not sure why, but this throws a VSS_BAD_STATE on XP and W2K3.
             // Per some forum posts about this, I'm just ignoring it.

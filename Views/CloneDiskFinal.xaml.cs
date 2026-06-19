@@ -51,6 +51,8 @@ namespace msptool.Views
         {
             Loaded -= CloneDiskFinal_Loaded;
 
+            System.Windows.MessageBox.Show($"Cloning completed successfully from {DiskSelection.Instance.SelectedSourceDisk} to {DiskSelection.Instance.SelectedDestinationDisk}.", "Cloning Completed", MessageBoxButton.OK, MessageBoxImage.Information);
+
             shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
 
             Createtextbox(
@@ -60,6 +62,8 @@ namespace msptool.Views
             var cloneDisk = new CloneDisk();
 
             await Task.Run(() => cloneDisk.StartBackup());
+
+          
         }
 
         public void Createtextbox(string sourceDisk, string destinationDisk)

@@ -22,6 +22,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static msptool.Views.CloneDiskView;
 using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
 namespace msptool.Views
@@ -65,7 +66,7 @@ namespace msptool.Views
             ButtonPanelCloneDest.Children.Clear();
 
             // 2. Fetch disk info
-            List<string> driveLetters = GetDiskInfo();
+            List<DriveItem> driveLetters = GetDiskInfo();
 
             // 3. Safe check: Ensure GetDiskInfo didn't return a null object
             if (driveLetters == null)
@@ -83,25 +84,25 @@ namespace msptool.Views
             }
 
             // 5. Build the buttons safely
-            foreach (string drive in driveLetters)
+            foreach (DriveItem driveItem in driveLetters)
             {
-                if (string.IsNullOrEmpty(drive)) continue;
+                if (string.IsNullOrEmpty(driveItem.RootPath)) continue;
 
                 // EXCLUDE CHECK: Skip this drive if it matches the selected source disk
                 // StringComparison removes issues with casing (e.g., "C:\" vs "c:\")
                 if (!string.IsNullOrEmpty(sourceDisk) &&
-                    drive.Equals(sourceDisk, StringComparison.OrdinalIgnoreCase))
+                    driveItem.RootPath.Equals(sourceDisk, StringComparison.OrdinalIgnoreCase))
                 {
                     continue; // Skip creating a button for this drive
                 }
 
                 System.Windows.Controls.RadioButton driveButton = new System.Windows.Controls.RadioButton();
                 driveButton.GroupName = "Drives";
-                driveButton.Content = drive;
+                driveButton.Content = driveItem.DisplayName;
 
 
                 driveButton.Style = (Style)TryFindResource("cloneDiskBut");
-                driveButton.Tag = drive;
+                driveButton.Tag = driveItem.RootPath;
                 driveButton.Click += DriveButton_Click;
 
                 ButtonPanelCloneDest.Children.Add(driveButton);
@@ -120,16 +121,16 @@ namespace msptool.Views
                 System.Diagnostics.Debug.WriteLine("Error: Drive button Tag is null or empty.");
                 return;
             }
-            string drive = button.Tag.ToString();
+            string rootPath = button.Tag.ToString();
             ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
-            DiskSelection.Instance.SelectedDestinationDisk = drive;
-            System.Diagnostics.Debug.WriteLine($"Selected Destination Disk: {drive}");
+            DiskSelection.Instance.SelectedDestinationDisk = rootPath;
+            System.Diagnostics.Debug.WriteLine($"Selected Destination Disk: {rootPath}");
 
 
         }
-        public List<string> GetDiskInfo()
+        public List<DriveItem> GetDiskInfo()
         {
-            List<string> drives = new List<string>();
+            List<DriveItem> drives = new List<DriveItem>();
 
             DriveInfo[] allDrives = DriveInfo.GetDrives();
 
@@ -137,11 +138,16 @@ namespace msptool.Views
             {
                 if (d.IsReady)
                 {
+
                     string model = GetDriveModel(d.Name);
 
                     string brand = GetBrand(model);
 
-                    drives.Add($"{brand} {model} ({d.Name})");
+                    drives.Add(new DriveItem
+                    {
+                        DisplayName = $"{brand} {model} ({d.Name})",
+                        RootPath = d.Name
+                    });
                 }
             }
 

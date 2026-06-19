@@ -133,6 +133,10 @@ namespace msptool.ViewModels
 
         public string SelectedSourceDisk { get; set; }
         public string SelectedDestinationDisk { get; set; }
+        public string rootSourceDisk { get; set; }
+
+        public string rootDestinationDisk { get; set; }
     }
+    
 }
 
