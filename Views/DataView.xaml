@@ -6,10 +6,10 @@
              xmlns:viewmodels="clr-namespace:msptool.ViewModels"
              xmlns:views="clr-namespace:msptool.Views" d:DataContext="{d:DesignInstance Type=viewmodels:DataViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="Transparent">
+             d:DesignHeight="450" d:DesignWidth="560" Height="390" Background="#1D1D1D">
 
 
-    <Border CornerRadius="25" Background="#1D1D1D" >
+    <Border CornerRadius="25">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />

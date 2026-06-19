@@ -28,9 +28,22 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace msptool.ViewModels
 {
-
+    public class diskInfo
+    {
+        public string Name { get; set; }
+        public string DriveType { get; set; }
+        public string VolumeLabel { get; set; }
+        public string DriveFormat { get; set; }
+        public long TotalSize { get; set; }
+        public long AvailableFreeSpace { get; set; }
+    }
+    
     public class ShellViewModel : INotifyPropertyChanged
     {
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string name)
+       => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         private object _currentView;
 
         public object CurrentView
@@ -108,29 +121,18 @@ namespace msptool.ViewModels
 
             }
         }
-        private string _src_disk;
-        public string SelectedSourceDisk
-        {
-            get => _src_disk;
-            set
-            {
-                _src_disk = value;
-                OnPropertyChanged(nameof(SelectedSourceDisk));
-            }
-        }
-        private string _dest_disk;
-        public string SelectedDestinationDisk
-        {
-            get => _dest_disk;
-            set
-            {
-                _dest_disk = value;
-                OnPropertyChanged(nameof(SelectedDestinationDisk));
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+       
+        
+       
+    }
+    public class DiskSelection
+    {
+        private static readonly DiskSelection _instance = new();
+
+        public static DiskSelection Instance => _instance;
+
+        public string SelectedSourceDisk { get; set; }
+        public string SelectedDestinationDisk { get; set; }
     }
 }
 

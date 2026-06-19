@@ -1,11 +1,15 @@
-﻿using msptool.Button_Commands;
+﻿using Alphaleonis.Win32.Filesystem;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using msptool.Button_Commands;
 using msptool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,11 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Timers;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using VSS;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace msptool.Views
 {
@@ -31,26 +32,44 @@ namespace msptool.Views
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string name)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private CloneDisk cloneDisk;
+        private ShellViewModel shellVM;
+        private string source_disk;
+        private string target_disk;
         public CloneDiskFinal()
         {
             InitializeComponent();
-            Createtextbox();
+
+            shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+            
+            Loaded += CloneDiskFinal_Loaded;
+
 
         }
-        public void Createtextbox()
+
+        private async void CloneDiskFinal_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= CloneDiskFinal_Loaded;
+
+            shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+
+            Createtextbox(
+                DiskSelection.Instance.SelectedSourceDisk,
+                DiskSelection.Instance.SelectedDestinationDisk);
+
+            var cloneDisk = new CloneDisk();
+
+            await Task.Run(() => cloneDisk.StartBackup());
+        }
+
+        public void Createtextbox(string sourceDisk, string destinationDisk)
         {
             if (stackPanel == null)
             {
                 System.Diagnostics.Debug.WriteLine("Error: stackPanel XAML element is null.");
             }
-            string sourceDisk = null;
-            string destinationDisk = null;
             var mainWindow = System.Windows.Application.Current.MainWindow;
-            if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
-            {
-                sourceDisk = shellVM.SelectedSourceDisk;
-                destinationDisk = shellVM.SelectedDestinationDisk;
-            }
+           
             TextBlock textBlock = new TextBlock();
             textBlock.Inlines.Add(new Run("Source Disk: ") { FontWeight = FontWeights.Bold, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             textBlock.Inlines.Add(new Run(sourceDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
@@ -71,17 +90,22 @@ namespace msptool.Views
                 }
             }
         }
-       private async Task StartCloningAsync()
+       
+        private async Task StartCloningAsync()
         {
+            System.Diagnostics.Debug.WriteLine("StartCloningAsync method called.");
+           
             var progress = new Progress<int>(value => ProgressValue = value);
             var heavyOperation = new HeavyOperation();
             await heavyOperation.RunProcessAsync(progress);
+           
         }
-        private void progressBar_Loaded(object sender, RoutedEventArgs e)
+        private async void progressBar_Loaded(object sender, RoutedEventArgs e)
         {
-            StartCloningAsync();
-
+            await StartCloningAsync();
         }
+
+        
         private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             

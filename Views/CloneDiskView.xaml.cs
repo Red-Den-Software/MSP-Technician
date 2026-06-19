@@ -21,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
 namespace msptool.Views
@@ -81,45 +82,26 @@ namespace msptool.Views
                 driveButton.Tag = drive;
                 driveButton.Click += DriveButton_Click;
                 ButtonPanelClone.Children.Add(driveButton);
+                 // Set a breakpoint here to inspect the driveButton properties during runtime
             }
         }
         private void DriveButton_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Ensure the sender is actually a RadioButton
-            if (sender is RadioButton button)
+            System.Windows.Controls.RadioButton button = sender as RadioButton;
+            if (button == null)
+                return;
+
+            if (button.Tag == null)
             {
-                // 2. Ensure Tag is not null before converting to string
-                string driveLetter = button.Tag?.ToString();
-                if (string.IsNullOrEmpty(driveLetter))
-                {
-                    return; // Exit early if there is no drive letter data
-                }
-
-                // 3. Defensive Check for Solution 1 (Constructor passing)
-                if (_shellVM != null)
-                {
-                    _shellVM.SelectedSourceDisk = driveLetter;
-                    return; // Success!
-                }
-
-                // 4. Defensive Check for Solution 2 (Window DataContext lookup)
-                var mainWindow = System.Windows.Application.Current.MainWindow;
-                if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
-                {
-                    shellVM.SelectedSourceDisk = driveLetter;
-                    return; // Success!
-                }
-
-                // 5. Fallback: Check if the current View's own DataContext can find it
-                if (this.DataContext is ShellViewModel alternativeShellVM)
-                {
-                    alternativeShellVM.SelectedSourceDisk = driveLetter;
-                    return; // Success!
-                }
-
-                // If it reaches here, the application cannot locate the active ShellViewModel instance
-                System.Diagnostics.Debug.WriteLine("Error: ShellViewModel instance could not be found anywhere.");
+                Debugger.Break();
+                System.Diagnostics.Debug.WriteLine("Error: Drive button Tag is null or empty.");
+                return;
             }
+            string drive = button.Tag.ToString();
+            ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+            DiskSelection.Instance.SelectedSourceDisk = drive;
+            System.Diagnostics.Debug.WriteLine($"Selected Source Disk: {drive}");
+
         }
 
         private string GetDriveModel(string driveLetter)

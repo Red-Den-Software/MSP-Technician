@@ -14,7 +14,7 @@
         Background="Transparent"
       
    >
-    <Border CornerRadius="25" BorderThickness="1" Padding="2,0,0,0" Background="#121212">
+    <Border CornerRadius="25" BorderThickness="1" Background="#121212">
 
 
 
@@ -55,7 +55,7 @@
 
 
             <Grid Grid.Column="1" Margin="59,16,110,22" Grid.Row="1">
-                <Border CornerRadius="25" BorderThickness="2" Background="{Binding GlassBackgroundBrush}" BorderBrush="#1D1D1D" >
+                <Border CornerRadius="25">
                     <ContentControl x:Name="UpdateContentControl" Content="{Binding CurrentView}" Height="390" Width="560"/>
                 </Border>
             </Grid>

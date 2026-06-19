@@ -4,6 +4,7 @@ using msptool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
@@ -78,7 +79,7 @@ namespace msptool.Views
             var mainWindow = System.Windows.Application.Current.MainWindow;
             if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
             {
-                sourceDisk = shellVM.SelectedSourceDisk;
+                sourceDisk = DiskSelection.Instance.SelectedSourceDisk;
             }
 
             // 5. Build the buttons safely
@@ -98,11 +99,8 @@ namespace msptool.Views
                 driveButton.GroupName = "Drives";
                 driveButton.Content = drive;
 
-                if (TryFindResource("cloneDiskBut") is Style buttonStyle)
-                {
-                    driveButton.Style = buttonStyle;
-                }
 
+                driveButton.Style = (Style)TryFindResource("cloneDiskBut");
                 driveButton.Tag = drive;
                 driveButton.Click += DriveButton_Click;
 
@@ -116,9 +114,16 @@ namespace msptool.Views
             if (button == null)
                 return;
 
+            if (button.Tag == null)
+            {
+                Debugger.Break();
+                System.Diagnostics.Debug.WriteLine("Error: Drive button Tag is null or empty.");
+                return;
+            }
             string drive = button.Tag.ToString();
             ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
-            shellVM.SelectedDestinationDisk = drive;
+            DiskSelection.Instance.SelectedDestinationDisk = drive;
+            System.Diagnostics.Debug.WriteLine($"Selected Destination Disk: {drive}");
 
 
         }

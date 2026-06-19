@@ -22,34 +22,33 @@ namespace msptool.Button_Commands
     public class CloneDisk
     {
         private ShellViewModel _shellViewModel;
-        
-        public static string source_disk;
-        
-        
-        public static string target_disk;
-        public string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(target_disk, Alphaleonis.Win32.Filesystem.Path.GetDirectoryName(source_disk));
+        private string _source_disk;
+
         IVssBackupComponents _backup;
         VSS.Snapshot _snap;
         bool ComponentMode = false;
-        public CloneDisk()
+        public void StartBackup()
         {
             InitializeBackup();
         }
+        private string source_disk;
+        private string target_disk;
         void InitializeBackup()
         {
-            ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
-            shellVM.SelectedSourceDisk = source_disk;
-            shellVM.SelectedDestinationDisk = target_disk;
-            if(string.IsNullOrEmpty(source_disk) || string.IsNullOrEmpty(target_disk))
+           
+            System.Diagnostics.Debug.WriteLine("InitializeBackup: Initializing backup components.");
+            
+           
+            if(string.IsNullOrEmpty(DiskSelection.Instance.SelectedSourceDisk) || string.IsNullOrEmpty(DiskSelection.Instance.SelectedDestinationDisk))
             {
                 throw new ArgumentException("Source and target disks must be specified.");
                 return;
             }
-            
-            // Here we are retrieving an OS-dependent object that encapsulates
-            // all of the VSS functionality.  The OS indepdence that this single
-            // factory method provides is one of AlphaVSS's major strengths!
-            IVssFactory vss = VssFactoryProvider.Default.GetVssFactory();
+          string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(DiskSelection.Instance.SelectedSourceDisk, Alphaleonis.Win32.Filesystem.Path.GetDirectoryName(DiskSelection.Instance.SelectedSourceDisk));
+        // Here we are retrieving an OS-dependent object that encapsulates
+        // all of the VSS functionality.  The OS indepdence that this single
+        // factory method provides is one of AlphaVSS's major strengths!
+        IVssFactory vss = VssFactoryProvider.Default.GetVssFactory();
 
             // Now we create a BackupComponents object to manage the backup.
             // This object will have a one-to-one relationship with its backup
@@ -73,7 +72,7 @@ namespace msptool.Button_Commands
         }
         public void Setup(string source_disk)
         {
-
+            System.Diagnostics.Debug.WriteLine("Setup: Starting backup setup for " + source_disk);
             Discovery(source_disk);
             PreBackup();
         }
@@ -95,6 +94,7 @@ namespace msptool.Button_Commands
         }
         void Discovery(string fullPath)
         {
+            System.Diagnostics.Debug.WriteLine("Discovery: Examining writers and components.");
             if (ComponentMode)
                 // In component mode, we would need to enumerate through each
                 // component and decide whether it should be added to our
@@ -194,6 +194,7 @@ namespace msptool.Button_Commands
         /// </summary>
         void PreBackup()
         {
+            System.Diagnostics.Debug.WriteLine("PreBackup: Preparing for backup and creating snapshot.");
             Debug.Assert(_snap != null);
 
             // This next bit is a way to tell writers just what sort of backup
