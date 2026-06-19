@@ -44,11 +44,13 @@ namespace msptool.Button_Commands
                 throw new ArgumentException("Source and target disks must be specified.");
                 return;
             }
-          string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(DiskSelection.Instance.SelectedSourceDisk, Alphaleonis.Win32.Filesystem.Path.GetDirectoryName(DiskSelection.Instance.SelectedSourceDisk));
-        // Here we are retrieving an OS-dependent object that encapsulates
-        // all of the VSS functionality.  The OS indepdence that this single
-        // factory method provides is one of AlphaVSS's major strengths!
-        IVssFactory vss = VssFactoryProvider.Default.GetVssFactory();
+          string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(
+        DiskSelection.Instance.SelectedSourceDisk,
+        "ShadowCopy");
+            // Here we are retrieving an OS-dependent object that encapsulates
+            // all of the VSS functionality.  The OS indepdence that this single
+            // factory method provides is one of AlphaVSS's major strengths!
+            IVssFactory vss = VssFactoryProvider.Default.GetVssFactory();
 
             // Now we create a BackupComponents object to manage the backup.
             // This object will have a one-to-one relationship with its backup
@@ -347,7 +349,7 @@ namespace msptool.Button_Commands
             {
                 // The BackupComplete event must be sent to all of the writers.
                 _backup.BackupComplete();
-                MessageBox.Show("Backup completed successfully.", "Backup Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               
             }
             // Not sure why, but this throws a VSS_BAD_STATE on XP and W2K3.
             // Per some forum posts about this, I'm just ignoring it.
