@@ -109,6 +109,8 @@ namespace msptool.Views
             }
             string rootPath = button.Tag.ToString();
             ShellViewModel shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
+            DiskCheck diskCheck = new DiskCheck();
+            diskCheck.CheckDiskType(rootPath);
             DiskSelection.Instance.SelectedSourceDisk = rootPath;
             System.Diagnostics.Debug.WriteLine($"Selected Source Disk: {rootPath}");
 
