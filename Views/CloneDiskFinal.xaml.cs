@@ -5,6 +5,7 @@ using msptool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -51,19 +52,56 @@ namespace msptool.Views
         {
             Loaded -= CloneDiskFinal_Loaded;
 
-            System.Windows.MessageBox.Show($"Cloning completed successfully from {DiskSelection.Instance.SelectedSourceDisk} to {DiskSelection.Instance.SelectedDestinationDisk}.", "Cloning Completed", MessageBoxButton.OK, MessageBoxImage.Information);
+           
 
             shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
 
             Createtextbox(
                 DiskSelection.Instance.SelectedSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);
+            System.IO.DriveInfo srcdriveInfo = new System.IO.DriveInfo(DiskSelection.Instance.SelectedSourceDisk);
+            System.IO.DriveInfo dstdriveInfo = new System.IO.DriveInfo(DiskSelection.Instance.SelectedDestinationDisk);
+            DriveType srcdriveType = (DriveType)srcdriveInfo.DriveType;
+            DriveType dstdriveType = (DriveType)dstdriveInfo.DriveType;
 
-            var cloneDisk = new CloneDisk();
+            if (srcdriveType == DriveType.Fixed || dstdriveType == DriveType.Fixed)
+            {
+                
+                    startCloning();
+              
+            }
+            else if (srcdriveType != DriveType.Fixed)
+            {
+               System.Windows.MessageBox.Show($"Error: The source disk must be a fixed drive. Cloning cannot proceed. Source Disk is a {srcdriveType}", "Invalid Source Disk", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            else if (dstdriveType != DriveType.Fixed)
+            {
+                System.Windows.MessageBox.Show($"Error: The destination disk must be a fixed drive. Cloning cannot proceed. Destination Disk is a {dstdriveType}", "Invalid Destination Disk", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
+            if (DriveType.Removable == srcdriveType)
+            {
+                System.Windows.MessageBox.Show("Warning: The source disk is a removable drive. Cloning may not be successful.", "Removable Drive Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (DriveType.Fixed == srcdriveType)
+            {
+                System.Windows.MessageBox.Show("The source disk is a fixed drive. Cloning should proceed without issues.", "Fixed Drive Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                var cloneDisk = new CloneDisk();
+                await Task.Run(() => cloneDisk.StartBackup());
+            }
 
-            await Task.Run(() => cloneDisk.StartBackup());
+            void startCloning()
+            {
+                var cloneDisk = new CloneDisk();
+                cloneDisk.StartBackup();
+            }
 
-          
+
+
+
         }
 
         public void Createtextbox(string sourceDisk, string destinationDisk)
