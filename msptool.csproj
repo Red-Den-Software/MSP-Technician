@@ -28,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\Downloads\BlockStatus.cs" Link="Enums\BlockStatus.cs" />
+    <Compile Include="..\..\..\Downloads\DiskCopier.cs" Link="Button_Commands\Backup Function\DiskCopier.cs" />
+    <Compile Include="..\..\..\Downloads\DiskReader.cs" Link="Button_Commands\Backup Function\DiskReader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\Folder_4x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -40,6 +46,7 @@
     <PackageReference Include="AlphaFS" Version="2.2.6" />
     <PackageReference Include="AlphaVSS" Version="2.0.0" />
     <PackageReference Include="Caliburn.Micro" Version="5.0.258" />
+    <PackageReference Include="DiskAccessLibrary.Win32" Version="1.6.3" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -58,6 +65,10 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="Velopack" Version="0.0.1298" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

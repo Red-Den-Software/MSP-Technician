@@ -1,9 +1,8 @@
-﻿using msptool;
-using System;
+﻿using System;
 using System.Windows;
 using Velopack;
 
-namespace Data_Transfer_App
+namespace msptool
 {
     internal static class Program
     {

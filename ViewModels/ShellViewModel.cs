@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using msptool.Commands;
-using msptool.Commands.UpdateViewCommand;
 using msptool.MVVM;
 using msptool.ViewModels;
 using msptool.Views;
@@ -10,7 +9,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Management;
 using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
@@ -23,6 +24,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 
@@ -37,7 +39,7 @@ namespace msptool.ViewModels
         public long TotalSize { get; set; }
         public long AvailableFreeSpace { get; set; }
     }
-    
+
     public class ShellViewModel : INotifyPropertyChanged
     {
 
@@ -59,7 +61,7 @@ namespace msptool.ViewModels
         {
             StartPoint = new System.Windows.Point(0, 0),
             EndPoint = new System.Windows.Point(1, 1),
-            
+
             GradientStops = new GradientStopCollection
     {
         // Top highlight
@@ -77,14 +79,14 @@ namespace msptool.ViewModels
         private CloneDiskViewModelPg2 _cloneDiskViewModelPg2;
 
         public ICommand UpdateViewCommand { get; }
-       
+
         public ShellViewModel()
         {
             UpdateViewCommand = new UpdateViewCommand(UpdateView);
 
             CurrentView = new HomeViewModel();
 
-           
+
 
         }
 
@@ -121,22 +123,58 @@ namespace msptool.ViewModels
 
             }
         }
-       
-        
-       
+
+
+
     }
-    public class DiskSelection
+    public class DiskSelection : INotifyPropertyChanged
     {
+        private string _rootSourceDisk;
+        private string _rootDestinationDisk;
         private static readonly DiskSelection _instance = new();
 
         public static DiskSelection Instance => _instance;
 
         public string SelectedSourceDisk { get; set; }
         public string SelectedDestinationDisk { get; set; }
-        public string rootSourceDisk { get; set; }
+        public string RootSourceDisk =>
+    GetPhysicalDriveFromLetter(SelectedSourceDisk);
 
-        public string rootDestinationDisk { get; set; }
+        public string RootDestinationDisk =>
+    GetPhysicalDriveFromLetter(SelectedDestinationDisk);
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public static string GetPhysicalDriveFromLetter(string driveLetter)
+        {
+            driveLetter = driveLetter.TrimEnd('\\');
+
+            using var logicalDisk =
+                new ManagementObject($"Win32_LogicalDisk.DeviceID='{driveLetter}'");
+
+            logicalDisk.Get();
+
+            foreach (ManagementObject partition in logicalDisk.GetRelated("Win32_DiskPartition"))
+            {
+                foreach (ManagementObject disk in partition.GetRelated("Win32_DiskDrive"))
+                {
+                    return disk["DeviceID"]?.ToString();
+                }
+            }
+
+            return null;
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
-    
 }
+
+
+
+
 

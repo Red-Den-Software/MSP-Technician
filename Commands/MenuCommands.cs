@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Data_Transfer_App.Commands
+namespace msptool.Commands
 {
 
 }

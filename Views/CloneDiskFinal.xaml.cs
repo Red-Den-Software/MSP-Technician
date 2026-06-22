@@ -20,8 +20,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Management;
 using VSS;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using DriveInfo = System.IO.DriveInfo;
+using MessageBox = System.Windows.MessageBox;
 
 namespace msptool.Views
 {
@@ -52,63 +55,50 @@ namespace msptool.Views
         {
             Loaded -= CloneDiskFinal_Loaded;
 
-           
-
-            shellVM = System.Windows.Application.Current.MainWindow.DataContext as ShellViewModel;
-
             Createtextbox(
                 DiskSelection.Instance.SelectedSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);
-            System.IO.DriveInfo srcdriveInfo = new System.IO.DriveInfo(DiskSelection.Instance.SelectedSourceDisk);
-            System.IO.DriveInfo dstdriveInfo = new System.IO.DriveInfo(DiskSelection.Instance.SelectedDestinationDisk);
-            DriveType srcdriveType = (DriveType)srcdriveInfo.DriveType;
-            DriveType dstdriveType = (DriveType)dstdriveInfo.DriveType;
 
-            if (srcdriveType == DriveType.Fixed && dstdriveType == DriveType.Fixed)
+            DriveInfo srcDrive = new(DiskSelection.Instance.SelectedSourceDisk);
+            DriveInfo dstDrive = new(DiskSelection.Instance.SelectedDestinationDisk);
+
+            DriveType srcType = srcDrive.DriveType;
+            DriveType dstType = dstDrive.DriveType;
+
+            // Raw removable disk clone
+            if (srcType == DriveType.Removable &&
+                dstType == DriveType.Removable)
             {
-                
-                    startCloning();
-              
-            }
-            int bytesize = 8;
-            if (srcdriveType == DriveType.Removable && dstdriveType == DriveType.Removable)
-            {
-                RawDiskCopier rawDiskCopier = new RawDiskCopier();
-                rawDiskCopier.CloneDisk(DiskSelection.Instance.SelectedSourceDisk, DiskSelection.Instance.SelectedDestinationDisk);
-            }
-            else if (srcdriveType != DriveType.Fixed)
-            {
-               System.Windows.MessageBox.Show($"Error: The source disk must be a fixed drive. Cloning cannot proceed. Source Disk is a {srcdriveType}", "Invalid Source Disk", MessageBoxButton.OK, MessageBoxImage.Error);
+                await Task.Run(() =>
+                {
+                  
+                });
+
                 return;
-            }
-            else if (dstdriveType != DriveType.Fixed)
-            {
-                System.Windows.MessageBox.Show($"Error: The destination disk must be a fixed drive. Cloning cannot proceed. Destination Disk is a {dstdriveType}", "Invalid Destination Disk", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            
-            if (DriveType.Removable == srcdriveType)
-            {
-                System.Windows.MessageBox.Show("Warning: The source disk is a removable drive. Cloning may not be successful.", "Removable Drive Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            if (DriveType.Fixed == srcdriveType)
-            {
-                System.Windows.MessageBox.Show("The source disk is a fixed drive. Cloning should proceed without issues.", "Fixed Drive Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                var cloneDisk = new CloneDisk();
-                
             }
 
-            void startCloning()
+            // Validate fixed drives
+            if (srcType != DriveType.Fixed)
             {
-                var cloneDisk = new CloneDisk();
+                MessageBox.Show(
+                    $"Source disk must be fixed. Found: {srcType}");
+                return;
+            }
+
+            if (dstType != DriveType.Fixed)
+            {
+                MessageBox.Show(
+                    $"Destination disk must be fixed. Found: {dstType}");
+                return;
+            }
+
+            // Normal clone
+            CloneDisk cloneDisk = new();
+
+            await Task.Run(() =>
+            {
                 cloneDisk.StartBackup();
-
-            }
-            await Task.Run(() => cloneDisk.StartBackup());
-
-
-
+            });
         }
 
         public void Createtextbox(string sourceDisk, string destinationDisk)

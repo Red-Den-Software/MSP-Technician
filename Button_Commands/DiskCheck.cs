@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using System.Diagnostics;
+using System.Management;
 
 namespace msptool.Button_Commands
 {
@@ -55,6 +56,30 @@ namespace msptool.Button_Commands
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error checking disk type: {ex.Message}");
+            }
+            try
+            {
+                // 1. Get the partition associated with the logical disk
+                string partitionQuery = $"ASSOCIATORS OF {{Win32_LogicalDisk.DeviceID='{driveLetter}'}} WHERE AssocClass = Win32_LogicalDiskToPartition";
+                using var partitionSearcher = new ManagementObjectSearcher(partitionQuery);
+
+                foreach (ManagementObject partition in partitionSearcher.Get())
+                {
+                    // 2. Get the physical disk drive associated with that partition
+                    string diskQuery = $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition";
+                    using var diskSearcher = new ManagementObjectSearcher(diskQuery);
+
+                    foreach (ManagementObject disk in diskSearcher.Get())
+                    {
+                       
+                        
+                         
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                Console.WriteLine($"WMI Query Error: {e.Message}");
             }
         }
 
