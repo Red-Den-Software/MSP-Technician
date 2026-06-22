@@ -1,6 +1,9 @@
 ﻿using Microsoft.Win32.SafeHandles;
+using msptool.ViewModels;
+using msptool.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -46,7 +49,8 @@ namespace msptool.Button_Commands
         const uint FSCTL_UNLOCK_VOLUME = 0x0009001C;
         const uint FSCTL_DISMOUNT_VOLUME = 0x00090020;
 
-        public static void CloneDisk(string sourceDrive, string destDrive, int bufferSizeInMb = 8)
+       
+        public void CloneDisk(string sourceDrive, string destDrive, int bufferSizeInMb = 8)
         {
             int bufferSize = bufferSizeInMb * 1024 * 1024; // e.g., 8MB chunks
             IntPtr buffer = Marshal.AllocHGlobal(bufferSize);
@@ -55,10 +59,12 @@ namespace msptool.Button_Commands
             {
                 // 1. Open Source Drive
                 SafeFileHandle hSource = CreateFile(sourceDrive, GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING | FILE_FLAG_SEQUENTIAL_SCAN, IntPtr.Zero);
+                MessageBox.Show("Source Drive Opened: " + sourceDrive + hSource);
                 if (hSource.IsInvalid) throw new Exception("Failed to open source drive. Error: " + Marshal.GetLastWin32Error());
 
                 // 2. Open Destination Drive
                 SafeFileHandle hDest = CreateFile(destDrive, GENERIC_WRITE, FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING | FILE_FLAG_SEQUENTIAL_SCAN, IntPtr.Zero);
+                MessageBox.Show("Destination Drive Opened: " + destDrive + hDest);
                 if (hDest.IsInvalid) throw new Exception("Failed to open destination drive. Error: " + Marshal.GetLastWin32Error());
 
                 // 3. Lock and Dismount volumes to prevent OS interference (Recommended for partitions)
@@ -76,8 +82,14 @@ namespace msptool.Button_Commands
                     while ((bytesRead = fsSource.Read(managedBuffer, 0, managedBuffer.Length)) > 0)
                     {
                         fsDest.Write(managedBuffer, 0, bytesRead);
-                        Debug.Write("."); // Visual feedback for cloning progress
+                        Views.CloneDiskFinal viewmodel = new Views.CloneDiskFinal();
+                        viewmodel.UpdateProgress((int)fsSource.Position, (int)fsSource.Length);
+                        
+                        
+                       
                     }
+                    
+                   
                 }
 
                 // 5. Unlock volumes

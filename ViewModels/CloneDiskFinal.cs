@@ -9,7 +9,6 @@ namespace msptool.ViewModels
 {
     public class CloneDiskFinal
     {
-     
-        
+        public static object progressBar { get; internal set; }
     }
 }

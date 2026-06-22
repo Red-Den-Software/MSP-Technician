@@ -64,11 +64,17 @@ namespace msptool.Views
             DriveType srcdriveType = (DriveType)srcdriveInfo.DriveType;
             DriveType dstdriveType = (DriveType)dstdriveInfo.DriveType;
 
-            if (srcdriveType == DriveType.Fixed || dstdriveType == DriveType.Fixed)
+            if (srcdriveType == DriveType.Fixed && dstdriveType == DriveType.Fixed)
             {
                 
                     startCloning();
               
+            }
+            int bytesize = 8;
+            if (srcdriveType == DriveType.Removable && dstdriveType == DriveType.Removable)
+            {
+                RawDiskCopier rawDiskCopier = new RawDiskCopier();
+                rawDiskCopier.CloneDisk(DiskSelection.Instance.SelectedSourceDisk, DiskSelection.Instance.SelectedDestinationDisk);
             }
             else if (srcdriveType != DriveType.Fixed)
             {
@@ -90,15 +96,16 @@ namespace msptool.Views
             {
                 System.Windows.MessageBox.Show("The source disk is a fixed drive. Cloning should proceed without issues.", "Fixed Drive Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 var cloneDisk = new CloneDisk();
-                await Task.Run(() => cloneDisk.StartBackup());
+                
             }
 
             void startCloning()
             {
                 var cloneDisk = new CloneDisk();
                 cloneDisk.StartBackup();
-            }
 
+            }
+            await Task.Run(() => cloneDisk.StartBackup());
 
 
 
@@ -120,27 +127,20 @@ namespace msptool.Views
             textBlock.Inlines.Add(new Run(destinationDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             stackPanel.Children.Add(textBlock);
         }
-        public int ProgressValue
-        {
-            get => (int)progressBar.Value;
-            set
-            {
-                if (progressBar.Value != value)
-                {
-                    progressBar.Value = value;
-                    OnPropertyChanged(nameof(ProgressValue));
-                }
-            }
-        }
        
         private async Task StartCloningAsync()
         {
             System.Diagnostics.Debug.WriteLine("StartCloningAsync method called.");
            
-            var progress = new Progress<int>(value => ProgressValue = value);
+            
             var heavyOperation = new HeavyOperation();
-            await heavyOperation.RunProcessAsync(progress);
+            
            
+        }
+        public  void UpdateProgress(int current, int total)
+        {
+            progressBar.Value = (int)((double)current / total * 100);
+            progressBar.Maximum = total;
         }
         private async void progressBar_Loaded(object sender, RoutedEventArgs e)
         {
@@ -153,5 +153,7 @@ namespace msptool.Views
             
 
         }
+
     }
+    
 }
