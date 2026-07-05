@@ -28,12 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\..\Downloads\BlockStatus.cs" Link="Enums\BlockStatus.cs" />
-    <Compile Include="..\..\..\Downloads\DiskCopier.cs" Link="Button_Commands\Backup Function\DiskCopier.cs" />
-    <Compile Include="..\..\..\Downloads\DiskReader.cs" Link="Button_Commands\Backup Function\DiskReader.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Assets\Folder_4x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -65,10 +59,6 @@
     <PackageReference Include="System.Runtime" Version="4.3.1" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="Velopack" Version="0.0.1298" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Enums\" />
   </ItemGroup>
 
 </Project>

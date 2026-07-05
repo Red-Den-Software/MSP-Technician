@@ -80,7 +80,7 @@ namespace msptool.Views
             var mainWindow = System.Windows.Application.Current.MainWindow;
             if (mainWindow != null && mainWindow.DataContext is ShellViewModel shellVM)
             {
-                sourceDisk = DiskSelection.Instance.SelectedSourceDisk;
+                sourceDisk = DiskSelection.Instance.RootSourceDisk;
             }
 
             // 5. Build the buttons safely

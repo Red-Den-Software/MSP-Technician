@@ -25,6 +25,8 @@ using VSS;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using DriveInfo = System.IO.DriveInfo;
 using MessageBox = System.Windows.MessageBox;
+using msp.Commands;
+using DiskAccessLibrary;
 
 namespace msptool.Views
 {
@@ -38,8 +40,9 @@ namespace msptool.Views
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         private CloneDisk cloneDisk;
         private ShellViewModel shellVM;
-        private string source_disk;
-        private string target_disk;
+        private DiskReader diskReader;
+        private Disk source_disk;
+        private Disk target_disk;
         public CloneDiskFinal()
         {
             InitializeComponent();
@@ -56,10 +59,10 @@ namespace msptool.Views
             Loaded -= CloneDiskFinal_Loaded;
 
             Createtextbox(
-                DiskSelection.Instance.SelectedSourceDisk,
+                DiskSelection.Instance.RootSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);
 
-            DriveInfo srcDrive = new(DiskSelection.Instance.SelectedSourceDisk);
+            DriveInfo srcDrive = new(DiskSelection.Instance.RootSourceDisk);
             DriveInfo dstDrive = new(DiskSelection.Instance.SelectedDestinationDisk);
 
             DriveType srcType = srcDrive.DriveType;
@@ -69,10 +72,8 @@ namespace msptool.Views
             if (srcType == DriveType.Removable &&
                 dstType == DriveType.Removable)
             {
-                await Task.Run(() =>
-                {
-                  
-                });
+                
+                DiskCopier diskCopier = new DiskCopier(DiskSelection.Instance.RootSourceDisk, DiskSelection.Instance.RootDestinationDisk);
 
                 return;
             }

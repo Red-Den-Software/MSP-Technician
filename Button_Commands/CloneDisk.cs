@@ -39,13 +39,13 @@ namespace msptool.Button_Commands
             System.Diagnostics.Debug.WriteLine("InitializeBackup: Initializing backup components.");
             
            
-            if(string.IsNullOrEmpty(DiskSelection.Instance.SelectedSourceDisk) || string.IsNullOrEmpty(DiskSelection.Instance.SelectedDestinationDisk))
+            if(string.IsNullOrEmpty(DiskSelection.Instance.RootSourceDisk) || string.IsNullOrEmpty(DiskSelection.Instance.SelectedDestinationDisk))
             {
                 throw new ArgumentException("Source and target disks must be specified.");
                 return;
             }
           string backup_path = Alphaleonis.Win32.Filesystem.Path.Combine(
-        DiskSelection.Instance.SelectedSourceDisk,
+        DiskSelection.Instance.RootSourceDisk,
         "ShadowCopy");
             // Here we are retrieving an OS-dependent object that encapsulates
             // all of the VSS functionality.  The OS indepdence that this single
@@ -72,7 +72,7 @@ namespace msptool.Button_Commands
             // Enable* and Disable* methods.
             _backup.GatherWriterMetadata();
 
-            Setup(DiskSelection.Instance.SelectedSourceDisk);
+            Setup(DiskSelection.Instance.RootSourceDisk);
 
         }
         public void Setup(string sourceDisk)

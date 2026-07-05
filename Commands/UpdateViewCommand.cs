@@ -18,7 +18,7 @@ using Octokit;
 
 
 
-namespace msptool.Commands
+namespace msptool.Commands.UpdateViewCommand
 {
     public class MenuBtn
     {

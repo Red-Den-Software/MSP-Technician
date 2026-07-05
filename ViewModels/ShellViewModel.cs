@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using msptool.Commands;
+using msptool.Commands.UpdateViewCommand;
 using msptool.MVVM;
 using msptool.ViewModels;
 using msptool.Views;
@@ -135,10 +136,10 @@ namespace msptool.ViewModels
 
         public static DiskSelection Instance => _instance;
 
-        public string SelectedSourceDisk { get; set; }
+       
         public string SelectedDestinationDisk { get; set; }
         public string RootSourceDisk =>
-    GetPhysicalDriveFromLetter(SelectedSourceDisk);
+    GetPhysicalDriveFromLetter(RootSourceDisk);
 
         public string RootDestinationDisk =>
     GetPhysicalDriveFromLetter(SelectedDestinationDisk);
@@ -148,8 +149,6 @@ namespace msptool.ViewModels
 
         public static string GetPhysicalDriveFromLetter(string driveLetter)
         {
-            driveLetter = driveLetter.TrimEnd('\\');
-
             using var logicalDisk =
                 new ManagementObject($"Win32_LogicalDisk.DeviceID='{driveLetter}'");
 
@@ -159,11 +158,12 @@ namespace msptool.ViewModels
             {
                 foreach (ManagementObject disk in partition.GetRelated("Win32_DiskDrive"))
                 {
+                    driveLetter = disk["DeviceID"]?.ToString();
                     return disk["DeviceID"]?.ToString();
                 }
             }
 
-            return null;
+            return driveLetter;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
