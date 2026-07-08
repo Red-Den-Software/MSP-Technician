@@ -25,7 +25,6 @@ using VSS;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using DriveInfo = System.IO.DriveInfo;
 using MessageBox = System.Windows.MessageBox;
-using msp.Commands;
 using DiskAccessLibrary;
 using msptool.Functions;
 
@@ -41,7 +40,6 @@ namespace msptool.Views
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         private CloneDisk cloneDisk;
         private ShellViewModel shellVM;
-        private DiskReader diskReader;
         private Disk source_disk;
         private Disk target_disk;
         public CloneDiskFinal()
