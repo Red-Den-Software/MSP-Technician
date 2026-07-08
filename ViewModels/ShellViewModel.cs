@@ -130,7 +130,7 @@ namespace msptool.ViewModels
     }
     public class DiskSelection : INotifyPropertyChanged
     {
-        private string _rootSourceDisk;
+        private string _SelectedSourceDisk;
         private string _rootDestinationDisk;
         private static readonly DiskSelection _instance = new();
 
@@ -138,33 +138,13 @@ namespace msptool.ViewModels
 
        
         public string SelectedDestinationDisk { get; set; }
-        public string RootSourceDisk =>
-    GetPhysicalDriveFromLetter(RootSourceDisk);
-
-        public string RootDestinationDisk =>
-    GetPhysicalDriveFromLetter(SelectedDestinationDisk);
+        
+        public string SelectedSourceDisk { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public static string GetPhysicalDriveFromLetter(string driveLetter)
-        {
-            using var logicalDisk =
-                new ManagementObject($"Win32_LogicalDisk.DeviceID='{driveLetter}'");
-
-            logicalDisk.Get();
-
-            foreach (ManagementObject partition in logicalDisk.GetRelated("Win32_DiskPartition"))
-            {
-                foreach (ManagementObject disk in partition.GetRelated("Win32_DiskDrive"))
-                {
-                    driveLetter = disk["DeviceID"]?.ToString();
-                    return disk["DeviceID"]?.ToString();
-                }
-            }
-
-            return driveLetter;
-        }
+        
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -21,7 +21,7 @@ namespace msp.Commands
         public DiskCopier(Disk sourceDisk, Disk targetDisk) : base(sourceDisk)
         {
             m_targetDisk = targetDisk;
-            sourceDisk = DiskSelection.Instance.RootSourceDisk;
+            
             
         }
 
