@@ -13,9 +13,9 @@ namespace msptool.Functions
 {
     public class LowLevelDiskCopy
     {
-      public LowLevelDiskCopy()
+        public LowLevelDiskCopy()
         {
-           
+
         }
         const uint GENERIC_READ = 0x80000000;
         const uint GENERIC_WRITE = 0x40000000;
@@ -56,10 +56,21 @@ namespace msptool.Functions
         out long lpFileSize);
         // [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true)]
         // public static extern bool DeviceIoControl(...) -> For Lock/Dismount
-        
+
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool DeviceIoControl(
-        SafeFileHandle hDevice,
+    SafeFileHandle hDevice,
+    uint dwIoControlCode,
+    IntPtr lpInBuffer,
+    uint nInBufferSize,
+    out GET_LENGTH_INFORMATION lpOutBuffer,
+    uint nOutBufferSize,
+    out uint lpBytesReturned,
+    IntPtr lpOverlapped);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool DeviceIoControlDismount(
+       SafeFileHandle hDevice,
         uint dwIoControlCode,
         IntPtr lpInBuffer,
         uint nInBufferSize,
@@ -79,13 +90,13 @@ namespace msptool.Functions
             const uint IOCTL_DISK_GET_LENGTH_INFO = 0x0007405C;
             const uint FSCTL_LOCK_VOLUME = 0x00090018;
             const uint FSCTL_DISMOUNT_VOLUME = 0x00090020;
-
+            bool success;
             GET_LENGTH_INFORMATION lengthInfo;
             uint bytesReturned;
 
             string destinationDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedDestinationDisk);
             string sourceDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedSourceDisk);
-           
+
             SafeFileHandle hSource = CreateFile(sourceDrive, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
             SafeFileHandle hDest = CreateFile(destinationDrive, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
 
@@ -105,22 +116,22 @@ namespace msptool.Functions
             OPEN_EXISTING,
             0,
             IntPtr.Zero);
-            
+
             if (hVolume.IsInvalid)
             {
                 MessageBox.Show(
                     $"Unable to open volume.\n{Marshal.GetLastWin32Error()}");
                 return;
             }
-            if (!DeviceIoControl(
-                    hVolume,
-                    FSCTL_LOCK_VOLUME,
-                    IntPtr.Zero,
-                    0,
-                    IntPtr.Zero,
-                    0,
-                    out bytesReturned,
-                    IntPtr.Zero))
+            if (!DeviceIoControlDismount(
+        hVolume,
+        FSCTL_DISMOUNT_VOLUME,
+        IntPtr.Zero,
+        0,
+        IntPtr.Zero,
+        0,
+        out bytesReturned,
+        IntPtr.Zero))
             {
                 MessageBox.Show(
                     $"Unable to lock volume.\nError {Marshal.GetLastWin32Error()}");
@@ -152,12 +163,17 @@ namespace msptool.Functions
                 uint bytesRead;
                 uint bytesWritten;
                 long bytesCopied = 0;
-                
 
-                while (ReadFile(hSource, buffer, bufferSize, out bytesRead, IntPtr.Zero) && bytesRead > 0)
+
+                while ((success = ReadFile(
+                hSource,
+                buffer,
+                bufferSize,
+                out bytesRead,
+                IntPtr.Zero)) && bytesRead > 0)
                 {
 
-                    WriteFile(hDest, buffer, bytesRead, out bytesWritten, IntPtr.Zero);
+
 
                     if (!WriteFile(hDest, buffer, bytesRead, out bytesWritten, IntPtr.Zero))
                     {
@@ -178,19 +194,67 @@ namespace msptool.Functions
                     });
                 }
             }
+
             finally
             {
+                uint signature = (uint)Random.Shared.NextInt64(1, uint.MaxValue);
                 Marshal.FreeHGlobal(buffer);
                 hSource.Close();
+                ChangeDiskSignature(DiskSelection.Instance.SelectedDestinationDisk, signature); // Example new signature
                 hDest.Close();
+                hVolume.Close();
+            }
+            if (!success)
+            {
+                MessageBox.Show($"ReadFile failed: {Marshal.GetLastWin32Error()}");
             }
         }
 
-    }
-    public class  CopyProgress
-    {
-        public long BytesCopied { get; set; }
-        public long TotalBytes { get; set; }
-        public double Percentage => TotalBytes > 0 ? (double)BytesCopied / TotalBytes * 100 : 0;
+
+
+        public static void ChangeDiskSignature(string driveLetter, uint newSignature)
+        {
+            string physicalDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(driveLetter);
+            SafeFileHandle hDrive = CreateFile(physicalDrive, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, 0, IntPtr.Zero);
+            if (hDrive.IsInvalid)
+            {
+                MessageBox.Show($"Failed to open drive handle for {driveLetter}. Ensure app runs as Admin.");
+                return;
+            }
+            // Read the MBR
+            byte[] mbr = new byte[512];
+            IntPtr buffer = Marshal.AllocHGlobal(mbr.Length);
+            try
+            {
+                uint bytesRead;
+                if (!ReadFile(hDrive, buffer, (uint)mbr.Length, out bytesRead, IntPtr.Zero) || bytesRead != mbr.Length)
+                {
+                    MessageBox.Show($"Failed to read MBR from {driveLetter}. Error: {Marshal.GetLastWin32Error()}");
+                    return;
+                }
+                Marshal.Copy(buffer, mbr, 0, mbr.Length);
+                // Change the disk signature (bytes 440-443)
+                BitConverter.GetBytes(newSignature).CopyTo(mbr, 440);
+                // Write the modified MBR back
+                Marshal.Copy(mbr, 0, buffer, mbr.Length);
+                uint bytesWritten;
+                if (!WriteFile(hDrive, buffer, (uint)mbr.Length, out bytesWritten, IntPtr.Zero) || bytesWritten != mbr.Length)
+                {
+                    MessageBox.Show($"Failed to write modified MBR to {driveLetter}. Error: {Marshal.GetLastWin32Error()}");
+                    return;
+                }
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+                hDrive.Close();
+            }
+        }
+        public class CopyProgress
+        {
+            public long BytesCopied { get; set; }
+            public long TotalBytes { get; set; }
+            public double Percentage => TotalBytes > 0 ? (double)BytesCopied / TotalBytes * 100 : 0;
+        }
     }
 }
