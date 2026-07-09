@@ -52,11 +52,8 @@ namespace msptool.Views
 
 
         }
-
-        private async void CloneDiskFinal_Loaded(object sender, RoutedEventArgs e)
+        public bool InitializeClone()
         {
-            Loaded -= CloneDiskFinal_Loaded;
-
             Createtextbox(
                 DiskSelection.Instance.SelectedSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);
@@ -64,36 +61,20 @@ namespace msptool.Views
             DriveInfo srcDrive = new(DiskSelection.Instance.SelectedSourceDisk);
             DriveInfo dstDrive = new(DiskSelection.Instance.SelectedDestinationDisk);
 
-            DriveType srcType = srcDrive.DriveType;
-            DriveType dstType = dstDrive.DriveType;
-
-            // Raw removable disk clone
-            if (srcType == DriveType.Removable &&
-                dstType == DriveType.Removable)
+            if (srcDrive.DriveType == DriveType.Removable &&
+                dstDrive.DriveType == DriveType.Removable)
             {
-                LowLevelDiskCopy.CopySectors();
-                return;
+               
+                return true;    // Raw clone
             }
 
-            // Validate fixed drives
-            if (srcType != DriveType.Fixed)
-            {
-                MessageBox.Show(
-                    $"Source disk must be fixed. Found: {srcType}");
-                return;
-            }
+            return false;       // Use normal clone
+        }
+        private async void CloneDiskFinal_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= CloneDiskFinal_Loaded;
 
-            if (dstType != DriveType.Fixed)
-            {
-                MessageBox.Show(
-                    $"Destination disk must be fixed. Found: {dstType}");
-                return;
-            }
-
-            // Normal clone
-            CloneDisk cloneDisk = new();
-
-            
+            InitializeClone();
         }
 
         public void Createtextbox(string sourceDisk, string destinationDisk)
@@ -111,32 +92,6 @@ namespace msptool.Views
             textBlock.Inlines.Add(new Run("Destination Disk: ") { FontWeight = FontWeights.Bold, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             textBlock.Inlines.Add(new Run(destinationDisk) { FontWeight = FontWeights.Regular, FontSize = 16, Foreground = System.Windows.Media.Brushes.White });
             stackPanel.Children.Add(textBlock);
-        }
-       
-        private async Task StartCloningAsync()
-        {
-            System.Diagnostics.Debug.WriteLine("StartCloningAsync method called.");
-           
-            
-            var heavyOperation = new HeavyOperation();
-            
-           
-        }
-        public  void UpdateProgress(int current, int total)
-        {
-            progressBar.Value = (int)((double)current / total * 100);
-            progressBar.Maximum = total;
-        }
-        private async void progressBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            await StartCloningAsync();
-        }
-
-        
-        private void timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            
-
         }
 
     }

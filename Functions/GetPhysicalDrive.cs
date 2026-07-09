@@ -4,6 +4,7 @@ using System.Linq;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace msptool.Functions
 {
@@ -11,6 +12,8 @@ namespace msptool.Functions
     {
         public static string GetPhysicalDriveFromLetter(string driveLetter)
         {
+            driveLetter = driveLetter.TrimEnd('\\');
+
             using var logicalDisk =
                 new ManagementObject($"Win32_LogicalDisk.DeviceID='{driveLetter}'");
 
@@ -20,12 +23,12 @@ namespace msptool.Functions
             {
                 foreach (ManagementObject disk in partition.GetRelated("Win32_DiskDrive"))
                 {
-                    driveLetter = disk["DeviceID"]?.ToString();
                     return disk["DeviceID"]?.ToString();
                 }
             }
+            return null;
 
-            return driveLetter;
+
         }
-    }
-}
+    }     
+        }

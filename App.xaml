@@ -37,7 +37,7 @@
                         <views:DataViewPage1/>
                     </DataTemplate>
 
-                    <DataTemplate DataType="{x:Type viewmodels:CloneDiskFinal}">
+                    <DataTemplate DataType="{x:Type viewmodels:CloneDiskFinalViewModel}">
                         <views:CloneDiskFinal/>
                     </DataTemplate>
                 </ResourceDictionary>

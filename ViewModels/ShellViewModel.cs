@@ -119,7 +119,7 @@ namespace msptool.ViewModels
                     CurrentView = new CloneDiskViewPg2();
                     break;
                 case "CloneDiskFinal":
-                    CurrentView = new CloneDiskFinal();
+                    CurrentView = new CloneDiskFinalViewModel();
                     break;
 
             }

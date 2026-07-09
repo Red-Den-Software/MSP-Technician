@@ -7,7 +7,7 @@
              xmlns:views="clr-namespace:msptool.Views"
              mc:Ignorable="d"
            
-             d:DesignHeight="390" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskFinal}">
+             d:DesignHeight="390" d:DesignWidth="560" Height="390" Background="Transparent" d:DataContext="{d:DesignInstance Type=viewmodels:CloneDiskFinalViewModel}">
     <Border CornerRadius="25" Background="#1D1D1D">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -33,8 +33,8 @@
                     </StackPanel>
                 
                 </Border>
-                <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="20" Margin="80,250,0,0" VerticalAlignment="Top" Width="400" Loaded="progressBar_Loaded"/>
-                
+                <ProgressBar x:Name="progressBar" HorizontalAlignment="Left" Height="25" Margin="80,250,0,0" VerticalAlignment="Top" Width="400" Value="{Binding CopyProgress}" Maximum="100" Minimum="0"/>
+                <Button Grid.Row="3" Grid.Column="3" Content="Proceed" Style="{StaticResource dataviewbut}" Height="30" Width="90" Margin="400,280,0,0" FontFamily="Calibri" FontSize="20" FontWeight="Bold" VerticalContentAlignment="Center" Command="{Binding CloneCommand}"/>
             </Grid>
 
         </Grid>

@@ -15,7 +15,7 @@ namespace msptool.Functions
     {
       public LowLevelDiskCopy()
         {
-            MessageBox.Show("This function is not yet implemented. Please use the CloneDiskFinal view for disk cloning.");
+           
         }
         const uint GENERIC_READ = 0x80000000;
         const uint GENERIC_WRITE = 0x40000000;
@@ -50,41 +50,67 @@ namespace msptool.Functions
             out uint lpNumberOfBytesWritten,
             IntPtr lpOverlapped);
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool GetFileSizeEx(
+        SafeFileHandle hFile,
+        out long lpFileSize);
         // [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true)]
         // public static extern bool DeviceIoControl(...) -> For Lock/Dismount
 
-        public static void CopySectors()
+        public static void CopySectors(IProgress<CopyProgress> progress)
         {
             // Target physical drive 0 (Ensure this maps to Drive C: using IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS first)
+            
+           string destinationDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedDestinationDisk);
             string sourceDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedSourceDisk);
-            string destinationDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedDestinationDisk);
-
+           
             SafeFileHandle hSource = CreateFile(sourceDrive, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
             SafeFileHandle hDest = CreateFile(destinationDrive, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
 
             if (hSource.IsInvalid || hDest.IsInvalid)
             {
-                Console.WriteLine("Failed to open drive handles. Ensure app runs as Admin.");
+                MessageBox.Show("Failed to open drive handles. Ensure app runs as Admin.");
+                return;
+            }
+            if (!GetFileSizeEx(hSource, out long totalBytes))
+            {
+                MessageBox.Show("Unable to determine disk size.");
                 return;
             }
 
-            // Must align with the drive's physical sector size, typically 4096 or 512 bytes
-            uint bufferSize = 4096;
+            //Adjusted from 4096 to 4MB
+            uint bufferSize = 4 * 1024 * 1024;
             IntPtr buffer = Marshal.AllocHGlobal((int)bufferSize);
 
             try
             {
                 uint bytesRead;
                 uint bytesWritten;
+                long bytesCopied = 0;
+                
 
                 while (ReadFile(hSource, buffer, bufferSize, out bytesRead, IntPtr.Zero) && bytesRead > 0)
                 {
+
                     WriteFile(hDest, buffer, bytesRead, out bytesWritten, IntPtr.Zero);
-                    if (bytesRead != bytesWritten)
+
+                    if (!WriteFile(hDest, buffer, bytesRead, out bytesWritten, IntPtr.Zero))
                     {
-                        Console.WriteLine("Write error occurred.");
+                        MessageBox.Show($"WriteFile failed: {Marshal.GetLastWin32Error()}");
                         break;
                     }
+                    if (bytesRead != bytesWritten)
+                    {
+                        MessageBox.Show("Write error occurred.");
+                        break;
+                    }
+                    bytesCopied += bytesWritten;
+
+                    progress?.Report(new CopyProgress
+                    {
+                        BytesCopied = bytesCopied,
+                        TotalBytes = totalBytes
+                    });
                 }
             }
             finally
@@ -95,5 +121,11 @@ namespace msptool.Functions
             }
         }
 
+    }
+    public class  CopyProgress
+    {
+        public long BytesCopied { get; set; }
+        public long TotalBytes { get; set; }
+        public double Percentage => TotalBytes > 0 ? (double)BytesCopied / TotalBytes * 100 : 0;
     }
 }
