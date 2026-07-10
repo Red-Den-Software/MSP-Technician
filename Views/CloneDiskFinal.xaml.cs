@@ -52,23 +52,12 @@ namespace msptool.Views
 
 
         }
-        public bool InitializeClone()
+        public void InitializeClone()
         {
             Createtextbox(
                 DiskSelection.Instance.SelectedSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);
 
-            DriveInfo srcDrive = new(DiskSelection.Instance.SelectedSourceDisk);
-            DriveInfo dstDrive = new(DiskSelection.Instance.SelectedDestinationDisk);
-
-            if (srcDrive.DriveType == DriveType.Removable &&
-                dstDrive.DriveType == DriveType.Removable)
-            {
-               
-                return true;    // Raw clone
-            }
-
-            return false;       // Use normal clone
         }
         private async void CloneDiskFinal_Loaded(object sender, RoutedEventArgs e)
         {

@@ -57,25 +57,50 @@ namespace msptool.Views
         {
             List<DriveItem> drives = new List<DriveItem>();
 
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
+            SelectQuery query = new SelectQuery("Win32_Di");
 
-            foreach (DriveInfo d in allDrives)
+           using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
             {
-                if (d.IsReady)
+                foreach (ManagementObject drive in searcher.Get())
                 {
-
-                    string model = GetDriveModel(d.Name);
-
+                    bool foundLogicalDisk = false;
+                    string model = drive["Model"]?.ToString();
                     string brand = GetBrand(model);
-
-                    drives.Add(new DriveItem
+                    string deviceId = drive["DeviceID"]?.ToString();
+                    if (!string.IsNullOrEmpty(deviceId))
                     {
-                        DisplayName = $"{brand} {model} ({d.Name})",
-                        RootPath = d.Name
-                    });
+                        using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
+                            $"ASSOCIATORS OF {{Win32_DiskDrive.DeviceID='{deviceId}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
+                        {
+                            foreach (ManagementObject partition in partitionSearcher.Get())
+                            {
+                                using (ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(
+                                    $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_LogicalDiskToPartition"))
+                                {
+                                    foreach (ManagementObject logical in logicalSearcher.Get())
+                                    {
+                                        foundLogicalDisk = true;
+                                        string rootPath = logical["DeviceID"]?.ToString() + "\\";
+                                        drives.Add(new DriveItem
+                                        {
+                                            DisplayName = $"{brand} {model} ({rootPath})",
+                                            RootPath = rootPath
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!foundLogicalDisk)
+                    {
+                        drives.Add(new DriveItem
+                        {
+                            DisplayName = $"{brand} {model} Unallocated",
+                            RootPath = deviceId
+                        });
+                    }
                 }
             }
-
             return drives;
         }
         
