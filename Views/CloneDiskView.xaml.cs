@@ -57,7 +57,7 @@ namespace msptool.Views
         {
             List<DriveItem> drives = new List<DriveItem>();
 
-            SelectQuery query = new SelectQuery("Win32_Di");
+            SelectQuery query = new SelectQuery("SELECT * FROM Win32_DiskDrive");
 
            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
             {
