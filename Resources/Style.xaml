@@ -115,17 +115,6 @@
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="Foreground" Value="GhostWhite"/>
                 <Setter Property="Background" Value="#1D1D1D"/>
-               
-
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Button}">
-                            <Border Background="#252c3B" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="#3B4252"/>

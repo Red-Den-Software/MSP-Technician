@@ -7,8 +7,9 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontFamily" Value="Calibri"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Padding" Value="2"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        
         <Setter Property="Template">
             <Setter.Value>
 
@@ -16,7 +17,7 @@
 
                     <Border x:Name="border"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="0">
+                        CornerRadius="0" Padding="{TemplateBinding Padding}">
 
                         <ContentPresenter
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"

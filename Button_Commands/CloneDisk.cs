@@ -37,8 +37,6 @@ namespace msptool.Button_Commands
         {
            
             System.Diagnostics.Debug.WriteLine("InitializeBackup: Initializing backup components.");
-            
-           
             if(string.IsNullOrEmpty(DiskSelection.Instance.SelectedSourceDisk) || string.IsNullOrEmpty(DiskSelection.Instance.SelectedDestinationDisk))
             {
                 throw new ArgumentException("Source and target disks must be specified.");
