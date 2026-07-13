@@ -24,6 +24,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
+using static msptool.Functions.LowLevelDiskCopy;
 namespace msptool.Views
 {
     public partial class CloneDiskView : System.Windows.Controls.UserControl, INotifyPropertyChanged
@@ -48,61 +49,7 @@ namespace msptool.Views
 
         private CloneDiskView _parentView;
         private ShellViewModel ShellViewModel;
-        public class DriveItem
-        {
-            public string DisplayName { get; set; }
-            public string RootPath { get; set; }
-        }
-        public List<DriveItem> GetDiskInfo()
-        {
-            List<DriveItem> drives = new List<DriveItem>();
-
-            SelectQuery query = new SelectQuery("SELECT * FROM Win32_DiskDrive");
-
-           using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
-            {
-                foreach (ManagementObject drive in searcher.Get())
-                {
-                    bool foundLogicalDisk = false;
-                    string model = drive["Model"]?.ToString();
-                    string brand = GetBrand(model);
-                    string deviceId = drive["DeviceID"]?.ToString();
-                    if (!string.IsNullOrEmpty(deviceId))
-                    {
-                        using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
-                            $"ASSOCIATORS OF {{Win32_DiskDrive.DeviceID='{deviceId}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
-                        {
-                            foreach (ManagementObject partition in partitionSearcher.Get())
-                            {
-                                using (ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(
-                                    $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_LogicalDiskToPartition"))
-                                {
-                                    foreach (ManagementObject logical in logicalSearcher.Get())
-                                    {
-                                        foundLogicalDisk = true;
-                                        string rootPath = logical["DeviceID"]?.ToString() + "\\";
-                                        drives.Add(new DriveItem
-                                        {
-                                            DisplayName = $"{brand} {model} ({rootPath})",
-                                            RootPath = rootPath
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (!foundLogicalDisk)
-                    {
-                        drives.Add(new DriveItem
-                        {
-                            DisplayName = $"{brand} {model} Unallocated",
-                            RootPath = deviceId
-                        });
-                    }
-                }
-            }
-            return drives;
-        }
+        
         
         public void CreateButtons()
         {
@@ -140,70 +87,7 @@ namespace msptool.Views
             System.Diagnostics.Debug.WriteLine($"Selected Source Disk: {rootPath}");
 
         }
-
-        private string GetDriveModel(string driveLetter)
-        {
-            try
-            {
-                string letter = driveLetter.Replace("\\", "");
-
-                using (ManagementObjectSearcher searcher =
-                    new ManagementObjectSearcher(
-                        "SELECT * FROM Win32_LogicalDiskToPartition"))
-                {
-                    foreach (ManagementObject obj in searcher.Get())
-                    {
-                        string dependent = obj["Dependent"].ToString();
-
-                        if (dependent.Contains(letter))
-                        {
-                            string antecedent = obj["Antecedent"].ToString();
-
-                            string partitionId = antecedent.Split('"')[1];
-
-                            using (ManagementObjectSearcher diskSearcher =
-                                new ManagementObjectSearcher(
-                                    "ASSOCIATORS OF {Win32_DiskPartition.DeviceID='" +
-                                    partitionId +
-                                    "'} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
-                            {
-                                foreach (ManagementObject disk in diskSearcher.Get())
-                                {
-                                    return disk["Model"]?.ToString();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-
-            return "Unknown Drive";
-        }
-        private string GetBrand(string model)
-        {
-            if (model.StartsWith("CT"))
-                return "Crucial";
-
-            if (model.StartsWith("WDC"))
-                return "Western Digital";
-
-            if (model.StartsWith("Samsung"))
-                return "Samsung";
-
-            if (model.StartsWith("ST"))
-                return "Seagate";
-
-            if (model.StartsWith("KINGSTON"))
-                return "Kingston";
-
-            if (model.StartsWith("SanDisk"))
-                return "SanDisk";
-
-            return "Unknown";
-        }
+        
     }
 
 }

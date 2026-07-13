@@ -25,6 +25,7 @@ using System.Windows.Shapes;
 using static msptool.Views.CloneDiskView;
 using MessageBox = System.Windows.Forms.MessageBox;
 using RadioButton = System.Windows.Controls.RadioButton;
+using static msptool.Functions.LowLevelDiskCopy;
 namespace msptool.Views
 {
     public partial class CloneDiskViewPg2 : System.Windows.Controls.UserControl, INotifyPropertyChanged
@@ -127,31 +128,6 @@ namespace msptool.Views
             System.Diagnostics.Debug.WriteLine($"Selected Destination Disk: {rootPath}");
 
 
-        }
-        public List<DriveItem> GetDiskInfo()
-        {
-            List<DriveItem> drives = new List<DriveItem>();
-
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
-
-            foreach (DriveInfo d in allDrives)
-            {
-                if (d.IsReady)
-                {
-
-                    string model = GetDriveModel(d.Name);
-
-                    string brand = GetBrand(model);
-
-                    drives.Add(new DriveItem
-                    {
-                        DisplayName = $"{brand} {model} ({d.Name})",
-                        RootPath = d.Name
-                    });
-                }
-            }
-
-            return drives;
         }
 
         private string GetDriveModel(string driveLetter)

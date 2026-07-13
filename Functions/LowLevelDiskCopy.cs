@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Security.RightsManagement;
 using System.Text;
@@ -20,6 +21,83 @@ namespace msptool.Functions
     {
         ShellViewModel _parent;
 
+        public class DriveItem
+        {
+            public string DisplayName { get; set; }
+            public string RootPath { get; set; }
+        }
+        public static List<DriveItem> GetDiskInfo()
+        {
+            List<DriveItem> drives = new List<DriveItem>();
+
+            SelectQuery query = new SelectQuery("SELECT * FROM Win32_DiskDrive");
+
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            {
+                foreach (ManagementObject drive in searcher.Get())
+                {
+                    bool foundLogicalDisk = false;
+                    string model = drive["Model"]?.ToString();
+                    string brand = GetBrand(model);
+                    string deviceId = drive["DeviceID"]?.ToString();
+                    if (!string.IsNullOrEmpty(deviceId))
+                    {
+                        using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
+                            $"ASSOCIATORS OF {{Win32_DiskDrive.DeviceID='{deviceId}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
+                        {
+                            foreach (ManagementObject partition in partitionSearcher.Get())
+                            {
+                                using (ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(
+                                    $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_LogicalDiskToPartition"))
+                                {
+                                    foreach (ManagementObject logical in logicalSearcher.Get())
+                                    {
+                                        foundLogicalDisk = true;
+                                        string rootPath = logical["DeviceID"]?.ToString() + "\\";
+                                        drives.Add(new DriveItem
+                                        {
+                                            DisplayName = $"{brand} {model} ({rootPath})",
+                                            RootPath = rootPath
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!foundLogicalDisk)
+                    {
+                        drives.Add(new DriveItem
+                        {
+                            DisplayName = $"{brand} {model} Unallocated",
+                            RootPath = deviceId
+                        });
+                    }
+                }
+            }
+            return drives;
+        }
+        private static string GetBrand(string model)
+        {
+            if (model.StartsWith("CT"))
+                return "Crucial";
+
+            if (model.StartsWith("WDC"))
+                return "Western Digital";
+
+            if (model.StartsWith("Samsung"))
+                return "Samsung";
+
+            if (model.StartsWith("ST"))
+                return "Seagate";
+
+            if (model.StartsWith("KINGSTON"))
+                return "Kingston";
+
+            if (model.StartsWith("SanDisk"))
+                return "SanDisk";
+
+            return "Unknown";
+        }
         public LowLevelDiskCopy()
         {
 
@@ -125,6 +203,7 @@ namespace msptool.Functions
                 }
                 if (hDest.IsInvalid)
                 {
+                    MessageBox.Show($" {destinationDrive} Failed to open destination drive handle. Ensure app runs as Admin.\nError: {Marshal.GetLastWin32Error()}");
                     DialogResult result = MessageBox.Show("Failed to open destination drive handle. Ensure app runs as Admin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     if (result == DialogResult.OK)
                     {
