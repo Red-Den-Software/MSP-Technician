@@ -1,18 +1,25 @@
-﻿using System;
+﻿using Microsoft.Win32.SafeHandles;
+using msptool.Button_Commands;
+using msptool.Commands.UpdateViewCommand;
+using msptool.MVVM;
+using msptool.ViewModels;
+using msptool.Views;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
-using System.Security.RightsManagement;
-using msptool.ViewModels;
+using System.Windows.Input;
 
 namespace msptool.Functions
 {
     public class LowLevelDiskCopy
     {
+        ShellViewModel _parent;
+
         public LowLevelDiskCopy()
         {
 
@@ -84,6 +91,11 @@ namespace msptool.Functions
         {
             public long Length;
         }
+        public void CopySectorsWithProgress(IProgress<CopyProgress> progress)
+        {
+            Task.Run(() => CopySectors(progress));
+        }
+
         public static void CopySectors(IProgress<CopyProgress> progress)
         {
             // Target physical drive 0 (Ensure this maps to Drive C: using IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS first)
@@ -102,7 +114,24 @@ namespace msptool.Functions
 
             if (hSource.IsInvalid || hDest.IsInvalid)
             {
-                MessageBox.Show("Failed to open drive handles. Ensure app runs as Admin.");
+                 if (hSource.IsInvalid)
+                {
+                    DialogResult result = MessageBox.Show("Failed to open source drive handle. Ensure app runs as Admin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (result == DialogResult.OK)
+                    {
+                       
+                        return;
+                    }
+                }
+                if (hDest.IsInvalid)
+                {
+                    DialogResult result = MessageBox.Show("Failed to open destination drive handle. Ensure app runs as Admin.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (result == DialogResult.OK)
+                    {
+                       
+                        return;
+                    }
+                }
                 return;
             }
             string volumePath =
@@ -219,6 +248,7 @@ namespace msptool.Functions
             if (hDrive.IsInvalid)
             {
                 MessageBox.Show($"Failed to open drive handle for {driveLetter}. Ensure app runs as Admin.");
+                
                 return;
             }
             // Read the MBR
