@@ -29,52 +29,60 @@ namespace msptool.Functions
         public static List<DriveItem> GetDiskInfo()
         {
             List<DriveItem> drives = new List<DriveItem>();
-
-            SelectQuery query = new SelectQuery("SELECT * FROM Win32_DiskDrive");
-
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
+            if (drives is null or [])
             {
-                foreach (ManagementObject drive in searcher.Get())
+                SelectQuery query = new SelectQuery("SELECT * FROM Win32_DiskDrive");
+
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
-                    bool foundLogicalDisk = false;
-                    string model = drive["Model"]?.ToString();
-                    string brand = GetBrand(model);
-                    string deviceId = drive["DeviceID"]?.ToString();
-                    if (!string.IsNullOrEmpty(deviceId))
+                    foreach (ManagementObject drive in searcher.Get())
                     {
-                        using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
-                            $"ASSOCIATORS OF {{Win32_DiskDrive.DeviceID='{deviceId}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
+                        bool foundLogicalDisk = false;
+                        string model = drive["Model"]?.ToString();
+                        string brand = GetBrand(model);
+                        string deviceId = drive["DeviceID"]?.ToString();
+                        if (!string.IsNullOrEmpty(deviceId))
                         {
-                            foreach (ManagementObject partition in partitionSearcher.Get())
+                            using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
+                                $"ASSOCIATORS OF {{Win32_DiskDrive.DeviceID='{deviceId}'}} WHERE AssocClass = Win32_DiskDriveToDiskPartition"))
                             {
-                                using (ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(
-                                    $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_LogicalDiskToPartition"))
+                                foreach (ManagementObject partition in partitionSearcher.Get())
                                 {
-                                    foreach (ManagementObject logical in logicalSearcher.Get())
+                                    using (ManagementObjectSearcher logicalSearcher = new ManagementObjectSearcher(
+                                        $"ASSOCIATORS OF {{Win32_DiskPartition.DeviceID='{partition["DeviceID"]}'}} WHERE AssocClass = Win32_LogicalDiskToPartition"))
                                     {
-                                        foundLogicalDisk = true;
-                                        string rootPath = logical["DeviceID"]?.ToString() + "\\";
-                                        drives.Add(new DriveItem
+                                        foreach (ManagementObject logical in logicalSearcher.Get())
                                         {
-                                            DisplayName = $"{brand} {model} ({rootPath})",
-                                            RootPath = rootPath
-                                        });
+                                            foundLogicalDisk = true;
+                                            string rootPath = logical["DeviceID"]?.ToString() + "\\";
+                                            drives.Add(new DriveItem
+                                            {
+                                                DisplayName = $"{brand} {model} ({rootPath})",
+                                                RootPath = rootPath
+                                            });
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    if (!foundLogicalDisk)
-                    {
-                        drives.Add(new DriveItem
+                        if (!foundLogicalDisk)
                         {
-                            DisplayName = $"{brand} {model} Unallocated",
-                            RootPath = deviceId
-                        });
+                            drives.Add(new DriveItem
+                            {
+                                DisplayName = $"{brand} {model} Unallocated",
+                                RootPath = deviceId
+                            });
+                        }
                     }
                 }
+                return drives;
             }
-            return drives;
+            else
+            {
+                return drives;
+            }
+
+
         }
         private static string GetBrand(string model)
         {
