@@ -87,12 +87,12 @@ namespace msptool.Views
             // 5. Build the buttons safely
             foreach (DriveItem driveItem in driveLetters)
             {
-                if (string.IsNullOrEmpty(driveItem.RootPath)) continue;
+                if (string.IsNullOrEmpty(driveItem.DeviceID)) continue;
 
                 // EXCLUDE CHECK: Skip this drive if it matches the selected source disk
                 // StringComparison removes issues with casing (e.g., "C:\" vs "c:\")
                 if (!string.IsNullOrEmpty(sourceDisk) &&
-                    driveItem.RootPath.Equals(sourceDisk, StringComparison.OrdinalIgnoreCase))
+                    driveItem.DeviceID.Equals(sourceDisk, StringComparison.OrdinalIgnoreCase))
                 {
                     continue; // Skip creating a button for this drive
                 }
@@ -103,7 +103,7 @@ namespace msptool.Views
 
 
                 driveButton.Style = (Style)TryFindResource("cloneDiskBut");
-                driveButton.Tag = driveItem.RootPath;
+                driveButton.Tag = driveItem.DeviceID;
                 driveButton.Click += DriveButton_Click;
 
                 ButtonPanelCloneDest.Children.Add(driveButton);

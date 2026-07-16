@@ -50,10 +50,12 @@ namespace msptool.Views
             
             Loaded += CloneDiskFinal_Loaded;
 
+            
 
         }
         public void InitializeClone()
         {
+            MessageBox.Show($"Source Disk: {DiskSelection.Instance.SelectedSourceDisk}\nDestination Disk: {DiskSelection.Instance.SelectedDestinationDisk}", "Disk Selection", MessageBoxButton.OK, MessageBoxImage.Information);
             Createtextbox(
                 DiskSelection.Instance.SelectedSourceDisk,
                 DiskSelection.Instance.SelectedDestinationDisk);

@@ -24,7 +24,23 @@ namespace msptool.Functions
         public class DriveItem
         {
             public string DisplayName { get; set; }
-            public string RootPath { get; set; }
+          
+            
+            public string DriveLetter
+            {
+                get
+                {
+                    if (!string.IsNullOrEmpty(DeviceID) && DeviceID.Length >= 2 && DeviceID[1] == ':')
+                    {
+                        return DeviceID.Substring(0, 2); // Extracts "C:" from "C:\"
+                    }
+                    return null;
+                }
+            }
+            public string DeviceID { get; set; }
+            public string Model { get; set; }
+            public string Brand { get; set; }
+            public string Size { get; set; }
         }
         public static List<DriveItem> GetDiskInfo()
         {
@@ -41,6 +57,8 @@ namespace msptool.Functions
                         string model = drive["Model"]?.ToString();
                         string brand = GetBrand(model);
                         string deviceId = drive["DeviceID"]?.ToString();
+                        string rawsize = drive["Size"]?.ToString();
+                        double sizeGB = long.Parse(rawsize) / 1073741824d;
                         if (!string.IsNullOrEmpty(deviceId))
                         {
                             using (ManagementObjectSearcher partitionSearcher = new ManagementObjectSearcher(
@@ -57,8 +75,11 @@ namespace msptool.Functions
                                             string rootPath = logical["DeviceID"]?.ToString() + "\\";
                                             drives.Add(new DriveItem
                                             {
-                                                DisplayName = $"{brand} {model} ({rootPath})",
-                                                RootPath = rootPath
+                                                Brand = brand,
+                                                Model = model,
+                                                DeviceID = deviceId,
+                                                Size = sizeGB.ToString("F2") + " GB",
+                                                DisplayName = $"{brand} {model} ({rootPath}) {sizeGB:F2} GB"
                                             });
                                         }
                                     }
@@ -69,8 +90,11 @@ namespace msptool.Functions
                         {
                             drives.Add(new DriveItem
                             {
-                                DisplayName = $"{brand} {model} Unallocated",
-                                RootPath = deviceId
+                                Brand = brand,
+                                Model = model,
+                                DeviceID = deviceId,
+                                Size = sizeGB.ToString("F2") + " GB",
+                                DisplayName = $"{brand} {model} (Unallocated) {sizeGB:F2} GB"
                             });
                         }
                     }
@@ -101,9 +125,9 @@ namespace msptool.Functions
             if (model.StartsWith("KINGSTON"))
                 return "Kingston";
 
-            if (model.StartsWith("SanDisk"))
+            if (model.Contains("SanDisk"))
                 return "SanDisk";
-
+            
             return "Unknown";
         }
         public LowLevelDiskCopy()
@@ -160,6 +184,16 @@ namespace msptool.Functions
     uint nOutBufferSize,
     out uint lpBytesReturned,
     IntPtr lpOverlapped);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool DeviceIoControl(
+    SafeFileHandle hDevice,
+    uint dwIoControlCode,
+    IntPtr lpInBuffer,
+    uint nInBufferSize,
+    IntPtr lpOutBuffer,
+    uint nOutBufferSize,
+    out uint lpBytesReturned,
+    IntPtr lpOverlapped);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool DeviceIoControlDismount(
@@ -192,9 +226,9 @@ namespace msptool.Functions
             GET_LENGTH_INFORMATION lengthInfo;
             uint bytesReturned;
 
-            string destinationDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedDestinationDisk);
-            string sourceDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(DiskSelection.Instance.SelectedSourceDisk);
-
+            string destinationDrive = DiskSelection.Instance.SelectedDestinationDisk;
+            string sourceDrive = DiskSelection.Instance.SelectedSourceDisk;
+            MessageBox.Show($"Source Drive: {sourceDrive}\nDestination Drive: {destinationDrive}");
             SafeFileHandle hSource = CreateFile(sourceDrive, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
             SafeFileHandle hDest = CreateFile(destinationDrive, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, FILE_FLAG_NO_BUFFERING, IntPtr.Zero);
 
@@ -239,20 +273,19 @@ namespace msptool.Functions
                     $"Unable to open volume.\n{Marshal.GetLastWin32Error()}");
                 return;
             }
-            if (!DeviceIoControlDismount(
-        hVolume,
-        FSCTL_DISMOUNT_VOLUME,
-        IntPtr.Zero,
-        0,
-        IntPtr.Zero,
-        0,
-        out bytesReturned,
-        IntPtr.Zero))
+            if (!DeviceIoControl(
+                 hVolume,
+                FSCTL_DISMOUNT_VOLUME,
+                IntPtr.Zero,
+                0,
+                IntPtr.Zero,
+                0,
+                out bytesReturned,
+                IntPtr.Zero))
             {
                 MessageBox.Show(
-                    $"Unable to lock volume.\nError {Marshal.GetLastWin32Error()}");
+                    $"Unable to dismount volume.\nError {Marshal.GetLastWin32Error()}");
             }
-
             if (!DeviceIoControl(
                 hSource,
                 IOCTL_DISK_GET_LENGTH_INFO,
@@ -330,7 +363,7 @@ namespace msptool.Functions
 
         public static void ChangeDiskSignature(string driveLetter, uint newSignature)
         {
-            string physicalDrive = GetPhysicalDrive.GetPhysicalDriveFromLetter(driveLetter);
+            string physicalDrive = driveLetter;
             SafeFileHandle hDrive = CreateFile(physicalDrive, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, IntPtr.Zero, OPEN_EXISTING, 0, IntPtr.Zero);
             if (hDrive.IsInvalid)
             {

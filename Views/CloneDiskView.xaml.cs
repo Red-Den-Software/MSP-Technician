@@ -61,7 +61,7 @@ namespace msptool.Views
                 driveButton.GroupName = "Drives";
                 driveButton.Content = driveItem.DisplayName;
                 driveButton.Style = (Style)TryFindResource("cloneDiskBut");
-                driveButton.Tag = driveItem.RootPath;
+                driveButton.Tag = driveItem.DeviceID;
                 driveButton.Click += DriveButton_Click;
                 ButtonPanelClone.Children.Add(driveButton);
                  // Set a breakpoint here to inspect the driveButton properties during runtime

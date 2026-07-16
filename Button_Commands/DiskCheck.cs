@@ -59,6 +59,7 @@ namespace msptool.Button_Commands
             }
             try
             {
+                System.Windows.MessageBox.Show($"Checking disk type for {driveLetter} using WMI...");
                 // 1. Get the partition associated with the logical disk
                 string partitionQuery = $"ASSOCIATORS OF {{Win32_LogicalDisk.DeviceID='{driveLetter}'}} WHERE AssocClass = Win32_LogicalDiskToPartition";
                 using var partitionSearcher = new ManagementObjectSearcher(partitionQuery);
